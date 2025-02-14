@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Excel ke Objek</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h2>Konversi Excel ke Format Objek</h2>
+    
+    <input type="file" id="uploadExcel" accept=".xlsx">
+    <button onclick="convertExcel()">Konversi</button>
+    
+    <h3>Hasil JSON:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        function convertExcel() {
+            const fileInput = document.getElementById("uploadExcel");
+            const output = document.getElementById("output");
+
+            if (!fileInput.files.length) {
+                alert("Pilih file Excel terlebih dahulu!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                // Konversi ke format objek yang diinginkan
+                const scheduleData = {};
+
+                jsonData.forEach(row => {
+                    const tanggal = row["Tanggal"];
+                    const santri = row["Santri"];
+                    const pembimbing = row["Pembimbing"];
+
+                    if (!scheduleData[tanggal]) {
+                        scheduleData[tanggal] = [];
+                    }
+
+                    scheduleData[tanggal].push({ santri, pembimbing });
+                });
+
+                output.textContent = JSON.stringify(scheduleData, null, 4);
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+</body>
+</html>

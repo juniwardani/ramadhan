@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Tahfidz Saijaan - Jadwal Iftar 1446 H</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header {
+            background-color: maroon;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        footer {
+            background-color: maroon;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            padding: 2rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: rgb(248, 248, 248);
+        }
+
+        .controls {
+            margin: 1rem 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: maroon;
+            box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: maroon;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #990000;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: maroon;
+            color: white;
+        }
+
+        /* Style untuk striped dengan warna biru muda */
+        #schedule tbody tr.date-group-even {
+            background-color: #ADD8E6 !important; /* Light Blue */
+        }
+        
+        #schedule tbody tr.date-group-odd {
+            background-color: #ffffff !important;
+        }
+
+        .printable-content {
+            display: none; /* Sembunyikan tabel print dari tampilan web */
+            background: white;
+            padding: 1rem;
+        }
+
+        .printable-content h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filter-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            select {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            table {
+                display: table;
+                overflow-x: auto;
+                white-space: normal;
+                width: 100%;
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px 8px;
+                font-size: 12px;
+                vertical-align: top;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            button {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            /* Memperkecil padding pada header dan footer */
+            header, footer {
+                padding: 0.8rem;
+            }
+
+            footer p {
+                font-size: 0.9rem;
+            }
+
+            /* Mengatur lebar kolom pada mobile */
+            #schedule td:nth-child(1),
+            #schedule th:nth-child(1) {
+                width: 40px;
+            }
+            
+            #schedule td:nth-child(2),
+            #schedule th:nth-child(2) {
+                width: 80px;
+            }
+            
+            #schedule td:nth-child(3),
+            #schedule th:nth-child(3) {
+                width: 40px;
+            }
+            
+            #schedule td:nth-child(5),
+            #schedule th:nth-child(5) {
+                width: 100px;
+            }
+        }
+
+        /* Untuk layar sangat kecil */
+        @media screen and (max-width: 480px) {
+            .content {
+                padding: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+
+            th, td {
+                padding: 4px 6px;
+                font-size: 11px;
+            }
+
+            select, button {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+
+            .controls {
+                gap: 8px;
+            }
+
+            #schedule td:nth-child(4) {
+                min-width: 100px;
+                max-width: 150px;
+            }
+        }
+
+        /* Memastikan tabel bisa di-scroll horizontal dengan smooth */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+            background:
+                linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+                linear-gradient(to right, rgba(255,255,255,0), white 70%) 100% 0,
+                radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
+                radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
+            background-repeat: no-repeat;
+            background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+            background-attachment: local, local, scroll, scroll;
+        }
+
+        /* Memastikan tabel tetap rapi di mobile */
+        table {
+            min-width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Memperbaiki tampilan scrollbar */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .reset-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Menyesuaikan tampilan mobile untuk tombol reset */
+        @media screen and (max-width: 768px) {
+            .reset-btn {
+                width: 100%;
+                max-width: 200px;
+                margin-top: 8px;
+            }
+        }
+
+        /* Menambahkan style untuk kolom nama santri */
+        #schedule td:nth-child(4) {
+            white-space: normal;
+            word-wrap: break-word;
+            min-width: 120px;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rumah Tahfidz Saijaan</h1>
+    </header>
+
+    <div class="content">
+        <h2>Jadwal Iftar Ramadhan 1446 H</h2>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label for="filterTanggal">Tanggal:</label>
+                <select id="filterTanggal">
+                    <option value="all">Semua</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterPembimbing">Pembimbing:</label>
+                <select id="filterPembimbing">
+                    <option value="all">Semua</option>
+                </select>
+            </div>
+            <button onclick="resetFilters()" class="reset-btn">Reset Filter</button>
+        </div>
+
+        <!-- Wrap table in container -->
+        <div class="table-container">
+            <table id="schedule">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>No</th>
+                        <th>Nama Santri</th>
+                        <th>Pembimbing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Container terpisah untuk hasil download -->
+        <div class="printable-content">
+            <h2>Jadwal Iftar Ramadhan 1446 H</h2>
+            <table id="printSchedule">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Nama Santri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="controls">
+            <button onclick="downloadTableAsImage()">Download Jadwal</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Rumah Tahfidz Saijaan - Maroon Team</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        const tbody = document.querySelector('#schedule tbody');
+        const printTbody = document.querySelector('#printSchedule tbody');
+        const filterPembimbing = document.getElementById("filterPembimbing");
+        const filterTanggal = document.getElementById("filterTanggal");
+
+        // Simulasi data jadwal santri & pembimbing
+        const scheduleData = {
+            "15-03-2025": [
+        {
+            "santri": "RADHEN FADHIL",
+            "pembimbing": "USTADZ HAIDIR"
+        },
+        {
+            "santri": "GUSTI SATRIO HAFIDZ RAFIE RABBANI",
+            "pembimbing": "USTADZ HAIDIR"
+        }
+    ],
+"08-03-2025": [
+        {
+            "santri": "MUHAMMAD BILAL AL FATTAH",
+            "pembimbing": "USTADZ JUFRI"
+        },
+        {
+            "santri": "ATHA ZADA APRILIA",
+            "pembimbing": "USTADZ HAIDIR"
+        },
+        {
+            "santri": "M. EMIR AL FURQON",
+            "pembimbing": "USTADZ HAIDIR"
+        }
+    ],
+    "17-03-2025": [
+        {
+            "santri": "ALIYA ANISAH",
+            "pembimbing": "USTADZ JUFRI"
+        }
+    ],
+    "19-03-2025": [
+        {
+            "santri": "LISA AMELIA",
+            "pembimbing": "USTADZ JUFRI"
+        }
+    ],
+    "20-03-2025": [
+        {
+            "santri": "FINA MAULINA",
+            "pembimbing": "USTADZ JUFRI"
+        }
+    ],
+    "07-03-2025": [
+        {
+            "santri": "KHADIJAH IZZATI",
+            "pembimbing": "USTADZAH RISDA"
+        }
+    ],
+    "21-03-2025": [
+        {
+            "santri": "NUR AFIKA HUMAIRA",
+            "pembimbing": "USTADZAH RISDA"
+        }
+            ]
+        };
+
+        function formatDate(date) {
+            let dd = String(date.getDate()).padStart(2, '0');
+            let mm = String(date.getMonth() + 1).padStart(2, '0');
+            let yyyy = date.getFullYear();
+            return `${dd}-${mm}-${yyyy}`;
+        }
+
+        function populateDropdowns() {
+            // Populate tanggal dropdown
+            const tanggalSet = new Set(Object.keys(scheduleData));
+            const sortedTanggal = Array.from(tanggalSet).sort((a, b) => {
+                const dateA = new Date(a.split('-').reverse().join('-'));
+                const dateB = new Date(b.split('-').reverse().join('-'));
+                return dateA - dateB;
+            });
+
+            sortedTanggal.forEach(tanggal => {
+                let option = document.createElement("option");
+                option.value = tanggal;
+                option.textContent = tanggal;
+                filterTanggal.appendChild(option);
+            });
+
+            // Populate pembimbing dropdown
+            let pembimbingSet = new Set();
+            for (const key in scheduleData) {
+                scheduleData[key].forEach(entry => pembimbingSet.add(entry.pembimbing));
+            }
+
+            const sortedPembimbing = Array.from(pembimbingSet).sort();
+            sortedPembimbing.forEach(pembimbing => {
+                let option = document.createElement("option");
+                option.value = pembimbing;
+                option.textContent = pembimbing;
+                filterPembimbing.appendChild(option);
+            });
+        }
+
+        function generateTable(filterPembimbing = "all", filterTanggal = "all") {
+            tbody.innerHTML = "";
+            printTbody.innerHTML = "";
+            let no = 1;
+            let dailyNo = 1;
+            let filteredNo = 1;
+            let dateGroupCounter = 0;
+
+            // Mengurutkan tanggal
+            const sortedDates = Object.keys(scheduleData).sort((a, b) => {
+                const dateA = new Date(a.split('-').reverse().join('-'));
+                const dateB = new Date(b.split('-').reverse().join('-'));
+                return dateA - dateB;
+            });
+
+            // Menggunakan tanggal yang sudah diurutkan
+            for (let tanggal of sortedDates) {
+                if (filterTanggal !== "all" && tanggal !== filterTanggal) continue;
+
+                let santriList = scheduleData[tanggal] || [];
+
+                if (filterPembimbing !== "all") {
+                    santriList = santriList.filter(s => s.pembimbing === filterPembimbing);
+                }
+
+                if (santriList.length > 0) {
+                    let firstRow = true;
+                    let rowspan = santriList.length;
+                    dailyNo = filterPembimbing === "all" ? 1 : filteredNo;
+                    
+                    dateGroupCounter++;
+                    const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
+
+                    santriList.forEach((entry) => {
+                        const row = document.createElement('tr');
+                        row.classList.add(groupClass);
+
+                        if (firstRow) {
+                            row.innerHTML = `
+                                <td rowspan="${rowspan}">${no}</td>
+                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td>${dailyNo}</td>
+                                <td>${entry.santri}</td>
+                                <td>${entry.pembimbing}</td>
+                            `;
+                        } else {
+                            row.innerHTML = `
+                                <td>${dailyNo}</td>
+                                <td>${entry.santri}</td>
+                                <td>${entry.pembimbing}</td>
+                            `;
+                        }
+                        tbody.appendChild(row);
+
+                        // Generate untuk tampilan print
+                        const printRow = document.createElement('tr');
+                        printRow.classList.add(groupClass);
+                        if (firstRow) {
+                            printRow.innerHTML = `
+                                <td rowspan="${rowspan}">${dailyNo}</td>
+                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td>${entry.santri}</td>
+                            `;
+                        } else {
+                            printRow.innerHTML = `
+                                <td>${entry.santri}</td>
+                            `;
+                        }
+                        printTbody.appendChild(printRow);
+
+                        if (firstRow) {
+                            firstRow = false;
+                            no++;
+                        }
+                        dailyNo++;
+                        if (filterPembimbing !== "all") filteredNo++;
+                    });
+                }
+            }
+        }
+
+        function downloadTableAsImage() {
+            const tableContainer = document.querySelector('.printable-content');
+            
+            // Tampilkan elemen yang akan di-capture
+            tableContainer.style.display = 'block';
+            
+            const options = {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                logging: false,
+                useCORS: true,
+                quality: 0.8
+            };
+
+            html2canvas(tableContainer, options).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'jadwal_iftar.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.8);
+                link.click();
+                
+                // Sembunyikan kembali setelah selesai
+                tableContainer.style.display = 'none';
+            });
+        }
+
+        function resetFilters() {
+            const filterTanggal = document.getElementById("filterTanggal");
+            const filterPembimbing = document.getElementById("filterPembimbing");
+            
+            // Reset nilai filter
+            filterTanggal.value = "all";
+            filterPembimbing.value = "all";
+            
+            // Aktifkan kembali kedua filter
+            filterTanggal.disabled = false;
+            filterPembimbing.disabled = false;
+            
+            // Generate ulang tabel
+            generateTable("all", "all");
+        }
+
+        // Event listeners untuk filter
+        document.getElementById("filterTanggal").addEventListener("change", function() {
+            const filterPembimbing = document.getElementById("filterPembimbing");
+            
+            if (this.value !== "all") {
+                // Jika filter tanggal dipilih, nonaktifkan filter pembimbing
+                filterPembimbing.value = "all";
+                filterPembimbing.disabled = true;
+            } else {
+                // Jika filter tanggal "Semua", aktifkan kembali filter pembimbing
+                filterPembimbing.disabled = false;
+            }
+            
+            generateTable(filterPembimbing.value, this.value);
+        });
+
+        document.getElementById("filterPembimbing").addEventListener("change", function() {
+            const filterTanggal = document.getElementById("filterTanggal");
+            
+            if (this.value !== "all") {
+                // Jika filter pembimbing dipilih, nonaktifkan filter tanggal
+                filterTanggal.value = "all";
+                filterTanggal.disabled = true;
+            } else {
+                // Jika filter pembimbing "Semua", aktifkan kembali filter tanggal
+                filterTanggal.disabled = false;
+            }
+            
+            generateTable(this.value, filterTanggal.value);
+        });
+
+        // Tambahkan style untuk select yang dinonaktifkan
+        const style = document.createElement('style');
+        style.textContent = `
+            select:disabled {
+                background-color: #f5f5f5;
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        populateDropdowns();
+        generateTable();
+    </script>
+</body>
+</html>

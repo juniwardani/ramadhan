@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadual Petugas Harian Ramadhan 1446H</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header, footer {
+            background-color: #800000;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #800000;
+            color: white;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tbody tr:nth-child(4n+1), tbody tr:nth-child(4n+2) {
+    background-color: #ADD8E6; /* Warna abu muda untuk nomor ganjil */
+}
+
+tbody tr:nth-child(4n+3), tbody tr:nth-child(4n+4) {
+    background-color: #ffffff; /* Warna putih untuk nomor genap */
+}
+.today-row {
+    background-color: #ffcccc !important; /* Merah muda */
+}
+
+
+.catatan {
+    background-color: #fffaf0; /* Warna latar lebih lembut */
+    padding: 1.5rem;
+    border-left: 5px solid #800000; /* Border kiri sebagai highlight */
+    border-radius: 5px;
+    margin-top: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Tambahkan efek bayangan */
+    text-align: justify; /* Rata kiri-kanan */
+}
+
+.catatan h3 {
+    color: #800000; /* Warna judul sesuai tema */
+    margin-bottom: 0.8rem;
+    text-align: left; /* Judul tetap rata kiri */
+}
+
+.catatan ul {
+    padding-left: 1.2rem;
+    text-align: left; /* List tetap rata kiri */
+}
+
+.catatan li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rumah Tahfidz Saijaan</h1>
+        <p>Jadwal Petugas Harian Ramadhan 1446H</p>
+    </header>
+
+    <main>
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Ustadz</th>
+                    <th>Ustadzah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="catatan">
+            <h3>Catatan Tugas:</h3>
+            <p><strong>Ustadz:</strong></p>
+            <ul>
+                <li>Memimpin Tahlil dan Sholawat sebelum berbuka</li>
+                <li>Menjadi Imam Maghrib dan Isya serta memimpin doa tarawih</li>
+            </ul>
+            
+            <p><strong>Ustadzah:</strong></p>
+            <ul>
+                <li>Mengisi checklist yang sudah mengantar iftar berbuka puasa</li>
+                <li>Mengatur tata letak makanan dan minuman</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Rumah Tahfidz Saijaan</p>
+    </footer>
+
+    <script>
+        const scheduleData = [
+            // Data untuk setiap hari
+            { tanggal: "Rabu, 05 Maret 2025", ustadz: ["FAHRUL", "TAHMID"], ustadzah: ["DINDA", "DIAH"] },
+            { tanggal: "Kamis, 06 Maret 2025", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
+            { tanggal: "Jumat, 07 Maret 2025", ustadz: ["HAIDIR", "SYARIF"], ustadzah: ["BASRIAH", "AYA"] },
+            { tanggal: "Sabtu, 08 Maret 2025", ustadz: ["HUSSAINI", "SYARIF"], ustadzah: ["ASIAH", "SANAH"] },
+            { tanggal: "Minggu, 09 Maret 2025", ustadz: ["SYARIF", "THOHIR"], ustadzah: ["DIAH", "IPAH"] },
+            { tanggal: "Senin, 10 Maret 2025", ustadz: ["MUSAWIR", "HAIDIR"], ustadzah: ["NISA", "RISDA"] },
+            { tanggal: "Selasa, 11 Maret 2025", ustadz: ["JUFRI", "UMAM"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Rabu, 12 Maret 2025", ustadz: ["SYAMSI", "JUNI WARDANI"], ustadzah: ["SHALATIYAH", "NISA"] },
+            { tanggal: "Kamis, 13 Maret 2025", ustadz: ["TAHMID", "JUFRI"], ustadzah: ["ASTRID", "ASIAH"] },
+            { tanggal: "Jumat, 14 Maret 2025", ustadz: ["SALIM", "MUSAWIR"], ustadzah: ["DIAH", "DINDA"] },
+            { tanggal: "Sabtu, 15 Maret 2025", ustadz: ["HUSSAINI", "SOFYAN"], ustadzah: ["SHALATIYAH", "HILAL"] },
+            { tanggal: "Minggu, 16 Maret 2025", ustadz: ["BAHAUDIN", "THOHIR"], ustadzah: ["DINDA", "ASTRID"] },
+            { tanggal: "Senin, 17 Maret 2025", ustadz: ["SOFYAN", "SYAMSI"], ustadzah: ["ICHA", "AYA"] },
+            { tanggal: "Selasa, 18 Maret 2025", ustadz: ["FAHRUL", "UMAM"], ustadzah: ["EVI", "ICHA"] },
+            { tanggal: "Rabu, 19 Maret 2025", ustadz: ["JUNI WARDANI", "SALIM"], ustadzah: ["RISDA", "EVI"] },
+            { tanggal: "Kamis, 20 Maret 2025", ustadz: ["BAHAUDIN", "HAIDIR"], ustadzah: ["NISA", "HILAL"] },
+            { tanggal: "Jumat, 21 Maret 2025", ustadz: ["MUSAWIR", "SOFYAN"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Sabtu, 22 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["ASTRID", "BASRIAH"] }
+        ];
+
+        // Fungsi untuk mengisi tabel
+function populateTable() {
+    const tbody = document.querySelector('#scheduleTable tbody');
+    let counter = 1;
+    
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('id-ID', { 
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+    });
+
+    scheduleData.forEach((day) => {
+        let row1 = tbody.insertRow();
+        let cellNo = row1.insertCell();
+        let cellTanggal = row1.insertCell();
+        let cellUstadz1 = row1.insertCell();
+        let cellUstadzah1 = row1.insertCell();
+
+        cellNo.innerHTML = counter;
+        cellNo.rowSpan = 2;
+        cellTanggal.innerHTML = day.tanggal;
+        cellTanggal.rowSpan = 2;
+        cellUstadz1.innerHTML = `USTADZ ${day.ustadz[0]}`;
+        cellUstadzah1.innerHTML = `USTADZAH ${day.ustadzah[0]}`;
+
+        let row2 = tbody.insertRow();
+        let cellUstadz2 = row2.insertCell();
+        let cellUstadzah2 = row2.insertCell();
+
+        cellUstadz2.innerHTML = `USTADZ ${day.ustadz[1]}`;
+        cellUstadzah2.innerHTML = `USTADZAH ${day.ustadzah[1]}`;
+
+        // Cek apakah tanggal sesuai dengan hari ini
+        if (day.tanggal === todayStr) {
+            row1.classList.add('today-row');
+            row2.classList.add('today-row');
+        }
+
+        counter++;
+    });
+}
+
+// Jalankan saat halaman dimuat
+window.onload = populateTable;
+    </script>
+</body>
+</html>
