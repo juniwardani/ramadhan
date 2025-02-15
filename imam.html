@@ -16,59 +16,64 @@
         header, footer {
             background-color: #800000;
             color: white;
-            padding: 15px;
-            font-size: 22px;
+            padding: 12px;
+            font-size: 20px;
         }
         h1 {
-            margin: 20px 10px;
-            font-size: 24px;
-            line-height: 1.5;
+            margin: 15px 10px;
+            font-size: 22px;
+            line-height: 1.4;
         }
         .table-container {
-            width: 90%;
+            width: 95%;
             margin: auto;
-            overflow-x: auto; /* Supaya bisa di-scroll di layar kecil */
+            overflow-x: auto;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 18px;
+            margin-top: 8px;
+            font-size: 16px;
         }
         th, td {
             border: 1px solid #800000;
-            padding: 12px;
+            padding: 6px;
             text-align: center;
         }
         th {
             background-color: #800000;
             color: white;
+            font-size: 14px;
+        }
+        td {
+            font-size: 14px;
         }
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
         footer {
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 15px;
+            font-size: 16px;
         }
         /* Responsive */
         @media (max-width: 600px) {
             header, footer {
-                font-size: 18px;
-                padding: 10px;
+                font-size: 16px;
+                padding: 8px;
             }
             h1 {
-                font-size: 20px;
+                font-size: 18px;
             }
             table {
-                font-size: 16px;
+                font-size: 14px;
             }
             th, td {
-                padding: 8px;
+                padding: 4px;
+                font-size: 12px;
             }
         }
     </style>
@@ -97,29 +102,27 @@
 <footer>&copy; 2025 Rumah Tahfidz Saijaan</footer>
 
 <script>
-    // Data jadwal petugas tarawih
     const jadwalPetugas = [
-    { tanggal: "05 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
-    { tanggal: "06 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
-    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
-    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
-    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
-    { tanggal: "10 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
-    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
-    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
-    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
-    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
-    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
-    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
-    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
-    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
-    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
-    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
-    { tanggal: "21 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
-    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
-];
+        { tanggal: "05 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
+        { tanggal: "06 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
+        { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
+        { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
+        { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
+        { tanggal: "10 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
+        { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
+        { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
+        { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
+        { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
+        { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+        { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
+        { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
+        { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
+        { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
+        { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
+        { tanggal: "21 Maret 2025", imam: "M. Fauzi", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
+        { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
+    ];
 
-    // Memasukkan data ke tabel
     const jadwalBody = document.getElementById("jadwalBody");
     jadwalPetugas.forEach((petugas, index) => {
         let row = `<tr>
