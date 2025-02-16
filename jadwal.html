@@ -17,6 +17,7 @@
             color: white;
             text-align: center;
             padding: 1rem;
+            font-size: 2rem;
         }
 
         footer {
@@ -49,15 +50,28 @@
         .controls {
             margin: 1rem 0;
             display: flex;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .filter-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            width: 300px;
+        }
+
+        .filter-group label {
+            min-width: 100px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .filter-group select {
+            width: 180px;
+            flex: none;
         }
 
         select {
@@ -140,17 +154,31 @@
 
             .controls {
                 flex-direction: column;
+                padding: 0 10px;
+                width: 100%;
+                max-width: 400px;
+                margin: 1rem auto;
                 gap: 10px;
             }
 
             .filter-group {
                 width: 100%;
-                justify-content: center;
+                justify-content: space-between;
             }
 
-            select {
+            .filter-group label {
+                min-width: 100px;
+                text-align: left;
+            }
+
+            .filter-group select {
+                width: calc(100% - 110px);
+            }
+
+            button, .reset-btn {
                 width: 100%;
-                max-width: 200px;
+                padding: 10px;
+                margin: 5px 0;
             }
 
             table {
@@ -182,7 +210,7 @@
 
             /* Memperkecil padding pada header dan footer */
             header, footer {
-                padding: 0.8rem;
+                padding: 1.2rem;
             }
 
             footer p {
@@ -362,7 +390,8 @@
 
         <!-- Container terpisah untuk hasil download -->
         <div class="printable-content">
-            <h2>Jadwal Iftar Ramadhan 1446 H</h2>
+            <h2 style="margin-bottom: 0;">Jadwal Iftar Ramadhan 1446 H</h2>
+            <h3 id="printSubtitle" style="margin: 0.2rem 0 1rem; text-align: center; font-size: 0.9rem; font-weight: normal;"></h3>
             <table id="printSchedule">
                 <thead>
                     <tr>
@@ -599,6 +628,15 @@
 
         function downloadTableAsImage() {
             const tableContainer = document.querySelector('.printable-content');
+            const subtitleElement = document.getElementById('printSubtitle');
+            const selectedPembimbing = document.getElementById('filterPembimbing').value;
+            
+            // Set subtitle berdasarkan filter pembimbing
+            if (selectedPembimbing !== 'all') {
+                subtitleElement.textContent = `Pembimbing: ${selectedPembimbing}`;
+            } else {
+                subtitleElement.textContent = ''; // Kosongkan jika "Semua"
+            }
             
             // Tampilkan elemen yang akan di-capture
             tableContainer.style.display = 'block';
