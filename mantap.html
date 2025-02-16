@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadhan 1446 H</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: #800000;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px; /* Tambahkan ini untuk mengurangi jarak dari atas */
+    margin-bottom: 20px;
+}
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+        .btn-harian { background: #4CAF50; }
+        .btn-iftar { background: #FFA500; }
+        .btn-tarawih { background: #008CBA; }
+        .tanggal {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .label {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        .label table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .label th {
+            text-align: left;
+            padding: 12px;
+            font-size: 10px;
+            color: #800000;
+            border-bottom: 2px solid #800000;
+        }
+        .label td {
+            padding: 6px;
+            text-align: left;
+            font-size: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Style khusus untuk pembimbingTable */
+        #pembimbingTable th,
+        #pembimbingTable td {
+            text-align: center;
+        }
+        
+        .label th[colspan] {
+    background: #800000; /* Warna latar belakang */
+    color: white; /* Warna teks */
+    text-align: center; /* Pusatkan teks */
+    font-size: 12px; /* Sesuaikan ukuran font */
+    padding: 10px; /* Tambahkan padding */
+    border-radius: 8px 8px 0 0; /* Beri sudut melengkung di atas */
+}
+
+        footer {
+            background: #800000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+#iftarContent {
+    margin-top: 20px;
+}
+
+#iftarContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#iftarContent th, #iftarContent td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#iftarContent tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Tambahkan style baru untuk tombol */
+#btnIftar {
+    background: #FFA500;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px auto;
+    display: block;
+    width: auto;
+    min-width: 200px;
+}
+
+#btnIftar:hover {
+    background: #FF8C00;
+}
+    </style>
+</head>
+<body>
+    <header>Rumah Tahfidz Saijaan <br> Ramadhan 1446 H</header>
+    <div class="container">
+        <div class="button-group">
+            <button class="btn-harian" onclick="location.href='petugas.html'">Pembimbing Harian</button>
+            <button class="btn-iftar" onclick="location.href='jadwal.html'">Jadwal Iftar</button>
+            <button class="btn-tarawih" onclick="location.href='imam.html'">Petugas Tarawih</button>
+        </div>
+
+        <div class="tanggal" id="tanggal-sekarang">Memuat tanggal...</div>
+
+        <div class="label">
+            <table id="pembimbingTable">
+                <tr>
+                    <th colspan="2">Pembimbing Harian</th>
+                </tr>
+                <tr>
+                    <td>Ustadz Ahmad Fauzi</td>
+                    <td>Ustadz Rahmat Hidayat</td>
+                </tr>
+                <tr>
+                    <td>Ustadzah Siti Maimunah</td>
+                    <td>Ustadzah Nur Aisyah</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="label">
+            <table id="petugasTarawihTable">
+                <tr>
+                    <th colspan="2">Petugas Tarawih</th>
+                </tr>
+                <tr>
+                    <td><strong>Imam Tarawih</strong></td>
+                    <td>Ustadz Muhammad Rizqi</td>
+                </tr>
+                <tr>
+                    <td><strong>Imam Witir</strong></td>
+                    <td>Ustadz Ali Ridho</td>
+                </tr>
+                <tr>
+                    <td><strong>Shalawat</strong></td>
+                    <td>Ustadz Hamzah & Ustadz Farhan</td>
+                </tr>
+                <tr>
+                    <td><strong>Adzan</strong></td>
+                    <td>Muhammad Fadhil & Ahmad Izzuddin</td>
+                </tr>
+            </table>
+        </div>
+
+        <button id="btnIftar" class="btn-iftar" style="margin: 20px auto;">Lihat Jadwal Iftar<br>Hari Ini</button>
+
+        <div id="iftarModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Jadwal Iftar</h2>
+                <div id="iftarContent"></div>
+            </div>
+        </div>
+    </div>
+    <footer>&copy; 2025 Rumah Tahfidz Saijaan</footer>
+
+<script>
+        const scheduleData = [
+            // Data untuk setiap hari
+            { tanggal: "Senin, 17 Februari 2025", ustadz: ["FAHRUL", "TAHMID"], ustadzah: ["DINDA", "DIAH"] },
+            { tanggal: "Selasa, 18 Februari 2025", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
+            { tanggal: "Rabu, 19 Februari 2025", ustadz: ["HAIDIR", "SYARIF"], ustadzah: ["BASRIAH", "AYA"] },
+            { tanggal: "Kamis, 20 Februari 2025", ustadz: ["HUSSAINI", "SYARIF"], ustadzah: ["ASIAH", "SANAH"] },
+            { tanggal: "Jumat, 21 Februari 2025", ustadz: ["SYARIF", "THOHIR"], ustadzah: ["DIAH", "IPAH"] },
+            { tanggal: "Sabtu, 22 Februari 2025", ustadz: ["MUSAWIR", "HAIDIR"], ustadzah: ["NISA", "RISDA"] },
+            { tanggal: "Minggu, 23 Februari 2025", ustadz: ["JUFRI", "UMAM"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Senin, 24 Februari 2025", ustadz: ["SYAMSI", "JUNI WARDANI"], ustadzah: ["SHALATIYAH", "NISA"] },
+            { tanggal: "Selasa, 25 Februari 2025", ustadz: ["TAHMID", "JUFRI"], ustadzah: ["ASTRID", "ASIAH"] },
+            { tanggal: "Rabu, 26 Februari 2025", ustadz: ["SALIM", "MUSAWIR"], ustadzah: ["DIAH", "DINDA"] },
+            { tanggal: "Kamis, 27 Februari 2025", ustadz: ["HUSSAINI", "SOFYAN"], ustadzah: ["SHALATIYAH", "HILAL"] },
+            { tanggal: "Jumat, 28 Februari 2025", ustadz: ["BAHAUDIN", "THOHIR"], ustadzah: ["DINDA", "ASTRID"] },
+            { tanggal: "Sabtu, 01 Maret 2025", ustadz: ["SOFYAN", "SYAMSI"], ustadzah: ["ICHA", "AYA"] },
+            { tanggal: "Minggu, 02 Maret 2025", ustadz: ["FAHRUL", "UMAM"], ustadzah: ["EVI", "ICHA"] },
+            { tanggal: "Senin, 03 Maret 2025", ustadz: ["JUNI WARDANI", "SALIM"], ustadzah: ["RISDA", "EVI"] },
+            { tanggal: "Selasa, 04 Maret 2025", ustadz: ["BAHAUDIN", "HAIDIR"], ustadzah: ["NISA", "HILAL"] },
+            { tanggal: "Rabu, 05 Maret 2025", ustadz: ["MUSAWIR", "SOFYAN"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Kamis, 06 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["ASTRID", "BASRIAH"] }
+        ];
+
+        const jadwalPetugas = [
+
+{ tanggal: "17 Februari 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
+
+{ tanggal: "18 Februari 2025", imam: "M. Fauzi", imamWitir: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
+
+{ tanggal: "19 Februari 2025", imam: "Rafi Syahdilla", imamWitir: "M. Fauzi", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
+
+{ tanggal: "20 Februari 2025", imam: "Muhammad Aufa Rahman", imamWitir: "M. Fauzi", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
+
+{ tanggal: "21 Februari 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Fauzi", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
+
+{ tanggal: "22 Februari 2025", imam: "M. Fauzi", imamWitir: "M. Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
+
+{ tanggal: "23 Februari 2025", imam: "Rafi Syahdilla", imamWitir: "M. Rizky", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
+
+{ tanggal: "24 Februari 2025", imam: "Rafli Daffa Santoso", imamWitir: "M. Rizky", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
+
+{ tanggal: "25 Februari 2025", imam: "Rafli Daffa Santoso", imamWitir: "M. Rizky", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
+
+{ tanggal: "26 Februari 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Rizky", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
+
+{ tanggal: "27 Februari 2025", imam: "Muhammad Aufa Rahman", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+
+{ tanggal: "28 Februari 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Rizky", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
+
+{ tanggal: "01 Maret 2025", imam: "Muhammad Aufa Rahman", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
+
+{ tanggal: "02 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
+
+{ tanggal: "03 Maret 2025", imam: "Muhammad Hariri", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
+
+{ tanggal: "04 Maret 2025", imam: "Muhammad Hariri", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
+
+{ tanggal: "05 Maret 2025", imam: "M. Fauzi", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
+
+{ tanggal: "06 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
+
+];
+
+function formatDate(date) {
+            const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const bulan = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            
+            const dayName = hari[date.getDay()];
+            const d = date.getDate().toString().padStart(2, '0');
+            const m = bulan[date.getMonth()];
+            const y = date.getFullYear();
+            
+            return `${dayName}, ${d} ${m} ${y}`;
+        }
+
+        function updatePembimbing() {
+            const today = new Date();
+            const formattedDate = formatDate(today);
+            
+            const scheduleToday = scheduleData.find(schedule => schedule.tanggal === formattedDate);
+            const pembimbingTable = document.getElementById('pembimbingTable');
+
+            if (scheduleToday) {
+                pembimbingTable.innerHTML = `
+                    <tr>
+                        <th colspan="2">Pembimbing Harian</th>
+                    </tr>
+                    <tr>
+                        <td>USTADZ ${scheduleToday.ustadz[0]}</td>
+                        <td>USTADZ ${scheduleToday.ustadz[1]}</td>
+                    </tr>
+                    <tr>
+                        <td>USTADZAH ${scheduleToday.ustadzah[0]}</td>
+                        <td>USTADZAH ${scheduleToday.ustadzah[1]}</td>
+                    </tr>
+                `;
+            } else {
+                pembimbingTable.innerHTML = `
+                    <tr>
+                        <th colspan="2">Pembimbing Harian</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Jadwal tidak tersedia untuk hari ini</td>
+                    </tr>
+                `;
+            }
+
+            console.log("Semua tanggal yang tersedia:", scheduleData.map(d => d.tanggal));
+            console.log("Format tanggal hari ini:", formattedDate);
+        }
+
+        async function getTanggalHijriah() {
+            try {
+                // Ambil tanggal Masehi hari ini dalam format DD-MM-YYYY
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                let yyyy = today.getFullYear();
+                let masehiFormatted = `${dd}-${mm}-${yyyy}`;
+
+                let response = await fetch(`https://api.aladhan.com/v1/gToH?date=${masehiFormatted}`);
+                let data = await response.json();
+
+                // Ambil tanggal Masehi dari sistem lokal
+                let tanggalMasehi = today.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+                // Pastikan respons API memiliki data yang diharapkan
+                if (data && data.data && data.data.hijri) {
+                    let hijriyah = data.data.hijri;
+                    let tanggalHijriah = `${hijriyah.day} ${hijriyah.month.en} ${hijriyah.year} H`;
+
+                    // Tampilkan di elemen dengan id "tanggal-sekarang"
+                    document.getElementById("tanggal-sekarang").innerHTML = `${tanggalMasehi} / ${tanggalHijriah}`;
+                } else {
+                    throw new Error("Format data API tidak sesuai.");
+                }
+            } catch (error) {
+                document.getElementById("tanggal-sekarang").innerHTML = "Gagal memuat tanggal.";
+                console.error("Error mengambil data:", error);
+            }
+        }
+
+        function updatePetugasTarawih() {
+            const today = new Date();
+            const formattedDate = formatDate(today);
+            
+            const [dayName, date] = formattedDate.split(', ');
+            
+            const jadwalHariIni = jadwalPetugas.find(jadwal => jadwal.tanggal === date);
+            const petugasTable = document.getElementById('petugasTarawihTable');
+
+            if (jadwalHariIni) {
+                petugasTable.innerHTML = `
+                    <tr>
+                        <th colspan="2">Petugas Tarawih</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Imam Tarawih</strong></td>
+                        <td>${jadwalHariIni.imam.toUpperCase()}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Imam Witir</strong></td>
+                        <td>${jadwalHariIni.imamWitir.toUpperCase()}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shalawat</strong></td>
+                        <td>${jadwalHariIni.sholawat.map(s => s.toUpperCase()).join('<br>')}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adzan</strong></td>
+                        <td>${jadwalHariIni.adzan.map(a => a.toUpperCase()).join('<br>')}</td>
+                    </tr>
+                `;
+            } else {
+                petugasTable.innerHTML = `
+                    <tr>
+                        <th colspan="2">Petugas Tarawih</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">JADWAL TIDAK TERSEDIA UNTUK HARI INI</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        window.onload = function() {
+            getTanggalHijriah();
+            updatePembimbing();
+            updatePetugasTarawih();
+        };
+
+        
+        const iftar = {
+    "17-02-2025": [
+        { "santri": "ARIANSYAH", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "AZKA RAYYAN AGFA", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "RAFLY DAFFA SANTOSO", "pembimbing": "USTADZ FAHRUL" }
+    ],
+    "18-02-2025": [
+        { "santri": "ANDI AISYAH AYUDIA INARA", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "AHMAD DIRJAT ABDALA", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "DEALIVINA ADESTI ROHMAN", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "MUHAMMAD NABIL RIADI", "pembimbing": "USTADZ FAHRUL" }
+    ],
+    "19-02-2025": [
+        { "santri": "ALIFA FATHIYYA HAMZAH", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "KHADIJAH IZZATI", "pembimbing": "USTADZAH RISDA" }
+    ],
+    "20-02-2025": [
+        { "santri": "SELVIA KHAIRUN ASPIA", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "MAULIA RAHMAWATI", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "MUHAMMAD BILAL AL FATTAH", "pembimbing": "USTADZ JUFRI" },
+        { "santri": "NADIFA ZAFIRA", "pembimbing": "USTADZ HUSSAINI" },
+        { "santri": "ATHA ZADA APRILIA", "pembimbing": "USTADZ HAIDIR" },
+        { "santri": "M. EMIR AL FURQON", "pembimbing": "USTADZ HAIDIR" },
+        { "santri": "ATIKA MAHIRA ZALFA (M. AZKA ALFARO)", "pembimbing": "USTADZAH RISDA" }
+    ],
+      "22-02-2025": [
+        { "santri": "HAIDIR MUARAS", "pembimbing": "USTADZ SOFYAN" }
+    ],
+    "23-02-2025": [
+        { "santri": "BARKATUL AULYA", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "SOFIATUS ZAHRA", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "MUHAMMAD ZIDAN", "pembimbing": "USTADZ FAHRUL" }
+    ],
+    "24-02-2025": [
+        { "santri": "M RAPPA RAMADHAN", "pembimbing": "USTADZ FAHRUL" }
+    ],
+    "25-02-2025": [
+        { "santri": "SITI MAYSYAROH", "pembimbing": "USTADZ SYARIF" }
+    ],
+    "26-02-2025": [
+        { "santri": "SYAQILA SALSABILA SETIAWAN", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "MUHAMMAD RAFKA FAIZAR", "pembimbing": "USTADZ TAHMID" },
+        { "santri": "NAYLA ZHAFIRA FITRIANI", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "AMIRAH FIRJATUL ZAHRA", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "M. ADLI MAULANA", "pembimbing": "USTADZAH RISDA" }
+    ],
+    "27-02-2025": [
+        { "santri": "AHMAD GALIH PRIHANDOWO", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "KAYLA ATIIQAH SARI", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "META RAIHANA", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "MUHAMMAD MUHAJIR ANSHORY", "pembimbing": "USTADZ HUSSAINI" },
+        { "santri": "RAHMAT HIDAYAT", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "RADHEN FADHIL", "pembimbing": "USTADZ HAIDIR" },
+        { "santri": "GUSTI SATRIO HAFIDZ RAFIE RABBANI", "pembimbing": "USTADZ HAIDIR" }
+    ],
+    "28-02-2025": [
+        { "santri": "REGINA RAHADATUL AISY", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "ALISIA AURELIA", "pembimbing": "USTADZAH RISDA" },
+        { "santri": "M. HAFIDZ RAMADANISH", "pembimbing": "USTADZ SOFYAN" },
+        { "santri": "RIZKA RAMADHANI (RIANA AZMI)", "pembimbing": "USTADZ HUSSAINI" }
+    ],
+    "01-03-2025": [
+        { "santri": "M. DAFFA NURRAMDHANI", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "ALIYA ANISAH", "pembimbing": "USTADZ JUFRI" },
+        { "santri": "NAURA HUBBI FATIMAH AZZAHRA", "pembimbing": "USTADZ SALIM" },
+        { "santri": "MUHAMMAD FATIH NAJIB", "pembimbing": "USTADZ HUSSAINI" }
+    ],
+    "02-03-2025": [
+        { "santri": "AHMAD AZRIL RAZZAN RAHMATULLAH", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "ASSYIFA MAWADDAH", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "SITI NURHAYATUL HASANAH", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "MIFTAHUR YUMNA MUFAKHAM", "pembimbing": "USTADZ FAHRUL" }
+    ],
+    "03-03-2025": [
+        { "santri": "LISA AMELIA", "pembimbing": "USTADZ JUFRI" }
+    ],
+    "04-03-2025": [
+        { "santri": "AZKIA FILZIA PUTRI", "pembimbing": "USTADZ SYARIF" },
+        { "santri": "ZHAFIRA ZIYADATUL KHAIR", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "FINA MAULINA", "pembimbing": "USTADZ JUFRI" },
+        { "santri": "SITI ZAGIA GATI RAMADHANA", "pembimbing": "USTADZ SOFYAN" },
+        { "santri": "GHINA RAFANDA", "pembimbing": "USTADZAH RISDA" }
+    ],
+    "05-03-2025": [
+        { "santri": "HAFIDZA KHAIRA YUMNA", "pembimbing": "USTADZ FAHRUL" },
+        { "santri": "NUR AFIKA HUMAIRA", "pembimbing": "USTADZAH RISDA" }
+    ]
+};
+        // Modal functionality
+        const modal = document.getElementById("iftarModal");
+        const btn = document.getElementById("btnIftar");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = async function() {
+            const today = new Date();
+            // Format untuk pencarian data (tetap dalam format DD-MM-YYYY)
+            const formattedDate = today.toLocaleDateString('en-CA').split('-').reverse().join('-');
+            
+            try {
+                // Ambil tanggal Masehi dalam format DD-MM-YYYY untuk API
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0');
+                let yyyy = today.getFullYear();
+                let masehiFormatted = `${dd}-${mm}-${yyyy}`;
+
+                let response = await fetch(`https://api.aladhan.com/v1/gToH?date=${masehiFormatted}`);
+                let data = await response.json();
+
+                // Format tanggal Masehi yang lebih bagus
+                let tanggalMasehi = today.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+                // Format tanggal Hijriah
+                let hijriyah = data.data.hijri;
+                let tanggalHijriah = `${hijriyah.day} ${hijriyah.month.en} ${hijriyah.year} H`;
+                
+                const iftarContent = document.getElementById("iftarContent");
+                const todayData = iftar[formattedDate];
+                
+                if (todayData) {
+                    let tableHTML = `
+                        <h3>${tanggalMasehi} / ${tanggalHijriah}</h3>
+                        <table>
+                            <tr>
+                                <th>Santri</th>
+                                <th>Pembimbing</th>
+                            </tr>
+                    `;
+                    
+                    todayData.forEach(item => {
+                        tableHTML += `
+                            <tr>
+                                <td>${item.santri}</td>
+                                <td>${item.pembimbing}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += '</table>';
+                    iftarContent.innerHTML = tableHTML;
+                } else {
+                    iftarContent.innerHTML = `<p>Tidak ada jadwal iftar untuk ${tanggalMasehi} / ${tanggalHijriah}</p>`;
+                }
+                
+                modal.style.display = "block";
+            } catch (error) {
+                console.error("Error mengambil data tanggal Hijriah:", error);
+                iftarContent.innerHTML = '<p>Gagal memuat jadwal iftar.</p>';
+            }
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+</script>
+</body>
+</html>
