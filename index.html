@@ -253,18 +253,15 @@
 <script>
         const scheduleData = [
             // Data untuk setiap hari
-            { tanggal: "Selasa, 18 Februari 2026", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
+            { tanggal: "Senin, 17 Februari 2026", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
             { tanggal: "Kamis, 06 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["ASTRID", "BASRIAH"] }
         ];
 
         const jadwalPetugas = [
-
-
-
-{ tanggal: "28 Februari 2025", imam: "M. Fauzi", imamWitir: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
-{ tanggal: "06 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
-
-];
+            { tanggal: "17 Februari 2026", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+            { tanggal: "06 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] },
+            { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] }
+        ];
 
 function formatDate(date) {
             const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -372,6 +369,12 @@ function formatDate(date) {
                         <td><strong>Imam Tarawih</strong></td>
                         <td>${jadwalHariIni.imam.toUpperCase()}</td>
                     </tr>
+                    ${jadwalHariIni.juz ? `
+                    <tr>
+                        <td><strong>Juz</strong></td>
+                        <td>${jadwalHariIni.juz.toUpperCase()}</td>
+                    </tr>
+                    ` : ''}
                     <tr>
                         <td><strong>Imam Witir</strong></td>
                         <td>${jadwalHariIni.imamWitir.toUpperCase()}</td>
@@ -391,9 +394,9 @@ function formatDate(date) {
                         <th colspan="2">Petugas Tarawih</th>
                     </tr>
                     <tr>
-<td colspan="2" style="text-align: center; background-color: green; color: white; padding: 10px; font-weight: bold;">
-    TIDAK ADA PETUGAS TARAWIH UNTUK HARI INI
-</td>
+                        <td colspan="2" style="text-align: center; background-color: green; color: white; padding: 10px; font-weight: bold;">
+                            TIDAK ADA PETUGAS TARAWIH UNTUK HARI INI
+                        </td>
                     </tr>
                 `;
             }
