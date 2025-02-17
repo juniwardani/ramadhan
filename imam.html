@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="id">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Petugas Tarawih</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap">
 
     <style>
@@ -110,6 +107,7 @@
                 <th>No.</th>
                 <th>Tanggal</th>
                 <th>Imam Tarawih</th>
+                <th>Juz</th>
                 <th>Imam Witir</th>
                 <th>Sholawat</th>
                 <th>Adzan</th>
@@ -139,44 +137,25 @@
     }
 
     const jadwalPetugas = [
-
-    { tanggal: "05 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
-
-    { tanggal: "06 Maret 2025", imam: "M. Fauzi", imamWitir: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
-
-    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", imamWitir: "M. Fauzi", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
-
-    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", imamWitir: "M. Fauzi", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
-
-    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Fauzi", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
-
-    { tanggal: "10 Maret 2025", imam: "M. Fauzi", imamWitir: "M. Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
-
-    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", imamWitir: "M. Rizky", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
-
-    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", imamWitir: "M. Rizky", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
-
-    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", imamWitir: "M. Rizky", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
-
-    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Rizky", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
-
-    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
-
-    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "M. Rizky", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
-
-    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
-
-    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
-
-    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
-
-    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
-
-    { tanggal: "21 Maret 2025", imam: "M. Fauzi", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
-
-    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
-
-];
+        { tanggal: "05 Maret 2025", imam: "M. Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "M. Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
+        { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "M. Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
+        { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "M. Fauzi", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
+        { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "M. Fauzi", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
+        { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "M. Fauzi", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
+        { tanggal: "10 Maret 2025", imam: "M. Fauzi", juz: "Juz 3 Akhir", imamWitir: "M. Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
+        { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "M. Rizky", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
+        { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "M. Rizky", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
+        { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "M. Rizky", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
+        { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "M. Rizky", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
+        { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+        { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "M. Rizky", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
+        { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
+        { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
+        { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
+        { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
+        { tanggal: "21 Maret 2025", imam: "M. Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
+        { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
+    ];
 
     const jadwalBody = document.getElementById("jadwalBody");
     jadwalPetugas.forEach((petugas, index) => {
@@ -184,6 +163,7 @@
             <td>${index + 1}</td>
             <td>${petugas.tanggal}</td>
             <td>${petugas.imam}</td>
+            <td>${petugas.juz}</td>
             <td>${petugas.imamWitir}</td>
             <td>${petugas.sholawat.join(" & ")}</td>
             <td>${petugas.adzan.join(" & ")}</td>
