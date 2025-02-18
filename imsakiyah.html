@@ -291,7 +291,6 @@ h2 {
     <!-- Site Header -->
     <header class="site-header">
         <h1 class="site-title">Rumah Tahfidz Saijaan</h1>
-        <p class="site-subtitle">Membentuk Generasi Qur'ani</p>
     </header>
 
     <div class="container">
@@ -405,8 +404,7 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
         title.style.marginBottom = '20px';
         title.style.fontFamily = 'Amiri, serif';
         title.innerHTML = `
-            <h1 style="color: #1a237e; font-size: 24px; margin-bottom: 10px;">Jadwal Sholat Ramadan 1446 H</h1>
-            <h2 style="color: #283593; font-size: 18px;">Rumah Tahfidz Saijaan</h2>
+            <h1 style="color: #1a237e; font-size: 30px; margin-bottom: 5px;">Jadwal Imsakiyah Ramadan 1446 H<br>Rumah Tahfidz Saijaan</h1>
             <p style="color: #2c3e50;"><strong>Untuk Daerah Kotabaru dan Sekitarnya</strong></p>
         `;
         tempContainer.appendChild(title);
@@ -420,7 +418,7 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
         const header = document.createElement('div');
         header.style.display = 'flex';
         header.innerHTML = `
-            <div style="flex: 1; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1a237e;">Tanggal</div>
+            <div style="flex: 1.6; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1a237e;">Tanggal</div>
             <div style="flex: 1; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #D32F2F;">Imsak</div>
             <div style="flex: 1; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #F57C00;">Subuh</div>
             <div style="flex: 1; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #388E3C;">Terbit</div>
@@ -440,10 +438,10 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
 
             row.forEach((cell, cellIndex) => {
                 const cellElement = document.createElement('div');
-                cellElement.style.flex = '1';
-                cellElement.style.padding = '10px 8px';
+                cellElement.style.flex = cellIndex === 0 ? '1.5' : '1'; // Kolom pertama lebih lebar
+                cellElement.style.padding = '5px 5px';
                 cellElement.style.textAlign = 'center';
-                cellElement.style.fontSize = '14px';
+                cellElement.style.fontSize = '22px';
                 cellElement.textContent = cell;
                 rowElement.appendChild(cellElement);
             });
@@ -461,19 +459,20 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
             allowTaint: true
         });
 
-        document.body.removeChild(tempContainer);
+        document.body.removeChild(tempContainer); // Hapus container setelah selesai
 
         const link = document.createElement('a');
-        link.download = 'Jadwal-Sholat-Ramadan-1446H.jpg';
+        link.download = 'Jadwal-Imsak-Ramadan-1446H.jpg';
         link.href = canvas.toDataURL('image/jpeg', 0.92);
         link.click();
 
         btn.innerHTML = originalText;
         btn.disabled = false;
+
     } catch (error) {
         console.error('Error generating image:', error);
         alert('Terjadi kesalahan saat mengunduh jadwal. Silakan coba lagi.');
-        
+
         const btn = document.getElementById('downloadBtn');
         btn.innerHTML = originalText;
         btn.disabled = false;
