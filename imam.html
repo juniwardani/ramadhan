@@ -1,177 +1,578 @@
-<!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Petugas Tarawih</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap">
-
-    <style>
-        body {
-            font-family: 'Amiri', serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f8f8f8;
-        }
-
-        header, footer {
-            background-color: #800000;
-            color: white;
-            padding: 12px;
-            font-size: 20px;
-        }
-
-        h1 {
-            margin: 15px 10px;
-            font-size: 22px;
-            line-height: 1.4;
-        }
-
-        .table-container {
-            width: 95%;
-            margin: auto;
-            overflow-x: auto;
-            background: white;
-            padding: 8px;
-            border-radius: 6px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-            font-size: 16px;
-        }
-
-        th, td {
-            border: 1px solid #800000;
-            padding: 6px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #800000;
-            color: white;
-            font-size: 14px;
-        }
-
-        td {
-            font-size: 14px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #ADD8E6;
-        }
-
-        footer {
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        @media (max-width: 600px) {
-            header, footer {
-                font-size: 16px;
-                padding: 8px;
-            }
-
-            h1 {
-                font-size: 18px;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 4px;
-                font-size: 12px;
-            }
-        }
-    </style>
-
+    <title>Jadwal Petugas Ramadan 1446 H - Rumah Tahfidz Saijaan</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
+<style>
+	* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-<body>
+body {
+    font-family: 'Amiri', serif;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+}
 
-<header>Rumah Tahfidz Saijaan</header>
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+}
 
-<div class="table-container">
-    <h1>Jadwal Petugas Sholat Tarawih Berjamaah<br>Ramadhan 1446 H</h1>
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
-    <table>
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Tanggal</th>
-                <th>Imam Tarawih</th>
-                <th>Juz</th>
-                <th>Imam Witir</th>
-                <th>Sholawat</th>
-                <th>Adzan</th>
-            </tr>
-        </thead>
-        <tbody id="jadwalBody"></tbody>
-    </table>
-</div>
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #1a237e;
+}
 
-<div style="margin: 15px auto; text-align: center;">
-    <button onclick="downloadAsJPG()" style="background-color: #800000; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Amiri', serif; font-size: 16px;">
-        Download Tabel
-    </button>
-</div>
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #283593;
+}
 
-<footer>&copy; 2025 Rumah Tahfidz Saijaan</footer>
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script>
-    function downloadAsJPG() {
-        html2canvas(document.querySelector('.table-container')).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'jadwal-tarawih.jpg';
-            link.href = canvas.toDataURL('image/jpeg', 0.9);
-            link.click();
-        });
+.sticky-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+.header-cell {
+    padding: 12px 8px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    font-weight: bold;
+    background: #1a237e;
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Colored headers for specific columns */
+.header-cell:nth-child(2) { background: #D32F2F; }
+.header-cell:nth-child(3) { background: #F57C00; }
+.header-cell:nth-child(4) { background: #388E3C; }
+.header-cell:nth-child(5) { background: #1565C0; }
+.header-cell:nth-child(6) { background: #6A1B9A; }
+
+/* Sticky Header dan Kolom Pertama */
+.header-cell:first-child,
+.table-cell:first-child {
+    position: sticky;
+    left: 0;
+    background: inherit;
+    z-index: 2;
+    min-width: 120px;
+}
+
+.header-cell:first-child {
+    z-index: 3;
+    background: #1a237e;
+    white-space: normal;
+}
+
+/* Table Structure */
+.table-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-row {
+    display: flex;
+    border-bottom: 1px solid #e3e8f0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* Striped! Rows */
+.table-row:nth-child(even) .table-cell:nth-child(2) { background-color: #FFEBEE; }
+.table-row:nth-child(even) .table-cell:nth-child(3) { background-color: #FFF3E0; }
+.table-row:nth-child(even) .table-cell:nth-child(4) { background-color: #E8F5E9; }
+.table-row:nth-child(even) .table-cell:nth-child(5) { background-color: #E3F2FD; }
+.table-row:nth-child(even) .table-cell:nth-child(6) { background-color: #F3E5F5; }
+
+.table-row:nth-child(odd) .table-cell:nth-child(2) { background-color: #FFCDD2; }
+.table-row:nth-child(odd) .table-cell:nth-child(3) { background-color: #FFE0B2; }
+.table-row:nth-child(odd) .table-cell:nth-child(4) { background-color: #C8E6C9; }
+.table-row:nth-child(odd) .table-cell:nth-child(5) { background-color: #BBDEFB; }
+.table-row:nth-child(odd) .table-cell:nth-child(6) { background-color: #E1BEE7; }
+
+.table-row:nth-child(even) {
+    background-color: #f5f7ff;
+}
+
+.table-row:nth-child(even) .table-cell:first-child {
+    background-color: #f5f7ff;
+}
+
+.table-row:nth-child(odd) .table-cell:first-child {
+    background-color: #fff;
+}
+
+.table-row:hover {
+    background-color: #e8eaf6;
+}
+
+.table-row:hover .table-cell:first-child {
+    background-color: #e8eaf6;
+}
+
+.table-cell {
+    padding: 12px 8px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    line-height: 1.4;
+    break-inside: avoid;
+}
+
+.table-cell:first-child {
+    font-weight: 500;
+    color: #1a237e;
+    white-space: normal;
+}
+
+.table-cell.sholawat-cell,
+.table-cell.adzan-cell {
+    white-space: normal;
+}
+
+.site-header {
+    background: #800000;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+.site-title {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+    color: white;
+}
+
+.site-subtitle {
+    font-size: 1rem;
+    margin: 5px 0;
+    opacity: 0.9;
+}
+
+.site-footer {
+    background: #800000;
+    color: white;
+    padding: 15px 0;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.copyright {
+    font-size: 0.9rem;
+}
+
+.footer-info,
+.contact-info,
+.contact-item,
+.social-links,
+.social-link {
+    display: none;
+}
+
+/* Download button styles */
+.download-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #800000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Amiri', serif;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.download-btn:hover {
+    background-color: #600000;
+}
+
+.download-btn:active {
+    transform: translateY(1px);
+}
+
+.download-icon {
+    fill: currentColor;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5px;
+    }
+    
+    h1 {
+        font-size: 1.2rem;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+    
+    .header-cell, .table-cell {
+        padding: 8px 6px;
+        min-width: 120px;
+        font-size: 0.9rem;
     }
 
-    const jadwalPetugas = [
-        { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
-        { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
-        { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
-        { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
-        { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
-        { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
-        { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
-        { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
-        { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
-        { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
-        { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
-        { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
-        { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
-        { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
-        { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
-        { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
-        { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
-        { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
-    ];
+    .header-cell:first-child,
+    .table-cell:first-child {
+        min-width: 120px;
+        font-size: 0.85rem;
+    }
+    
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    .site-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .contact-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .download-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .download-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
 
-    const jadwalBody = document.getElementById("jadwalBody");
-    jadwalPetugas.forEach((petugas, index) => {
-        let row = `<tr>
-            <td>${index + 1}</td>
-            <td>${petugas.tanggal}</td>
-            <td>${petugas.imam}</td>
-            <td>${petugas.juz}</td>
-            <td>${petugas.imamWitir}</td>
-            <td>${petugas.sholawat.join(" & ")}</td>
-            <td>${petugas.adzan.join(" & ")}</td>
-        </tr>`;
-        jadwalBody.innerHTML += row;
-    });
-</script>
+/* Custom scrollbar styling */
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
 
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #1a237e;
+}
+
+@media print {
+    .table-container {
+        overflow: visible !important;
+        box-shadow: none !important;
+    }
+    
+    .sticky-header, .header-cell {
+        position: static !important;
+    }
+    
+    .table-cell:first-child {
+        position: static !important;
+    }
+}
+</style>
+
+<body>
+    <!-- Site Header -->
+    <header class="site-header">
+        
+                <h1 class="site-title">Rumah Tahfidz Saijaan</h1>
+                <p class="site-subtitle">Membentuk Generasi Qur'ani</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <header>
+            <h1>Jadwal Petugas Ramadan 1446 H</h1>
+            <h2>Rumah Tahfidz Saijaan</h2>
+        </header>
+
+        <div class="table-container">
+            <div class="sticky-header">
+                <div class="header-cell">Tanggal</div>
+                <div class="header-cell">Imam</div>
+                <div class="header-cell">Juz</div>
+                <div class="header-cell">Imam Witir</div>
+                <div class="header-cell">Sholawat</div>
+                <div class="header-cell">Adzan</div>
+            </div>
+            
+            <div class="table-body" id="tableBody"></div>
+        </div>
+        
+        <div class="download-container">
+            <button id="downloadBtn" class="download-btn">
+                <svg class="download-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                Download Jadwal (JPG)
+            </button>
+        </div>
+    </div>
+
+    <!-- Simplified Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="copyright">
+                <p>&copy; 2024 Rumah Tahfidz Saijaan. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    	const jadwalPetugas = [
+    { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
+    { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
+    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
+    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
+    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
+    { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
+    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
+    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
+    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
+    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
+    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rizky", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
+    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
+    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
+    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
+    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
+    { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
+    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
+];
+
+const tableBody = document.getElementById('tableBody');
+
+jadwalPetugas.forEach(row => {
+    const rowElement = document.createElement('div');
+    rowElement.className = 'table-row';
+    
+    // Create cells for each piece of data
+    const tanggalCell = document.createElement('div');
+    tanggalCell.className = 'table-cell';
+    tanggalCell.textContent = row.tanggal;
+    
+    const imamCell = document.createElement('div');
+    imamCell.className = 'table-cell';
+    imamCell.textContent = row.imam;
+    
+    const juzCell = document.createElement('div');
+    juzCell.className = 'table-cell';
+    juzCell.textContent = row.juz;
+    
+    const imamWitirCell = document.createElement('div');
+    imamWitirCell.className = 'table-cell';
+    imamWitirCell.textContent = row.imamWitir;
+    
+    const sholawatCell = document.createElement('div');
+    sholawatCell.className = 'table-cell sholawat-cell';
+    sholawatCell.textContent = row.sholawat.join(', ');
+    
+    const adzanCell = document.createElement('div');
+    adzanCell.className = 'table-cell adzan-cell';
+    adzanCell.textContent = row.adzan.join(', ');
+    
+    // Add all cells to the row
+    rowElement.appendChild(tanggalCell);
+    rowElement.appendChild(imamCell);
+    rowElement.appendChild(juzCell);
+    rowElement.appendChild(imamWitirCell);
+    rowElement.appendChild(sholawatCell);
+    rowElement.appendChild(adzanCell);
+    
+    // Add row to table body
+    tableBody.appendChild(rowElement);
+});
+
+document.getElementById('downloadBtn').addEventListener('click', async () => {
+    try {
+        // Show loading state
+        const btn = document.getElementById('downloadBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = 'Memproses...';
+        btn.disabled = true;
+
+        // Create a temporary container for capture
+        const tempContainer = document.createElement('div');
+        tempContainer.style.width = '900px'; 
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.left = '-9999px';
+        tempContainer.style.background = '#ffffff';
+        tempContainer.style.padding = '40px'; 
+        document.body.appendChild(tempContainer);
+
+        // Add title to temp container
+        const title = document.createElement('div');
+        title.style.textAlign = 'center';
+        title.style.marginBottom = '20px';
+        title.style.fontFamily = 'Amiri, serif';
+        title.innerHTML = `
+            <h1 style="color: #1a237e; font-size: 24px; margin-bottom: 10px;">Jadwal Petugas Ramadan 1446 H</h1>
+            <h2 style="color: #283593; font-size: 18px;">Rumah Tahfidz Saijaan</h2>
+            <p style="color: #2c3e50;"><strong>Untuk Daerah Kotabaru dan Sekitarnya</strong></p>
+        `;
+        tempContainer.appendChild(title);
+
+        // Create a new table container with fixed styling
+        const tableContainer = document.createElement('div');
+        tableContainer.style.width = '820px'; 
+        tableContainer.style.background = '#ffffff';
+        tableContainer.style.fontFamily = 'Amiri, serif';
+        tableContainer.style.fontSize = '14px'; 
+
+        // Add header
+        const header = document.createElement('div');
+        header.style.display = 'flex';
+        header.style.background = '#1a237e';
+        header.innerHTML = `
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1a237e;">Tanggal</div>
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #D32F2F;">Imam</div>
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #F57C00;">Juz</div>
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #388E3C;">Imam Witir</div>
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1565C0;">Sholawat</div>
+            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #6A1B9A;">Adzan</div>
+        `;
+        tableContainer.appendChild(header);
+
+        // Add rows with fixed styling
+        jadwalPetugas.forEach((row, index) => {
+            const rowElement = document.createElement('div');
+            rowElement.style.display = 'flex';
+            rowElement.style.borderBottom = '1px solid #e3e8f0';
+            rowElement.style.background = index % 2 === 0 ? '#fff' : '#f5f7ff';
+
+            const colors = index % 2 === 0 ? 
+                ['#fff', '#FFCDD2', '#FFE0B2', '#C8E6C9', '#BBDEFB', '#E1BEE7'] :
+                ['#f5f7ff', '#FFEBEE', '#FFF3E0', '#E8F5E9', '#E3F2FD', '#F3E5F5'];
+
+            const cellsHTML = [
+                { text: row.tanggal, color: colors[0] },
+                { text: row.imam, color: colors[1] },
+                { text: row.juz, color: colors[2] },
+                { text: row.imamWitir, color: colors[3] },
+                { text: row.sholawat.join(', '), color: colors[4] },
+                { text: row.adzan.join(', '), color: colors[5] }
+            ].map(cell => `
+                <div style="flex: 1; min-width: 100px; padding: 10px 8px; text-align: center; background-color: ${cell.color}; line-height: 1.4; font-size: 14px;">${cell.text}</div>
+            `).join('');
+
+            rowElement.innerHTML = cellsHTML;
+            tableContainer.appendChild(rowElement);
+        });
+
+        tempContainer.appendChild(tableContainer);
+
+        // Capture with html2canvas
+        const canvas = await html2canvas(tempContainer, {
+            backgroundColor: '#ffffff',
+            scale: 1.5, 
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+
+        // Remove temporary container
+        document.body.removeChild(tempContainer);
+
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'Jadwal-Petugas-Ramadan-1446H.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.92); 
+        link.click();
+
+        // Restore button state
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    } catch (error) {
+        console.error('Error generating image:', error);
+        alert('Terjadi kesalahan saat mengunduh jadwal. Silakan coba lagi.');
+        
+        // Restore button state
+        const btn = document.getElementById('downloadBtn');
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+});
+
+ </script>
 </body>
-
 </html>
