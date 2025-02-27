@@ -348,6 +348,20 @@ h2 {
         position: static !important;
     }
 }
+
+/* Tambahkan style untuk kode pembimbing */
+.code-UHd { color: #E91E63; }
+.code-UT { color: #2196F3; }
+.code-UJ { color: #4CAF50; }
+.code-UU { color: #FF9800; }
+.code-UzR { color: #9C27B0; }
+
+/* Style untuk hasil download */
+.download-code-UHd { color: #E91E63; font-weight: bold; }
+.download-code-UT { color: #2196F3; font-weight: bold; }
+.download-code-UJ { color: #4CAF50; font-weight: bold; }
+.download-code-UU { color: #FF9800; font-weight: bold; }
+.download-code-UzR { color: #9C27B0; font-weight: bold; }
 </style>
 
 <body>
@@ -421,6 +435,19 @@ h2 {
 
 const tableBody = document.getElementById('tableBody');
 
+// Ubah fungsi untuk menambahkan warna pada kode pembimbing
+function formatPembimbingCode(text) {
+    return text.replace(/\((U[A-Za-z]+)\)/g, (match, code) => {
+        return `<span class="code-${code}">(${code})</span>`;
+    });
+}
+
+function formatPembimbingCodeDownload(text) {
+    return text.replace(/\((U[A-Za-z]+)\)/g, (match, code) => {
+        return `<span class="download-code-${code}">(${code})</span>`;
+    });
+}
+
 jadwalPetugas.forEach(row => {
     const rowElement = document.createElement('div');
     rowElement.className = 'table-row';
@@ -444,11 +471,11 @@ jadwalPetugas.forEach(row => {
     
     const sholawatCell = document.createElement('div');
     sholawatCell.className = 'table-cell sholawat-cell';
-    sholawatCell.textContent = row.sholawat.join(', ');
+    sholawatCell.innerHTML = row.sholawat.map(s => formatPembimbingCode(s)).join('<br>');
     
     const adzanCell = document.createElement('div');
     adzanCell.className = 'table-cell adzan-cell';
-    adzanCell.textContent = row.adzan.join(', ');
+    adzanCell.innerHTML = row.adzan.map(a => formatPembimbingCode(a)).join('<br>');
     
     // Add all cells to the row
     rowElement.appendChild(tanggalCell);
@@ -464,112 +491,109 @@ jadwalPetugas.forEach(row => {
 
 document.getElementById('downloadBtn').addEventListener('click', async () => {
     try {
-        // Show loading state
         const btn = document.getElementById('downloadBtn');
         const originalText = btn.innerHTML;
         btn.innerHTML = 'Memproses...';
         btn.disabled = true;
 
-        // Create a temporary container for capture
         const tempContainer = document.createElement('div');
-        tempContainer.style.width = '900px'; 
+        tempContainer.style.width = '1500px';  // Perlebar container
         tempContainer.style.position = 'absolute';
         tempContainer.style.left = '-9999px';
         tempContainer.style.background = '#ffffff';
-        tempContainer.style.padding = '40px'; 
+        tempContainer.style.padding = '40px';
         document.body.appendChild(tempContainer);
 
-        // Add title to temp container
         const title = document.createElement('div');
         title.style.textAlign = 'center';
-        title.style.marginBottom = '20px';
+        title.style.marginBottom = '30px';
         title.style.fontFamily = 'Amiri, serif';
         title.innerHTML = `
-            <h1 style="color: #1a237e; font-size: 24px; margin-bottom: 10px;">Jadwal Petugas Ramadan 1446 H</h1>
+            <h1 style="color: #1a237e; font-size: 32px; margin-bottom: 15px;">Jadwal Petugas Ramadan 1446 H</h1>
+            <h2 style="color: #1a237e; font-size: 24px;">Rumah Tahfidz Saijaan</h2>
         `;
         tempContainer.appendChild(title);
 
-        // Create a new table container with fixed styling
-        const tableContainer = document.createElement('div');
-        tableContainer.style.width = '820px'; 
-        tableContainer.style.background = '#ffffff';
-        tableContainer.style.fontFamily = 'Amiri, serif';
-        tableContainer.style.fontSize = '14px'; 
+        // Buat table element daripada div untuk struktur yang lebih baik
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.style.fontFamily = 'Amiri, serif';
+        table.style.fontSize = '16px';
+        table.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+        table.style.borderRadius = '8px';
+        table.style.overflow = 'hidden';
 
-        // Add header
-        const header = document.createElement('div');
-        header.style.display = 'flex';
-        header.style.background = '#1a237e';
-        header.innerHTML = `
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1a237e;">Tanggal</div>
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #D32F2F;">Imam</div>
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #F57C00;">Juz</div>
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #388E3C;">Imam Witir</div>
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #1565C0;">Sholawat</div>
-            <div style="flex: 1; min-width: 100px; padding: 10px 8px; color: white; text-align: center; font-weight: bold; background: #6A1B9A;">Adzan</div>
+        // Header row
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr style="background: #1a237e;">
+                <th style="width: 12%; padding: 15px 10px; color: white; text-align: center; background: #1a237e;">Tanggal</th>
+                <th style="width: 18%; padding: 15px 10px; color: white; text-align: center; background: #D32F2F;">Imam</th>
+                <th style="width: 12%; padding: 15px 10px; color: white; text-align: center; background: #F57C00;">Juz</th>
+                <th style="width: 18%; padding: 15px 10px; color: white; text-align: center; background: #388E3C;">Imam Witir</th>
+                <th style="width: 20%; padding: 15px 10px; color: white; text-align: center; background: #1565C0;">Sholawat</th>
+                <th style="width: 20%; padding: 15px 10px; color: white; text-align: center; background: #6A1B9A;">Adzan</th>
+            </tr>
         `;
-        tableContainer.appendChild(header);
+        table.appendChild(thead);
 
-        // Add rows with fixed styling
+        // Table body
+        const tbody = document.createElement('tbody');
         jadwalPetugas.forEach((row, index) => {
-            const rowElement = document.createElement('div');
-            rowElement.style.display = 'flex';
-            rowElement.style.borderBottom = '1px solid #e3e8f0';
-            rowElement.style.background = index % 2 === 0 ? '#fff' : '#f5f7ff';
-
             const colors = index % 2 === 0 ? 
                 ['#fff', '#FFCDD2', '#FFE0B2', '#C8E6C9', '#BBDEFB', '#E1BEE7'] :
                 ['#f5f7ff', '#FFEBEE', '#FFF3E0', '#E8F5E9', '#E3F2FD', '#F3E5F5'];
 
-            const cellsHTML = [
-                { text: row.tanggal, color: colors[0] },
-                { text: row.imam, color: colors[1] },
-                { text: row.juz, color: colors[2] },
-                { text: row.imamWitir, color: colors[3] },
-                { text: row.sholawat.join(', '), color: colors[4] },
-                { text: row.adzan.join(', '), color: colors[5] }
-            ].map(cell => `
-                <div style="flex: 1; min-width: 100px; padding: 10px 8px; text-align: center; background-color: ${cell.color}; line-height: 1.4; font-size: 14px;">${cell.text}</div>
-            `).join('');
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid #e3e8f0';
 
-            rowElement.innerHTML = cellsHTML;
-            tableContainer.appendChild(rowElement);
+            const cellStyle = (color) => `
+                padding: 12px 10px;
+                text-align: center;
+                background: ${color};
+                vertical-align: middle;
+                line-height: 1.5;
+                font-size: 15px;
+            `;
+
+            tr.innerHTML = `
+                <td style="${cellStyle(colors[0])}">${row.tanggal}</td>
+                <td style="${cellStyle(colors[1])}">${row.imam}</td>
+                <td style="${cellStyle(colors[2])}">${row.juz}</td>
+                <td style="${cellStyle(colors[3])}">${row.imamWitir}</td>
+                <td style="${cellStyle(colors[4])}">${row.sholawat.map(s => formatPembimbingCodeDownload(s)).join('<br>')}</td>
+                <td style="${cellStyle(colors[5])}">${row.adzan.map(a => formatPembimbingCodeDownload(a)).join('<br>')}</td>
+            `;
+            tbody.appendChild(tr);
         });
+        table.appendChild(tbody);
+        tempContainer.appendChild(table);
 
-        tempContainer.appendChild(tableContainer);
-
-        // Capture with html2canvas
         const canvas = await html2canvas(tempContainer, {
+            scale: 2,
             backgroundColor: '#ffffff',
-            scale: 1.5, 
             logging: false,
             useCORS: true,
-            allowTaint: true
+            windowWidth: 1500,
+            width: 1500
         });
 
-        // Remove temporary container
-        document.body.removeChild(tempContainer);
-
-        // Create download link
+        const image = canvas.toDataURL('image/jpeg', 1.0);
         const link = document.createElement('a');
         link.download = 'Jadwal-Petugas-Ramadan-1446H.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.92); 
+        link.href = image;
         link.click();
 
-        // Restore button state
+        document.body.removeChild(tempContainer);
         btn.innerHTML = originalText;
         btn.disabled = false;
     } catch (error) {
         console.error('Error generating image:', error);
-        alert('Terjadi kesalahan saat mengunduh jadwal. Silakan coba lagi.');
-        
-        // Restore button state
-        const btn = document.getElementById('downloadBtn');
         btn.innerHTML = originalText;
         btn.disabled = false;
     }
 });
-
- </script>
+            </script>
 </body>
 </html>
