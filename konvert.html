@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konversi Excel ke Objek</title>
+    <title>Konversi Excel & JSON</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 </head>
 <body>
-    <h2>Konversi Excel ke Format Objek</h2>
+    <h2>Konversi Excel ke JSON dan Sebaliknya</h2>
     
+    <h3>Konversi Excel ke JSON</h3>
     <input type="file" id="uploadExcel" accept=".xlsx">
-    <button onclick="convertExcel()">Konversi</button>
+    <button onclick="convertExcelToJson()">Konversi</button>
+    <pre id="jsonOutput"></pre>
     
-    <h3>Hasil JSON:</h3>
-    <pre id="output"></pre>
+    <h3>Konversi JSON ke Excel</h3>
+    <textarea id="jsonInput" rows="10" cols="50" placeholder='Tempel JSON di sini'></textarea><br>
+    <button onclick="convertJsonToExcel()">Konversi</button>
 
     <script>
-        function convertExcel() {
+        function convertExcelToJson() {
             const fileInput = document.getElementById("uploadExcel");
-            const output = document.getElementById("output");
+            const output = document.getElementById("jsonOutput");
 
             if (!fileInput.files.length) {
                 alert("Pilih file Excel terlebih dahulu!");
@@ -32,29 +35,82 @@
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: "array" });
 
-                const sheetName = workbook.SheetNames[0];
-                const sheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-                // Konversi ke format objek yang diinginkan
-                const scheduleData = {};
-
-                jsonData.forEach(row => {
-                    const tanggal = row["Tanggal"];
-                    const santri = row["Santri"];
-                    const pembimbing = row["Pembimbing"];
-
-                    if (!scheduleData[tanggal]) {
-                        scheduleData[tanggal] = [];
-                    }
-
-                    scheduleData[tanggal].push({ santri, pembimbing });
+                // Mengambil semua data dari semua sheet
+                const result = {};
+                workbook.SheetNames.forEach(sheetName => {
+                    const sheet = workbook.Sheets[sheetName];
+                    result[sheetName] = XLSX.utils.sheet_to_json(sheet);
                 });
 
-                output.textContent = JSON.stringify(scheduleData, null, 4);
+                output.textContent = JSON.stringify(result, null, 4);
             };
 
             reader.readAsArrayBuffer(file);
+        }
+
+        // Fungsi untuk memperbaiki format JSON
+        function fixJsonFormat(jsonString) {
+            // Mengganti properti tanpa tanda kutip dengan properti bertanda kutip
+            return jsonString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
+        }
+
+        function convertJsonToExcel() {
+            const jsonInput = document.getElementById("jsonInput").value;
+            if (!jsonInput) {
+                alert("Masukkan JSON yang valid!");
+                return;
+            }
+            
+            let jsonData;
+            try {
+                // Memperbaiki format JSON sebelum parsing
+                const fixedJson = fixJsonFormat(jsonInput);
+                jsonData = JSON.parse(fixedJson);
+            } catch (error) {
+                alert("Format JSON tidak valid! Error: " + error.message);
+                return;
+            }
+
+            const workbook = XLSX.utils.book_new();
+
+            // Fungsi untuk membuat worksheet dari data
+            function createWorksheet(data) {
+                if (Array.isArray(data)) {
+                    // Jika data adalah array of objects
+                    return XLSX.utils.json_to_sheet(data);
+                } else if (typeof data === 'object' && data !== null) {
+                    // Jika data adalah object, ubah ke array of objects
+                    const arrayData = Object.entries(data).map(([key, value]) => ({
+                        Key: key,
+                        Value: JSON.stringify(value)
+                    }));
+                    return XLSX.utils.json_to_sheet(arrayData);
+                } else {
+                    // Jika data adalah nilai primitif
+                    return XLSX.utils.json_to_sheet([{ Value: data }]);
+                }
+            }
+
+            // Proses data JSON
+            if (typeof jsonData === 'object' && jsonData !== null) {
+                if (Array.isArray(jsonData)) {
+                    // Jika root adalah array
+                    const worksheet = createWorksheet(jsonData);
+                    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+                } else {
+                    // Jika root adalah object, buat multiple sheets
+                    Object.entries(jsonData).forEach(([key, value]) => {
+                        const worksheet = createWorksheet(value);
+                        XLSX.utils.book_append_sheet(workbook, worksheet, key);
+                    });
+                }
+            } else {
+                // Jika root adalah nilai primitif
+                const worksheet = createWorksheet(jsonData);
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            }
+
+            XLSX.writeFile(workbook, "Data.xlsx");
         }
     </script>
 </body>
