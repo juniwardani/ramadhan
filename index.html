@@ -1,423 +1,903 @@
 <!DOCTYPE html>
+
 <html lang="id">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Ramadhan 1446 H</title>
+
     <style>
+
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
+
         }
+
         body {
+
             font-family: Arial, sans-serif;
+
             display: flex;
+
             flex-direction: column;
+
             min-height: 100vh;
+
         }
+
         header {
+
             background: #800000;
+
             color: white;
+
             text-align: center;
+
             padding: 25px;
+
             font-size: 28px;
+
             font-weight: bold;
+
         }
+
 .container {
+
     flex: 1;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     padding: 10px;
+
     text-align: center;
+
     margin-top: 20px; /* Tambahkan ini untuk mengurangi jarak dari atas */
+
     margin-bottom: 20px;
+
 }
+
         .button-group {
+
             display: flex;
+
             gap: 10px;
+
             margin-bottom: 20px;
+
         }
+
         .button-group button {
+
             flex: 1;
+
             padding: 12px;
+
             border: none;
+
             border-radius: 5px;
+
             cursor: pointer;
+
             font-size: 16px;
+
             font-weight: bold;
+
             color: white;
+
         }
+
         .btn-harian { background: #4CAF50; }
+
         .btn-iftar { background: #FFA500; }
+
         .btn-tarawih { background: #008CBA; }
+
         .tanggal {
+
             font-size: 18px;
+
             font-weight: bold;
-            margin-bottom: 15px;
+
+            margin-bottom: 5px;
+
         }
+
         .label {
+
             background: #f9f9f9;
+
             padding: 15px;
+
             border-radius: 10px;
+
             margin-bottom: 15px;
+
             width: 100%;
+
             max-width: 400px;
+
             box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+
             border: 1px solid #ddd;
+
             font-size: 16px;
+
             font-weight: 500;
+
             line-height: 1.6;
+
         }
+
         .label table {
+
             width: 100%;
+
             border-collapse: collapse;
+
         }
+
         .label th {
+
             text-align: left;
+
             padding: 12px;
+
             font-size: 10px;
+
             color: #800000;
+
             border-bottom: 2px solid #800000;
+
         }
+
         .label td {
+
             padding: 6px;
+
             text-align: left;
+
             font-size: 12px;
+
             border-bottom: 1px solid #ddd;
+            
+               background-color: #f4f4f4;
+    font-weight: bold; /* Teks bold */
+
         }
+
         
+
         /* Style khusus untuk pembimbingTable */
+
         #pembimbingTable th,
+
         #pembimbingTable td {
+
             text-align: center;
+
         }
+
         
+
         .label th[colspan] {
+
     background: #800000; /* Warna latar belakang */
+
     color: white; /* Warna teks */
+
     text-align: center; /* Pusatkan teks */
+
     font-size: 12px; /* Sesuaikan ukuran font */
+
     padding: 10px; /* Tambahkan padding */
+
     border-radius: 8px 8px 0 0; /* Beri sudut melengkung di atas */
+
 }
+
+
 
         footer {
+
             background: #800000;
+
             color: white;
+
             text-align: center;
+
             padding: 20px;
+
             width: 100%;
+
             margin-top: auto;
+
         }
 
+
+
 .modal {
+
     display: none;
+
     position: fixed;
+
     z-index: 1;
+
     left: 0;
+
     top: 0;
+
     width: 100%;
+
     height: 100%;
+
     overflow: auto;
+
     background-color: rgba(0,0,0,0.4);
+
 }
+
+
 
 .modal-content {
+
     background-color: #fefefe;
+
     margin: 15% auto;
+
     padding: 20px;
+
     border: 1px solid #888;
+
     width: 80%;
+
     max-width: 600px;
+
     border-radius: 8px;
+
 }
+
+
 
 .close {
+
     color: #aaa;
+
     float: right;
+
     font-size: 28px;
+
     font-weight: bold;
+
     cursor: pointer;
+
 }
+
+
 
 .close:hover {
+
     color: black;
+
 }
+
+
 
 #iftarContent {
+
     margin-top: 20px;
+
 }
+
+
 
 #iftarContent table {
+
     width: 100%;
+
     border-collapse: collapse;
+
     margin-top: 10px;
+
 }
+
+
 
 #iftarContent th, #iftarContent td {
+
     padding: 8px;
+
     text-align: left;
+
     border-bottom: 1px solid #ddd;
+
 }
+
+
 
 #iftarContent tr:nth-child(even) {
+
     background-color: #f2f2f2;
+
 }
+
+
 
 /* Tambahkan style baru untuk tombol */
+
 #btnIftar {
+
     background: #FFA500;
+
     color: white;
+
     padding: 12px 24px;
+
     border: none;
+
     border-radius: 5px;
+
     cursor: pointer;
+
     font-size: 16px;
+
     font-weight: bold;
+
     margin: 20px auto;
+
     display: block;
+
     width: auto;
+
     min-width: 200px;
+
 }
 
+
+
 #btnIftar:hover {
+
     background: #FF8C00;
+
 }
+#jadwalSholat {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#jadwalSholat table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid #800000;
+}
+
+#jadwalSholat th, #jadwalSholat td {
+    border: 1px solid #800000;
+    padding: 5px;
+    text-align: center;
+}
+
+#jadwalSholat th {
+    background-color: #800000;
+    color: white;
+}
+
+#jadwalSholat td {
+    background-color: #f4f4f4;
+    font-weight: bold; /* Teks bold */
+    text-align: center;
+}
+
     </style>
+
 </head>
+
 <body>
+
     <header>Rumah Tahfidz Saijaan <br> Ramadhan 1446 H</header>
+
     <div class="container">
+
         <div class="button-group">
+
             <button class="btn-harian" onclick="location.href='petugas.html'">Pembimbing Harian</button>
+
             <button class="btn-iftar" onclick="location.href='jadwal.html'">Jadwal Penyedia Iftar</button>
+
             <button class="btn-tarawih" onclick="location.href='imam.html'">Petugas Tarawih</button>
+
         </div>
+
+
 
         <div class="tanggal" id="tanggal-sekarang">Memuat tanggal...</div>
 
-        <div class="label">
-            <table id="pembimbingTable">
-                <tr>
-                    <th colspan="2">Pembimbing Harian</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
+<div class="label" id="jadwalSholat">
+    <table>
+        <thead>
+            <tr>
+                <th>Imsak</th>
+                <th>Subuh</th>
+                <th>Maghrib</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="imsak">-</td>
+                <td id="subuh">-</td>
+                <td id="maghrib">-</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
         <div class="label">
-            <table id="petugasTarawihTable">
+
+            <table id="pembimbingTable">
+
                 <tr>
-                    <th colspan="2">Petugas Tarawih</th>
+
+                    <th colspan="2">Pembimbing Harian</th>
+
                 </tr>
+
                 <tr>
-                    <td><strong>Imam Tarawih</strong></td>
+
                     <td></td>
-                </tr>
-                <tr>
-                    <td><strong>Imam Witir</strong></td>
+
                     <td></td>
+
                 </tr>
+
                 <tr>
-                    <td><strong>Shalawat</strong></td>
+
                     <td></td>
-                </tr>
-                <tr>
-                    <td><strong>Adzan</strong></td>
+
                     <td></td>
+
                 </tr>
+
             </table>
+
         </div>
+
+
+
+        <div class="label">
+
+            <table id="petugasTarawihTable">
+
+                <tr>
+
+                    <th colspan="2">Petugas Tarawih</th>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Imam Tarawih</strong></td>
+
+                    <td></td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Imam Witir</strong></td>
+
+                    <td></td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Shalawat</strong></td>
+
+                    <td></td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Adzan</strong></td>
+
+                    <td></td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
 
         <button id="btnIftar" class="btn-iftar" style="margin: 20px auto;">Penyedia Iftar Hari Ini</button>
 
+
+
         <div id="iftarModal" class="modal">
+
             <div class="modal-content">
+
                 <span class="close">&times;</span>
+
                 <h2>Penyedia Iftar Hari Ini</h2>
+
                 <div id="iftarContent"></div>
+
             </div>
+
         </div>
+
         
+
 <a href="imsakiyah.html" class="btn-imsakiyah" 
+
    style="text-align: center; display: inline-block; text-decoration: none; padding: 12px 24px; 
+
           border-radius: 5px; font-size: 16px; font-weight: bold; width: auto; min-width: 200px; 
+
           background: #800000; color: white;">
+
     Jadwal Imsakiyah
+
 </a>
+
         
+
     </div>
+
     <footer>&copy; 2025 Rumah Tahfidz Saijaan</footer>
 
+
+
 <script>
+
         const scheduleData = [
             // Data untuk setiap hari
-            { tanggal: "Senin, 17 Februari 2026", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
-            { tanggal: "Kamis, 06 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["ASTRID", "BASRIAH"] }
+            { tanggal: "Rabu, 05 Maret 2025", ustadz: ["FAHRUL", "TAHMID"], ustadzah: ["DINDA", "DIAH"] },
+            { tanggal: "Kamis, 06 Maret 2025", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
+            { tanggal: "Jumat, 07 Maret 2025", ustadz: ["HAIDIR", "SYARIF"], ustadzah: ["BASRIAH", "AYA"] },
+            { tanggal: "Sabtu, 08 Maret 2025", ustadz: ["HUSSAINI", "SYARIF"], ustadzah: ["ASIAH", "SANAH"] },
+            { tanggal: "Minggu, 09 Maret 2025", ustadz: ["SYARIF", "THOHIR"], ustadzah: ["DIAH", "IPAH"] },
+            { tanggal: "Senin, 10 Maret 2025", ustadz: ["MUSAWIR", "HAIDIR"], ustadzah: ["NISA", "RISDA"] },
+            { tanggal: "Selasa, 11 Maret 2025", ustadz: ["JUFRI", "UMAM"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Rabu, 12 Maret 2025", ustadz: ["SYAMSI", "JUNI WARDANI"], ustadzah: ["SHALATIYAH", "NISA"] },
+            { tanggal: "Kamis, 13 Maret 2025", ustadz: ["TAHMID", "JUFRI"], ustadzah: ["ASTRID", "ASIAH"] },
+            { tanggal: "Jumat, 14 Maret 2025", ustadz: ["SALIM", "MUSAWIR"], ustadzah: ["DIAH", "DINDA"] },
+            { tanggal: "Sabtu, 15 Maret 2025", ustadz: ["HUSSAINI", "SOFYAN"], ustadzah: ["SHALATIYAH", "HILAL"] },
+            { tanggal: "Minggu, 16 Maret 2025", ustadz: ["BAHAUDIN", "THOHIR"], ustadzah: ["DINDA", "ASTRID"] },
+            { tanggal: "Senin, 17 Maret 2025", ustadz: ["SOFYAN", "SYAMSI"], ustadzah: ["ICHA", "AYA"] },
+            { tanggal: "Selasa, 18 Maret 2025", ustadz: ["FAHRUL", "UMAM"], ustadzah: ["EVI", "ICHA"] },
+            { tanggal: "Rabu, 19 Maret 2025", ustadz: ["JUNI WARDANI", "SALIM"], ustadzah: ["RISDA", "EVI"] },
+            { tanggal: "Kamis, 20 Maret 2025", ustadz: ["BAHAUDIN", "HAIDIR"], ustadzah: ["NISA", "HILAL"] },
+            { tanggal: "Jumat, 21 Maret 2025", ustadz: ["MUSAWIR", "SOFYAN"], ustadzah: ["SANAH", "IPAH"] },
+            { tanggal: "Sabtu, 22 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["ASTRID", "BASRIAH"] }
         ];
+
+
 
         const jadwalPetugas = [
-            { tanggal: "17 Februari 2026", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+
+            { tanggal: "05 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
+
             { tanggal: "06 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] },
+
             { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] }
+
         ];
 
+
+
 function formatDate(date) {
+
             const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
             const bulan = [
+
                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+
             ];
+
             
+
             const dayName = hari[date.getDay()];
+
             const d = date.getDate().toString().padStart(2, '0');
+
             const m = bulan[date.getMonth()];
+
             const y = date.getFullYear();
+
             
+
             return `${dayName}, ${d} ${m} ${y}`;
+
         }
+
+
 
         function updatePembimbing() {
+
             const today = new Date();
+
             const formattedDate = formatDate(today);
+
             
+
             const scheduleToday = scheduleData.find(schedule => schedule.tanggal === formattedDate);
+
             const pembimbingTable = document.getElementById('pembimbingTable');
 
+
+
             if (scheduleToday) {
+
                 pembimbingTable.innerHTML = `
+
                     <tr>
+
                         <th colspan="2">Pembimbing Harian</th>
+
                     </tr>
+
                     <tr>
+
                         <td>USTADZ ${scheduleToday.ustadz[0]}</td>
+
                         <td>USTADZ ${scheduleToday.ustadz[1]}</td>
+
                     </tr>
+
                     <tr>
+
                         <td>USTADZAH ${scheduleToday.ustadzah[0]}</td>
+
                         <td>USTADZAH ${scheduleToday.ustadzah[1]}</td>
+
                     </tr>
+
                 `;
+
             } else {
+
                 pembimbingTable.innerHTML = `
+
                     <tr>
+
                         <th colspan="2">Pembimbing Harian</th>
+
                     </tr>
+
                     <tr>
+
 <td colspan="2" style="text-align: center; background-color: green; color: white; padding: 10px; font-weight: bold;">
+
     TIDAK ADA PEMBIMBING HARIAN UNTUK HARI INI
+
 </td>
+
                     </tr>
+
                 `;
+
             }
+
+
 
             console.log("Semua tanggal yang tersedia:", scheduleData.map(d => d.tanggal));
+
             console.log("Format tanggal hari ini:", formattedDate);
+
         }
+
+
 
         async function getTanggalHijriah() {
+
             try {
+
                 // Ambil tanggal Masehi hari ini dalam format DD-MM-YYYY
+
                 let today = new Date();
+
                 let dd = String(today.getDate()).padStart(2, '0');
+
                 let mm = String(today.getMonth() + 1).padStart(2, '0'); // Januari = 0
+
                 let yyyy = today.getFullYear();
+
                 let masehiFormatted = `${dd}-${mm}-${yyyy}`;
 
+
+
                 let response = await fetch(`https://api.aladhan.com/v1/gToH?date=${masehiFormatted}`);
+
                 let data = await response.json();
 
+
+
                 // Ambil tanggal Masehi dari sistem lokal
+
                 let tanggalMasehi = today.toLocaleDateString("id-ID", {
+
                     day: "numeric",
+
                     month: "long",
+
                     year: "numeric"
+
                 });
 
+
+
                 // Pastikan respons API memiliki data yang diharapkan
+
                 if (data && data.data && data.data.hijri) {
+
                     let hijriyah = data.data.hijri;
+
                     let tanggalHijriah = `${hijriyah.day} ${hijriyah.month.en} ${hijriyah.year} H`;
 
+
+
                     // Tampilkan di elemen dengan id "tanggal-sekarang"
+
                     document.getElementById("tanggal-sekarang").innerHTML = `${tanggalMasehi} / ${tanggalHijriah}`;
+
                 } else {
+
                     throw new Error("Format data API tidak sesuai.");
+
                 }
+
             } catch (error) {
+
                 document.getElementById("tanggal-sekarang").innerHTML = "Gagal memuat tanggal.";
+
                 console.error("Error mengambil data:", error);
+
             }
+
         }
+
+
 
         function updatePetugasTarawih() {
+
             const today = new Date();
+
             const formattedDate = formatDate(today);
+
             
+
             const [dayName, date] = formattedDate.split(', ');
+
             
+
             const jadwalHariIni = jadwalPetugas.find(jadwal => jadwal.tanggal === date);
+
             const petugasTable = document.getElementById('petugasTarawihTable');
 
+
+
             if (jadwalHariIni) {
+
                 petugasTable.innerHTML = `
+
                     <tr>
+
                         <th colspan="2">Petugas Tarawih</th>
+
                     </tr>
+
                     <tr>
+
                         <td><strong>Imam Tarawih</strong></td>
+
                         <td>${jadwalHariIni.imam.toUpperCase()}</td>
+
                     </tr>
+
                     ${jadwalHariIni.juz ? `
+
                     <tr>
+
                         <td><strong>Juz</strong></td>
+
                         <td>${jadwalHariIni.juz.toUpperCase()}</td>
+
                     </tr>
+
                     ` : ''}
+
                     <tr>
+
                         <td><strong>Imam Witir</strong></td>
+
                         <td>${jadwalHariIni.imamWitir.toUpperCase()}</td>
+
                     </tr>
+
                     <tr>
+
                         <td><strong>Shalawat</strong></td>
+
                         <td>${jadwalHariIni.sholawat.map(s => s.toUpperCase()).join('<br>')}</td>
+
                     </tr>
+
                     <tr>
+
                         <td><strong>Adzan</strong></td>
+
                         <td>${jadwalHariIni.adzan.map(a => a.toUpperCase()).join('<br>')}</td>
+
                     </tr>
+
                 `;
+
             } else {
+
                 petugasTable.innerHTML = `
+
                     <tr>
+
                         <th colspan="2">Petugas Tarawih</th>
+
                     </tr>
+
                     <tr>
+
                         <td colspan="2" style="text-align: center; background-color: green; color: white; padding: 10px; font-weight: bold;">
+
                             TIDAK ADA PETUGAS TARAWIH UNTUK HARI INI
+
                         </td>
+
                     </tr>
+
                 `;
+
             }
+
         }
 
+
+
         // Panggil fungsi saat halaman dimuat
+
         window.onload = function() {
+
             getTanggalHijriah();
+
             updatePembimbing();
+
             updatePetugasTarawih();
+
         };
 
-        
         const iftar = {
 "05-03-2025": [
     {
@@ -1528,81 +2008,220 @@ function formatDate(date) {
         }
     ]
 };
+
+
         // Modal functionality
+
         const modal = document.getElementById("iftarModal");
+
         const btn = document.getElementById("btnIftar");
+
         const span = document.getElementsByClassName("close")[0];
 
+
+
         btn.onclick = async function() {
+
             const today = new Date();
+
             // Format untuk pencarian data (tetap dalam format DD-MM-YYYY)
+
             const formattedDate = today.toLocaleDateString('en-CA').split('-').reverse().join('-');
+
             
+
             try {
+
                 // Ambil tanggal Masehi dalam format DD-MM-YYYY untuk API
+
                 let dd = String(today.getDate()).padStart(2, '0');
+
                 let mm = String(today.getMonth() + 1).padStart(2, '0');
+
                 let yyyy = today.getFullYear();
+
                 let masehiFormatted = `${dd}-${mm}-${yyyy}`;
 
+
+
                 let response = await fetch(`https://api.aladhan.com/v1/gToH?date=${masehiFormatted}`);
+
                 let data = await response.json();
 
+
+
                 // Format tanggal Masehi yang lebih bagus
+
                 let tanggalMasehi = today.toLocaleDateString("id-ID", {
+
                     day: "numeric",
+
                     month: "long",
+
                     year: "numeric"
+
                 });
 
+
+
                 // Format tanggal Hijriah
+
                 let hijriyah = data.data.hijri;
+
                 let tanggalHijriah = `${hijriyah.day} ${hijriyah.month.en} ${hijriyah.year} H`;
+
                 
+
                 const iftarContent = document.getElementById("iftarContent");
+
                 const todayData = iftar[formattedDate];
+
                 
+
                 if (todayData) {
+
                     let tableHTML = `
+
                         <h3>${tanggalMasehi} <br> ${tanggalHijriah}</h3>
+
                         <table>
+
                             <tr>
+
                                 <th>Santri</th>
+
                                 <th>Pembimbing</th>
+
                             </tr>
+
                     `;
+
                     
+
                     todayData.forEach(item => {
+
                         tableHTML += `
+
                             <tr>
+
                                 <td>${item.santri}</td>
+
                                 <td>${item.pembimbing}</td>
+
                             </tr>
+
                         `;
+
                     });
+
                     
+
                     tableHTML += '</table>';
+
                     iftarContent.innerHTML = tableHTML;
+
                 } else {
+
                     iftarContent.innerHTML = `<p>Tidak ada jadwal iftar untuk ${tanggalMasehi} / ${tanggalHijriah}</p>`;
+
                 }
+
                 
+
                 modal.style.display = "block";
+
             } catch (error) {
+
                 console.error("Error mengambil data tanggal Hijriah:", error);
+
                 iftarContent.innerHTML = '<p>Gagal memuat jadwal iftar.</p>';
+
             }
+
         }
+
+
 
         span.onclick = function() {
+
             modal.style.display = "none";
+
         }
 
+
+
         window.onclick = function(event) {
+
             if (event.target == modal) {
+
                 modal.style.display = "none";
+
             }
+
         }
+        
+        const jadwal = [
+    ["1 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:31", "15:38", "18:36", "19:44"],
+    ["2 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:31", "15:38", "18:35", "19:44"],
+    ["3 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:30", "15:37", "18:35", "19:44"],
+    ["4 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:30", "15:36", "18:35", "19:43"],
+    ["5 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:30", "15:35", "18:34", "19:43"],
+    ["6 Ramadan", "04:57", "05:07", "06:19", "06:46", "12:30", "15:34", "18:34", "19:43"],
+    ["7 Ramadan", "04:57", "05:07", "06:18", "06:46", "12:30", "15:33", "18:34", "19:42"],
+    ["8 Ramadan", "04:57", "05:07", "06:18", "06:45", "12:29", "15:32", "18:33", "19:42"],
+    ["9 Ramadan", "04:57", "05:07", "06:18", "06:45", "12:29", "15:31", "18:33", "19:41"],
+    ["10 Ramadan", "04:57", "05:07", "06:18", "06:45", "12:29", "15:30", "18:33", "19:41"],
+    ["11 Ramadan", "04:56", "05:06", "06:18", "06:45", "12:29", "15:29", "18:32", "19:41"],
+    ["12 Ramadan", "04:56", "05:06", "06:18", "06:45", "12:28", "15:28", "18:32", "19:40"],
+    ["13 Ramadan", "04:56", "05:06", "06:17", "06:44", "12:28", "15:28", "18:32", "19:40"],
+    ["14 Ramadan", "04:56", "05:06", "06:17", "06:44", "12:28", "15:28", "18:31", "19:39"],
+    ["15 Ramadan", "04:56", "05:06", "06:17", "06:44", "12:27", "15:29", "18:31", "19:39"],
+    ["16 Ramadan", "04:56", "05:06", "06:17", "06:44", "12:27", "15:29", "18:30", "19:39"],
+    ["17 Ramadan", "04:56", "05:06", "06:17", "06:44", "12:27", "15:30", "18:30", "19:38"],
+    ["18 Ramadan", "04:55", "05:05", "06:16", "06:44", "12:27", "15:30", "18:30", "19:38"],
+    ["19 Ramadan", "04:55", "05:05", "06:16", "06:43", "12:26", "15:30", "18:29", "19:37"],
+    ["20 Ramadan", "04:55", "05:05", "06:16", "06:43", "12:26", "15:31", "18:29", "19:37"],
+    ["21 Ramadan", "04:55", "05:05", "06:16", "06:43", "12:26", "15:31", "18:29", "19:37"],
+    ["22 Ramadan", "04:55", "05:05", "06:16", "06:43", "12:26", "15:32", "18:29", "19:37"],
+    ["23 Ramadan", "04:54", "05:04", "06:15", "06:42", "12:25", "15:32", "18:28", "19:36"],
+    ["24 Ramadan", "04:54", "05:04", "06:15", "06:42", "12:25", "15:32", "18:27", "19:36"],
+    ["25 Ramadan", "04:54", "05:04", "06:15", "06:42", "12:25", "15:32", "18:27", "19:35"],
+    ["26 Ramadan", "04:54", "05:04", "06:15", "06:42", "12:24", "15:32", "18:27", "19:35"],
+    ["27 Ramadan", "04:53", "05:03", "06:15", "06:42", "12:24", "15:33", "18:26", "19:34"],
+    ["28 Ramadan", "04:53", "05:03", "06:14", "06:41", "12:24", "15:33", "18:26", "19:34"],
+    ["29 Ramadan", "04:53", "05:03", "06:14", "06:41", "12:23", "15:33", "18:25", "19:34"],
+    ["30 Ramadan", "04:53", "05:03", "06:14", "06:41", "12:23", "15:33", "18:25", "19:33"]
+];
+
+function updateJadwalSholat() {
+    const today = new Date();
+    const formattedDate = formatDate(today);
+    const [dayName, date] = formattedDate.split(', ');
+
+    // Cari tanggal yang sesuai dalam array jadwal
+    const jadwalHariIni = jadwal.find(j => j[0] === `1 Ramadan`); // Ganti dengan logika pencarian yang sesuai
+
+    if (jadwalHariIni) {
+        document.getElementById("imsak").textContent = jadwalHariIni[1];
+        document.getElementById("subuh").textContent = jadwalHariIni[2];
+        document.getElementById("maghrib").textContent = jadwalHariIni[6];
+    } else {
+        document.getElementById("imsak").textContent = "-";
+        document.getElementById("subuh").textContent = "-";
+        document.getElementById("maghrib").textContent = "-";
+    }
+}
+
+// Panggil fungsi updateJadwalSholat saat halaman dimuat
+window.onload = function() {
+    getTanggalHijriah();
+    updatePembimbing();
+    updatePetugasTarawih();
+    updateJadwalSholat(); // Tambahkan ini
+};
+
 </script>
+
 </body>
+
 </html>
