@@ -344,6 +344,21 @@
             min-width: 120px;
             max-width: 200px;
         }
+        
+.filter-group input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%; /* Input akan menyesuaikan lebar parent-nya */
+    max-width: 300px; /* Lebar maksimum input */
+}
+
+.filter-group input:focus {
+    outline: none;
+    border-color: maroon;
+    box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
+}
     </style>
 </head>
 <body>
@@ -356,19 +371,27 @@
 
         <div class="controls">
             <div class="filter-group">
-                <label for="filterTanggal">Tanggal:</label>
+                <label for="filterTanggal">Tanggal</label>
                 <select id="filterTanggal">
                     <option value="all">Semua</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="filterPembimbing">Pembimbing:</label>
+                <label for="filterPembimbing">Pembimbing</label>
                 <select id="filterPembimbing">
                     <option value="all">Semua</option>
                 </select>
             </div>
+
+                    <div class="filter-group">
+    <label for="searchSantri">Cari Santri</label>
+    <input type="text" id="searchSantri" placeholder="Minimal 3 huruf">
+</div>
+
             <button onclick="resetFilters()" class="reset-btn">Reset Filter</button>
         </div>
+        
+
 
         <!-- Wrap table in container -->
         <div class="table-container">
@@ -423,7 +446,7 @@
         const filterTanggal = document.getElementById("filterTanggal");
 
         // Simulasi data jadwal santri & pembimbing
-        const scheduleData = {
+                const scheduleData = {
 "05-03-2025": [
 {
             "santri": "JALALLUDIN AS-SYAYUTI",
@@ -1696,20 +1719,19 @@
         }
 
         function resetFilters() {
-            const filterTanggal = document.getElementById("filterTanggal");
-            const filterPembimbing = document.getElementById("filterPembimbing");
-            
-            // Reset nilai filter
-            filterTanggal.value = "all";
-            filterPembimbing.value = "all";
-            
-            // Aktifkan kembali kedua filter
-            filterTanggal.disabled = false;
-            filterPembimbing.disabled = false;
-            
-            // Generate ulang tabel
-            generateTable("all", "all");
-        }
+    const filterTanggal = document.getElementById("filterTanggal");
+    const filterPembimbing = document.getElementById("filterPembimbing");
+    const searchSantri = document.getElementById("searchSantri");
+
+    filterTanggal.value = "all";
+    filterPembimbing.value = "all";
+    searchSantri.value = "";
+
+    filterTanggal.disabled = false;
+    filterPembimbing.disabled = false;
+
+    generateTable();
+}
 
         // Event listeners untuk filter
         document.getElementById("filterTanggal").addEventListener("change", function() {
@@ -1756,6 +1778,113 @@
         // Initialize
         populateDropdowns();
         generateTable();
+        
+        function searchSantri(query) {
+    const filteredData = {};
+    const lowerCaseQuery = query.toLowerCase();
+
+    for (const tanggal in scheduleData) {
+        const filteredEntries = scheduleData[tanggal].filter(entry => 
+            entry.santri.toLowerCase().includes(lowerCaseQuery)
+        );
+        if (filteredEntries.length > 0) {
+            filteredData[tanggal] = filteredEntries;
+        }
+    }
+
+    return filteredData;
+}
+
+function handleSearch() {
+    const searchInput = document.getElementById('searchSantri');
+    const query = searchInput.value.trim();
+
+    if (query.length >= 3) {
+        const filteredData = searchSantri(query);
+        generateTableWithData(filteredData);
+    } else {
+        generateTable();
+    }
+}
+
+function generateTableWithData(data) {
+    tbody.innerHTML = "";
+    printTbody.innerHTML = "";
+    let no = 1;
+    let dailyNo = 1;
+    let dateGroupCounter = 0;
+
+    const sortedDates = Object.keys(data).sort((a, b) => {
+        const dateA = new Date(a.split('-').reverse().join('-'));
+        const dateB = new Date(b.split('-').reverse().join('-'));
+        return dateA - dateB;
+    });
+
+    for (let tanggal of sortedDates) {
+        let santriList = data[tanggal] || [];
+
+        if (santriList.length > 0) {
+            let firstRow = true;
+            let rowspan = santriList.length;
+            dailyNo = 1;
+
+            dateGroupCounter++;
+            const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
+
+            santriList.forEach((entry) => {
+                const row = document.createElement('tr');
+                row.classList.add(groupClass);
+
+                if (firstRow) {
+                    row.innerHTML = `
+                        <td rowspan="${rowspan}">${no}</td>
+                        <td rowspan="${rowspan}">${tanggal}</td>
+                        <td>${dailyNo}</td>
+                        <td>${entry.santri}</td>
+                        <td>${entry.pembimbing}</td>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <td>${dailyNo}</td>
+                        <td>${entry.santri}</td>
+                        <td>${entry.pembimbing}</td>
+                    `;
+                }
+                tbody.appendChild(row);
+
+                const printRow = document.createElement('tr');
+                printRow.classList.add(groupClass);
+                if (firstRow) {
+                    printRow.innerHTML = `
+                        <td rowspan="${rowspan}">${dailyNo}</td>
+                        <td rowspan="${rowspan}">${tanggal}</td>
+                        <td>${entry.santri}</td>
+                    `;
+                } else {
+                    printRow.innerHTML = `
+                        <td>${entry.santri}</td>
+                    `;
+                }
+                printTbody.appendChild(printRow);
+
+                if (firstRow) {
+                    firstRow = false;
+                    no++;
+                }
+                dailyNo++;
+            });
+        }
+    }
+}
+
+document.getElementById('searchSantri').addEventListener('input', function() {
+    handleSearch();
+});
+        
+        
+        
+        
+        
     </script>
 </body>
 </html>
