@@ -613,14 +613,61 @@
 
 
         const jadwalPetugas = [
-
-            { tanggal: "05 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
-
-            { tanggal: "06 Maret 2025", imam: "Muhammad Shidqii Fadhillah", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] },
-
-            { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "M. Rizky", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] }
-
-        ];
+    { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["M. Rama Fakhrullah (H)", "M. Nasyid Haikal (HS)"], 
+      adzan: ["M. Akbar Safaruddin (T)", "Gusti Hanif Al Khalifi (S)"] },
+    { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["Ahmad Faiq Fahmi (R)", "M. Rizky Zaidan (J)"], 
+      adzan: ["M. Rafka Anwar (U)", "M. Adli Maulana (R)"] },
+    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["M. Hafidz Ramadhanis (S)", "M. Adam Al Fatih (R)"], 
+      adzan: ["Ahmad Faiq Fahmi (R)", "Ariansyah (SY)"] },
+    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["M. Fatih Mubarok (T)", "M. Arkan Ramadhan (A)"], 
+      adzan: ["Faiz Hazmi Anwari (SY)", "M. Nasyid Haikal (HS)"] },
+    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["Alfarizky Meilan Pratama (T)", "M. Hanan Al Faiz (HS)"], 
+      adzan: ["M. Zainul Sulthan (H)", "M. Aylaby Fathory (A)"] },
+    { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["M. Khairil Akmal (I)", "M. Yusuf Madani (J)"], 
+      adzan: ["M. Rama Fakhrullah (H)", "M. Haikal Bagus (T)"] },
+    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["Faeza Hasan Azhari (H)", "M. Haikal Bagus (T)"], 
+      adzan: ["Farhan Rasyad Farandy (H)", "M. Alif Yahsan (A)"] },
+    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Ahmad Dirjat Abdala", 
+      sholawat: ["M. Habibi Darussalam (H)", "M. Aylaby Fathory (A)"], 
+      adzan: ["M. Yusuf Madani (J)", "Alfarizky Meilan Pratama (T)"] },
+    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Ahmad Dirjat Abdala", 
+      sholawat: ["M. Restu Firdaus (I)", "M. Rizky Zaidan (J)"], 
+      adzan: ["Muhammad Ulil Albab (A)", "M. Hanan Al Faiz (HS)"] },
+    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["Muhammad Ulil Albab (A)", "Faiz Hazmi Anwari (SY)"], 
+      adzan: ["Ahmad Galih Prihandowo (SY)", "Faeza Hasan Azhari (H)"] },
+    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["M. Akbar Safaruddin (T)", "M. Adli Maulana (R)"], 
+      adzan: ["M. Naufal Faeza (U)", "M. Rafka Anwar (U)"] },
+    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rafi Syahdilla", 
+      sholawat: ["M. Zainul Sulthan (H)", "M. Naufal Faeza (U)"], 
+      adzan: ["M. Nahru Rohman (I)", "M. Khairil Akmal (I)"] },
+    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Rafi Syahdilla", 
+      sholawat: ["M. Alif Yahsan (A)", "M. Faiq Jayyidan (H)"], 
+      adzan: ["M. Hafidz Ramadhanis (S)", "M. Rama Fakhrullah (H)"] },
+    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["M. Multazam (A)", "Gusti Hanif Al Khalifi (S)"], 
+      adzan: ["M. Arkan Ramadhan (A)", "Ariansyah (SY)"] },
+    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["Farhan Rasyad Farandy (H)", "Ahmad Galih Prihandowo (SY)"], 
+      adzan: ["Rakha Nurhafidzan (J)", "M. Habibi Darussalam (H)"] },
+    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["M. Nahru Rohman (I)", "M. Restu Firdaus (I)"], 
+      adzan: ["M. Multazam (A)", "M. Rizky Zaidan (J)"] },
+    { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["Rakha Nurhafidzan (J)", "M. Fatih Mubarok (T)"], 
+      adzan: ["M. Faiq Jayyidan (H)", "M. Alif Yahsan (A)"] },
+    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["Ariansyah (SY)", "M. Habibi Darussalam (H)"], 
+      adzan: ["M. Adam Al Fatih (R)", "Ahmad Faiq Fahmi (R)"] }
+];
 
 
 
