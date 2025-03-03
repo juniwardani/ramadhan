@@ -285,6 +285,24 @@ h2 {
         position: static !important;
     }
 }
+
+/* Tambahkan style untuk baris hari ini */
+.table-row.today {
+    background-color: #fff3cd !important;
+    border: 2px solid #ffc107;
+    position: relative;
+}
+
+.table-row.today .table-cell {
+    background-color: #fff3cd !important;
+    font-weight: bold;
+    color: #856404;
+}
+
+/* Memastikan warna tetap konsisten saat hover */
+.table-row.today:hover .table-cell {
+    background-color: #fff3cd !important;
+}
 </style>
 
 <body>
@@ -370,9 +388,29 @@ const jadwal = [
 
 const tableBody = document.getElementById('tableBody');
 
-jadwal.forEach(row => {
+// Fungsi untuk mendapatkan tanggal Ramadhan hari ini
+function getRamadhanDay() {
+    const startDate = new Date(2025, 2, 1); // 1 Maret 2025
+    const today = new Date();
+    
+    // Jika belum masuk Ramadhan atau sudah lewat Ramadhan
+    if (today < startDate || today > new Date(2025, 2, 30)) {
+        return -1;
+    }
+    
+    const diffTime = Math.abs(today - startDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays + 1; // +1 karena dimulai dari hari pertama
+}
+
+jadwal.forEach((row, index) => {
     const rowElement = document.createElement('div');
     rowElement.className = 'table-row';
+    
+    // Tambahkan kelas 'today' jika ini adalah baris hari ini
+    if (index + 1 === getRamadhanDay()) {
+        rowElement.classList.add('today');
+    }
     
     row.forEach(cell => {
         const cellElement = document.createElement('div');
