@@ -113,6 +113,7 @@
             font-weight: bold;
 
             margin-bottom: 5px;
+            margin-top: 15px;
 
         }
 
@@ -427,6 +428,22 @@
 
         </div>
 
+        <div style="display: flex; gap: 10px;">
+            <a href="imsakiyah.html" class="btn-imsakiyah" 
+               style="text-align: center; display: inline-block; text-decoration: none; padding: 12px 24px; 
+                      border-radius: 5px; font-size: 16px; font-weight: bold; min-width: 200px; 
+                      background: #800000; color: white;">
+                Jadwal Imsakiyah
+            </a>
+        
+            <a href="piket.html" class="btn-piket" 
+               style="text-align: center; display: inline-block; text-decoration: none; padding: 12px 24px; 
+                      border-radius: 5px; font-size: 16px; font-weight: bold; min-width: 200px; 
+                      background: #004080; color: white;">
+                Jadwal Piket
+            </a>
+        </div>
+
 
 
         <div class="tanggal" id="tanggal-sekarang">Memuat tanggal...</div>
@@ -530,6 +547,20 @@
 
 
 
+        <!-- Tambahkan div untuk tabel piket setelah tabel Petugas Tarawih -->
+        <div class="label">
+            <table id="piketTable">
+                <tr>
+                    <th colspan="3">Piket Harian</th>
+                </tr>
+                <tr>
+                    <td><strong>Kelas</strong></td>
+                    <td><strong>Waktu</strong></td>
+                    <td><strong>Pembimbing</strong></td>
+                </tr>
+            </table>
+        </div>
+
         <button id="btnIftar" class="btn-iftar" style="margin: 20px auto;">Penyedia Iftar Hari Ini</button>
 
 
@@ -549,26 +580,6 @@
         </div>
 
         
-
-<div style="display: flex; gap: 10px;">
-    <a href="imsakiyah.html" class="btn-imsakiyah" 
-       style="text-align: center; display: inline-block; text-decoration: none; padding: 12px 24px; 
-              border-radius: 5px; font-size: 16px; font-weight: bold; min-width: 200px; 
-              background: #800000; color: white;">
-        Jadwal Imsakiyah
-    </a>
-
-    <a href="piket.html" class="btn-piket" 
-       style="text-align: center; display: inline-block; text-decoration: none; padding: 12px 24px; 
-              border-radius: 5px; font-size: 16px; font-weight: bold; min-width: 200px; 
-              background: #004080; color: white;">
-        Jadwal Piket
-    </a>
-</div>
-
-
-        
-
     </div>
 
     <footer>&copy; 2025 Rumah Tahfidz Saijaan</footer>
@@ -900,6 +911,10 @@ function formatDate(date) {
             updatePembimbing();
 
             updatePetugasTarawih();
+
+            updateJadwalSholat();
+
+            updatePiket();
 
         };
 
@@ -2198,27 +2213,104 @@ function formatDate(date) {
     ["30 Maret 2025", "04:53", "05:03", "06:14", "06:41", "12:23", "15:33", "18:25", "19:33"]  
 ];
 
-const today = new Date();
-const formattedDate = today.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+function updateJadwalSholat() {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('id-ID', { 
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    });
 
-const jadwalHariIni = jadwal.find(j => j[0] === formattedDate);
+    // Cari jadwal untuk hari ini
+    const jadwalHariIni = jadwal.find(j => {
+        // Konversi format tanggal dari array jadwal (01 Maret 2025) ke format yang sama dengan formattedDate
+        const [day, month, year] = j[0].split(' ');
+        return `${day} ${month} ${year}` === formattedDate;
+    });
 
-if (jadwalHariIni) {
-    document.getElementById("imsak").textContent = jadwalHariIni[1];
-    document.getElementById("subuh").textContent = jadwalHariIni[2];
-    document.getElementById("maghrib").textContent = jadwalHariIni[7];
-} else {
-    document.getElementById("imsak").textContent = "-";
-    document.getElementById("subuh").textContent = "-";
-    document.getElementById("maghrib").textContent = "-";
+    if (jadwalHariIni) {
+        document.getElementById("imsak").textContent = jadwalHariIni[1];
+        document.getElementById("subuh").textContent = jadwalHariIni[2];
+        document.getElementById("maghrib").textContent = jadwalHariIni[7];
+    } else {
+        document.getElementById("imsak").textContent = "-";
+        document.getElementById("subuh").textContent = "-";
+        document.getElementById("maghrib").textContent = "-";
+    }
 }
 
-// Panggil fungsi updateJadwalSholat saat halaman dimuat
+// Tambahkan array piket
+const piket = [
+    {tanggal: "05/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Haidir"], kelas_2: ["Jilid Quran (Sore)", "Ustadzah Risda"]},
+    {tanggal: "06/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Hussaini"], kelas_2: ["Jilid Quran (Sore)", "Ustadzah Ipah"]},
+    {tanggal: "07/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadzah Risda"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Umam"]},
+    {tanggal: "08/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Sofyan"], kelas_2: ["Jilid Quran (Siang)", "Ustadzah Ipah"]},
+    {tanggal: "09/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadzah Astrid"], kelas_2: ["Jilid Quran (Siang)", "Ustadzah Risda"]},
+    {tanggal: "10/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadzah Ipah"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Syarif"]},
+    {tanggal: "11/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Jufri"], kelas_2: ["Jilid Quran (Siang)", "Ustadzah Astrid"]},
+    {tanggal: "12/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadz Haidir"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Jufri"]},
+    {tanggal: "13/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadz Hussaini"], kelas_2: ["Jilid Quran (Siang)", "Ustadz Jufri"]},
+    {tanggal: "14/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadzah Risda"], kelas_2: ["Jilid Quran (Siang)", "Ustadz Hussaini"]},
+    {tanggal: "15/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadz Sofyan"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Hussaini"]},
+    {tanggal: "16/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadzah Astrid"], kelas_2: ["Jilid Quran (Siang)", "Ustadz Sofyan"]},
+    {tanggal: "17/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadzah Ipah"], kelas_2: ["Jilid Quran (Siang)", "Ustadz Haidir"]},
+    {tanggal: "18/03/2025", kelas_1: ["Jilid Quran (Siang)", "Ustadz Jufri"], kelas_2: ["Jilid Quran (Sore)", "Ustadzah Astrid"]},
+    {tanggal: "19/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Tahmid"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Sofyan"]},
+    {tanggal: "20/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Umam"], kelas_2: ["Jilid Quran (Sore)", "Ustadzah Risda"]},
+    {tanggal: "21/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Syarif"], kelas_2: ["Jilid Quran (Sore)", "Ustadz Tahmid"]},
+    {tanggal: "22/03/2025", kelas_1: ["Jilid Quran (Sore)", "Ustadz Haidir"], kelas_2: ["Jilid Quran (Sore)", "Ustadzah Ipah"]}
+];
+
+// Tambahkan fungsi updatePiket
+function updatePiket() {
+    const today = new Date();
+    const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+    
+    const piketHariIni = piket.find(p => p.tanggal === formattedDate);
+    const piketTable = document.getElementById('piketTable');
+    
+    if (piketHariIni) {
+        piketTable.innerHTML = `
+            <tr>
+                <th colspan="3">Piket Harian</th>
+            </tr>
+            <tr>
+                <td><strong>Kelas</strong></td>
+                <td><strong>Waktu</strong></td>
+                <td><strong>Pembimbing</strong></td>
+            </tr>
+            <tr>
+                <td>Kelas 1</td>
+                <td>${piketHariIni.kelas_1[0]}</td>
+                <td>${piketHariIni.kelas_1[1]}</td>
+            </tr>
+            <tr>
+                <td>Kelas 2</td>
+                <td>${piketHariIni.kelas_2[0]}</td>
+                <td>${piketHariIni.kelas_2[1]}</td>
+            </tr>
+        `;
+    } else {
+        piketTable.innerHTML = `
+            <tr>
+                <th colspan="3">Piket Harian</th>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center; background-color: green; color: white; padding: 10px; font-weight: bold;">
+                    TIDAK ADA PIKET UNTUK HARI INI
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// Update window.onload untuk memanggil semua fungsi yang diperlukan
 window.onload = function() {
     getTanggalHijriah();
     updatePembimbing();
     updatePetugasTarawih();
-    updateJadwalSholat(); // Tambahkan ini
+    updateJadwalSholat();
+    updatePiket();
 };
 
 </script>
