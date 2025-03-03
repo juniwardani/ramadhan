@@ -51,6 +51,7 @@ h2 {
     width: 100%;
     overflow-x: auto;
     position: relative;
+    isolation: isolate;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -62,6 +63,8 @@ h2 {
     top: 0;
     z-index: 1000;
     white-space: nowrap;
+    background: inherit;
+    isolation: isolate;
 }
 
 .header-cell {
@@ -73,6 +76,7 @@ h2 {
     background: #1a237e;
     color: white;
     border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: relative;
 }
 
 /* Colored headers for specific columns */
@@ -82,33 +86,69 @@ h2 {
 .header-cell:nth-child(5) { background: #1565C0; }
 .header-cell:nth-child(6) { background: #6A1B9A; }
 
+/* Perlebar cell adzan dan sholawat */
+.header-cell:nth-child(5),
+.header-cell:nth-child(6),
+.table-cell:nth-child(5),
+.table-cell:nth-child(6) {
+    min-width: 200px;
+}
+
 /* Sticky Header dan Kolom Pertama */
 .header-cell:first-child,
 .table-cell:first-child {
     position: sticky;
     left: 0;
-    background: inherit;
-    z-index: 2;
-    min-width: 120px;
+    z-index: 1001;
+    isolation: isolate;
 }
 
 .header-cell:first-child {
-    z-index: 3;
-    background: #1a237e;
-    white-space: normal;
+    z-index: 1002;
+    background: #1a237e !important;
 }
 
-/* Table Structure */
+.table-cell:first-child {
+    z-index: 999;
+}
+
+/* Memastikan background color kolom pertama */
+.table-row:nth-child(even) .table-cell:first-child {
+    background-color: #f5f7ff !important;
+}
+
+.table-row:nth-child(odd) .table-cell:first-child {
+    background-color: #fff !important;
+}
+
+.table-row:hover .table-cell:first-child {
+    background-color: #e8eaf6 !important;
+}
+
+/* Memastikan background tetap solid saat scroll */
+.table-cell:first-child::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
+    z-index: 998;
+}
+
 .table-body {
     display: flex;
     flex-direction: column;
+    position: relative;
+    isolation: isolate;
 }
 
 .table-row {
     display: flex;
     border-bottom: 1px solid #e3e8f0;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    position: relative;
+    isolation: isolate;
 }
 
 /* Striped! Rows */
@@ -151,7 +191,7 @@ h2 {
     text-align: center;
     transition: background-color 0.2s ease;
     line-height: 1.4;
-    break-inside: avoid;
+    position: relative;
 }
 
 .table-cell:first-child {
@@ -280,12 +320,67 @@ h2 {
         font-size: 0.9rem;
     }
 
+    /* Perlebar cell adzan dan sholawat untuk mobile */
+    .header-cell:nth-child(5),
+    .header-cell:nth-child(6),
+    .table-cell:nth-child(5),
+    .table-cell:nth-child(6) {
+        min-width: 200px;  /* Konsisten dengan desktop */
+    }
+
+    /* Perbaikan sticky untuk mobile */
     .header-cell:first-child,
     .table-cell:first-child {
-        min-width: 120px;
-        font-size: 0.85rem;
+        position: sticky;
+        left: 0;
+        z-index: 1001;
+        isolation: isolate;
+        transform: translateZ(0);
+        will-change: transform;
     }
-    
+
+    .header-cell:first-child {
+        z-index: 1002;
+        background: #1a237e !important;
+    }
+
+    .table-cell:first-child {
+        z-index: 999;
+    }
+
+    /* Memastikan background tetap solid di layar kecil */
+    .table-row:nth-child(even) .table-cell:first-child {
+        background-color: #f5f7ff !important;
+    }
+
+    .table-row:nth-child(odd) .table-cell:first-child {
+        background-color: #fff !important;
+    }
+
+    .table-row:hover .table-cell:first-child {
+        background-color: #e8eaf6 !important;
+    }
+
+    /* Shadow effect untuk layar kecil */
+    .table-cell:first-child::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -2px;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
+        z-index: 998;
+    }
+
+    .sticky-header {
+        z-index: 1000;
+    }
+
+    .table-container {
+        -webkit-overflow-scrolling: touch; /* Untuk scroll yang lebih smooth di iOS */
+    }
+
     .site-title {
         font-size: 2rem;
     }
@@ -350,18 +445,51 @@ h2 {
 }
 
 /* Tambahkan style untuk kode pembimbing */
-.code-UHd { color: #E91E63; }
-.code-UT { color: #2196F3; }
-.code-UJ { color: #4CAF50; }
-.code-UU { color: #FF9800; }
-.code-UzR { color: #9C27B0; }
+.code-H { color: #E91E63; font-weight: bold; }
+.code-HS { color: #2196F3; font-weight: bold; }
+.code-T { color: #4CAF50; font-weight: bold; }
+.code-S { color: #FF9800; font-weight: bold; }
+.code-SY { color: #9C27B0; font-weight: bold; }
+.code-R { color: #795548; font-weight: bold; }
+.code-J { color: #607D8B; font-weight: bold; }
+.code-A { color: #FF5722; font-weight: bold; }
+.code-I { color: #009688; font-weight: bold; }
+.code-U { color: #3F51B5; font-weight: bold; }
 
 /* Style untuk hasil download */
-.download-code-UHd { color: #E91E63; font-weight: bold; }
-.download-code-UT { color: #2196F3; font-weight: bold; }
-.download-code-UJ { color: #4CAF50; font-weight: bold; }
-.download-code-UU { color: #FF9800; font-weight: bold; }
-.download-code-UzR { color: #9C27B0; font-weight: bold; }
+.download-code-H { color: #E91E63; font-weight: bold; }
+.download-code-HS { color: #2196F3; font-weight: bold; }
+.download-code-T { color: #4CAF50; font-weight: bold; }
+.download-code-S { color: #FF9800; font-weight: bold; }
+.download-code-SY { color: #9C27B0; font-weight: bold; }
+.download-code-R { color: #795548; font-weight: bold; }
+.download-code-J { color: #607D8B; font-weight: bold; }
+.download-code-A { color: #FF5722; font-weight: bold; }
+.download-code-I { color: #009688; font-weight: bold; }
+.download-code-U { color: #3F51B5; font-weight: bold; }
+
+/* Highlight untuk baris tanggal hari ini */
+.table-row.today {
+    background: rgba(255, 243, 224, 0.7) !important;
+    border: 2px solid #FF9800;
+    position: relative;
+}
+
+.table-row.today .table-cell {
+    background-color: rgba(255, 243, 224, 0.7) !important;
+}
+
+.table-row.today .table-cell:first-child,
+.table-row.today .table-cell:nth-child(2),
+.table-row.today .table-cell:nth-child(3),
+.table-row.today .table-cell:nth-child(4),
+.table-row.today .table-cell:nth-child(5),
+.table-row.today .table-cell:nth-child(6) {
+    background-color: rgba(255, 243, 224, 0.9) !important;
+    font-weight: bold;
+    color: #E65100;
+}
+
 </style>
 
 <body>
@@ -412,45 +540,91 @@ h2 {
 
     <script>
     	const jadwalPetugas = [
-    { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri A", "Santri B"], adzan: ["Santri C", "Santri D"] },
-    { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri E", "Santri F"], adzan: ["Santri G", "Santri H"] },
-    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri I", "Santri J"], adzan: ["Santri K", "Santri L"] },
-    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Rizqi Yazid", sholawat: ["Santri M", "Santri N"], adzan: ["Santri O", "Santri P"] },
-    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Rizqi Yazid", sholawat: ["Santri Q", "Santri R"], adzan: ["Santri S", "Santri T"] },
-    { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Nabil Riyadi", sholawat: ["Santri U", "Santri V"], adzan: ["Santri W", "Santri X"] },
-    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Nabil Riyadi", sholawat: ["Santri Y", "Santri Z"], adzan: ["Santri AA", "Santri BB"] },
-    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Ahmad Dirjat Abdala", sholawat: ["Santri CC", "Santri DD"], adzan: ["Santri EE", "Santri FF"] },
-    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Ahmad Dirjat Abdala", sholawat: ["Santri GG", "Santri HH"], adzan: ["Santri II", "Santri JJ"] },
-    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri KK", "Santri LL"], adzan: ["Santri MM", "Santri NN"] },
-    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Fauzi", sholawat: ["Santri OO", "Santri PP"], adzan: ["Santri QQ", "Santri RR"] },
-    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rafi Syahdilla", sholawat: ["Santri SS", "Santri TT"], adzan: ["Santri UU", "Santri VV"] },
-    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Rafi Syahdilla", sholawat: ["Santri WW", "Santri XX"], adzan: ["Santri YY", "Santri ZZ"] },
-    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Rizqi Yazid", sholawat: ["Santri AAA", "Santri BBB"], adzan: ["Santri CCC", "Santri DDD"] },
-    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Rizqi Yazid", sholawat: ["Santri EEE", "Santri FFF"], adzan: ["Santri GGG", "Santri HHH"] },
-    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Nabil Riyadi", sholawat: ["Santri III", "Santri JJJ"], adzan: ["Santri KKK", "Santri LLL"] },
-    { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", sholawat: ["Santri MMM", "Santri NNN"], adzan: ["Santri OOO", "Santri PPP"] },
-    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Fauzi", sholawat: ["Santri QQQ", "Santri RRR"], adzan: ["Santri SSS", "Santri TTT"] }
-]
-;
+    { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["M. Rama Fakhrullah (H)", "M. Nasyid Haikal (HS)"], 
+      adzan: ["M. Akbar Safaruddin (T)", "Gusti Hanif Al Khalifi (S)"] },
+    { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["Ahmad Faiq Fahmi (R)", "M. Rizky Zaidan (J)"], 
+      adzan: ["M. Rafka Anwar (U)", "M. Adli Maulana (R)"] },
+    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["M. Hafidz Ramadhanis (S)", "M. Adam Al Fatih (R)"], 
+      adzan: ["Ahmad Faiq Fahmi (R)", "Ariansyah (SY)"] },
+    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["M. Fatih Mubarok (T)", "M. Arkan Ramadhan (A)"], 
+      adzan: ["Faiz Hazmi Anwari (SY)", "M. Nasyid Haikal (HS)"] },
+    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["Alfarizky Meilan Pratama (T)", "M. Hanan Al Faiz (HS)"], 
+      adzan: ["M. Zainul Sulthan (H)", "M. Aylaby Fathory (A)"] },
+    { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["M. Khairil Akmal (I)", "M. Yusuf Madani (J)"], 
+      adzan: ["M. Rama Fakhrullah (H)", "M. Haikal Bagus (T)"] },
+    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["Faeza Hasan Azhari (H)", "M. Haikal Bagus (T)"], 
+      adzan: ["Farhan Rasyad Farandy (H)", "M. Alif Yahsan (A)"] },
+    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Ahmad Dirjat Abdala", 
+      sholawat: ["M. Habibi Darussalam (H)", "M. Aylaby Fathory (A)"], 
+      adzan: ["M. Yusuf Madani (J)", "Alfarizky Meilan Pratama (T)"] },
+    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Ahmad Dirjat Abdala", 
+      sholawat: ["M. Restu Firdaus (I)", "M. Rizky Zaidan (J)"], 
+      adzan: ["Muhammad Ulil Albab (A)", "M. Hanan Al Faiz (HS)"] },
+    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["Muhammad Ulil Albab (A)", "Faiz Hazmi Anwari (SY)"], 
+      adzan: ["Ahmad Galih Prihandowo (SY)", "Faeza Hasan Azhari (H)"] },
+    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["M. Akbar Safaruddin (T)", "M. Adli Maulana (R)"], 
+      adzan: ["M. Naufal Faeza (U)", "M. Rafka Anwar (U)"] },
+    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rafi Syahdilla", 
+      sholawat: ["M. Zainul Sulthan (H)", "M. Naufal Faeza (U)"], 
+      adzan: ["M. Nahru Rohman (I)", "M. Khairil Akmal (I)"] },
+    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Rafi Syahdilla", 
+      sholawat: ["M. Alif Yahsan (A)", "M. Faiq Jayyidan (H)"], 
+      adzan: ["M. Hafidz Ramadhanis (S)", "M. Rama Fakhrullah (H)"] },
+    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["M. Multazam (A)", "Gusti Hanif Al Khalifi (S)"], 
+      adzan: ["M. Arkan Ramadhan (A)", "Ariansyah (SY)"] },
+    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Rizqi Yazid", 
+      sholawat: ["Farhan Rasyad Farandy (H)", "Ahmad Galih Prihandowo (SY)"], 
+      adzan: ["Rakha Nurhafidzan (J)", "M. Habibi Darussalam (H)"] },
+    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
+      sholawat: ["M. Nahru Rohman (I)", "M. Restu Firdaus (I)"], 
+      adzan: ["M. Multazam (A)", "M. Rizky Zaidan (J)"] },
+    { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
+      sholawat: ["Rakha Nurhafidzan (J)", "M. Fatih Mubarok (T)"], 
+      adzan: ["M. Faiq Jayyidan (H)", "M. Alif Yahsan (A)"] },
+    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Fauzi", 
+      sholawat: ["Ariansyah (SY)", "M. Habibi Darussalam (H)"], 
+      adzan: ["M. Adam Al Fatih (R)", "Ahmad Faiq Fahmi (R)"] }
+];
 
 const tableBody = document.getElementById('tableBody');
 
 // Ubah fungsi untuk menambahkan warna pada kode pembimbing
 function formatPembimbingCode(text) {
-    return text.replace(/\((U[A-Za-z]+)\)/g, (match, code) => {
+    return text.replace(/\(([A-Z]+)\)/g, (match, code) => {
         return `<span class="code-${code}">(${code})</span>`;
     });
 }
 
 function formatPembimbingCodeDownload(text) {
-    return text.replace(/\((U[A-Za-z]+)\)/g, (match, code) => {
+    return text.replace(/\(([A-Z]+)\)/g, (match, code) => {
         return `<span class="download-code-${code}">(${code})</span>`;
     });
+}
+
+function formatDate(date) {
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('id-ID', options);
 }
 
 jadwalPetugas.forEach(row => {
     const rowElement = document.createElement('div');
     rowElement.className = 'table-row';
+    
+    // Cek apakah tanggal ini adalah hari ini
+    const today = formatDate(new Date());
+    if (row.tanggal === today) {
+        rowElement.classList.add('today');
+    }
     
     // Create cells for each piece of data
     const tanggalCell = document.createElement('div');
