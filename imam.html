@@ -1,292 +1,185 @@
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Petugas Ramadan 1446 H - Rumah Tahfidz Saijaan</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&display=swap">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <title>Jadwal Imam Ramadhan 1446 H</title>
 </head>
 <style>
-	* {
+	body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Amiri', serif;
-    background-color: #f8f9fa;
-    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
 .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 10px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(43, 120, 228, 0.1);
+    overflow: visible;
+    box-sizing: border-box;
+    width: calc(100% - 40px); /* Account for margins */
 }
 
-header {
+h1, h2 {
     text-align: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 h1 {
-    font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #1a237e;
 }
 
 h2 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-    color: #283593;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    color: #7f8c8d;
 }
 
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-    position: relative;
-    isolation: isolate;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+table {
+    width: auto;
+    margin: 0px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    overflow: visible;
 }
 
-.sticky-header {
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+th, td {
+    padding: 12px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
     white-space: nowrap;
-    background: inherit;
-    isolation: isolate;
+    background-color: inherit;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.header-cell {
-    padding: 12px 8px;
-    flex: 1;
-    min-width: 120px;
-    text-align: center;
-    font-weight: bold;
-    background: #1a237e;
-    color: white;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    position: relative;
-}
+th:nth-child(1), td:nth-child(1) { min-width: 120px; }  
+th:nth-child(2), td:nth-child(2) { min-width: 200px; }  
+th:nth-child(3), td:nth-child(3) { min-width: 100px; }  
+th:nth-child(4), td:nth-child(4) { min-width: 200px; }  
+th:nth-child(5), td:nth-child(5) { min-width: 220px; }  
+th:nth-child(6), td:nth-child(6) { min-width: 220px; }  
 
-/* Colored headers for specific columns */
-.header-cell:nth-child(2) { background: #D32F2F; }
-.header-cell:nth-child(3) { background: #F57C00; }
-.header-cell:nth-child(4) { background: #388E3C; }
-.header-cell:nth-child(5) { background: #1565C0; }
-.header-cell:nth-child(6) { background: #6A1B9A; }
-
-/* Perlebar cell adzan dan sholawat */
-.header-cell:nth-child(5),
-.header-cell:nth-child(6),
-.table-cell:nth-child(5),
-.table-cell:nth-child(6) {
-    min-width: 200px;
-}
-
-/* Sticky Header dan Kolom Pertama */
-.header-cell:first-child,
-.table-cell:first-child {
+th:first-child,
+td:first-child {
     position: sticky;
     left: 0;
-    z-index: 1001;
-    isolation: isolate;
+    z-index: 1;
+    background-color: white;
+    border-right: 2px solid #d9b3b3;
 }
 
-.header-cell:first-child {
-    z-index: 1002;
-    background: #1a237e !important;
+th:first-child {
+    z-index: 2;
+    background: linear-gradient(45deg, #800000 30%, #600000 100%);
 }
 
-.table-cell:first-child {
-    z-index: 999;
-}
-
-/* Memastikan background color kolom pertama */
-.table-row:nth-child(even) .table-cell:first-child {
-    background-color: #f5f7ff !important;
-}
-
-.table-row:nth-child(odd) .table-cell:first-child {
-    background-color: #fff !important;
-}
-
-.table-row:hover .table-cell:first-child {
-    background-color: #e8eaf6 !important;
-}
-
-/* Memastikan background tetap solid saat scroll */
-.table-cell:first-child::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -2px;
-    height: 100%;
-    width: 4px;
-    background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
-    z-index: 998;
-}
-
-.table-body {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    isolation: isolate;
-}
-
-.table-row {
-    display: flex;
-    border-bottom: 1px solid #e3e8f0;
-    position: relative;
-    isolation: isolate;
-}
-
-/* Striped! Rows */
-.table-row:nth-child(even) .table-cell:nth-child(2) { background-color: #FFEBEE; }
-.table-row:nth-child(even) .table-cell:nth-child(3) { background-color: #FFF3E0; }
-.table-row:nth-child(even) .table-cell:nth-child(4) { background-color: #E8F5E9; }
-.table-row:nth-child(even) .table-cell:nth-child(5) { background-color: #E3F2FD; }
-.table-row:nth-child(even) .table-cell:nth-child(6) { background-color: #F3E5F5; }
-
-.table-row:nth-child(odd) .table-cell:nth-child(2) { background-color: #FFCDD2; }
-.table-row:nth-child(odd) .table-cell:nth-child(3) { background-color: #FFE0B2; }
-.table-row:nth-child(odd) .table-cell:nth-child(4) { background-color: #C8E6C9; }
-.table-row:nth-child(odd) .table-cell:nth-child(5) { background-color: #BBDEFB; }
-.table-row:nth-child(odd) .table-cell:nth-child(6) { background-color: #E1BEE7; }
-
-.table-row:nth-child(even) {
-    background-color: #f5f7ff;
-}
-
-.table-row:nth-child(even) .table-cell:first-child {
-    background-color: #f5f7ff;
-}
-
-.table-row:nth-child(odd) .table-cell:first-child {
-    background-color: #fff;
-}
-
-.table-row:hover {
-    background-color: #e8eaf6;
-}
-
-.table-row:hover .table-cell:first-child {
-    background-color: #e8eaf6;
-}
-
-.table-cell {
-    padding: 12px 8px;
-    flex: 1;
-    min-width: 120px;
+th {
+    background: linear-gradient(45deg, #800000 30%, #600000 100%);
+    color: white;
+    font-weight: bold;
     text-align: center;
-    transition: background-color 0.2s ease;
-    line-height: 1.4;
-    position: relative;
+    border: 1px solid #600000;
 }
 
-.table-cell:first-child {
-    font-weight: 500;
-    color: #1a237e;
-    white-space: normal;
+tr:nth-child(even) {
+    background-color: #fff5f5;
 }
 
-.table-cell.sholawat-cell,
-.table-cell.adzan-cell {
-    white-space: normal;
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+tr:hover {
+    background-color: #ffe6e6;
+}
+
+tr:nth-child(even) td:first-child {
+    background-color: #fff5f5;
+}
+
+tr:nth-child(odd) td:first-child {
+    background-color: #ffffff;
+}
+
+tr:hover td:first-child {
+    background-color: #ffe6e6;
+}
+
+td {
+    border: 1px solid #d9b3b3;
+}
+
+td:first-child {
+    border-right: 2px solid #d9b3b3;
+}
+
+/* Add new header/footer styles */
+.site-header, .site-footer {
+    background-color: #800000;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
 }
 
 .site-header {
-    background: #800000;
-    color: white;
-    padding: 15px 0;
+    background-color: #800000; /* Warna tema Rumah Tahfidz Saijaan */
+    color: white; /* Teks warna putih */
+    padding: 20px 40px; /* Padding nyaman */
+    margin-bottom: 0;
     text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.logo {
-    width: 60px;
-    height: 60px;
-}
-
-.site-title {
-    font-size: 2.5rem;
-    margin: 0;
+    font-size: 1.5em;
     font-weight: bold;
-    color: white;
+    letter-spacing: 1px;
+    border-bottom: 3px solid #600000;
+    transition: all 0.3s ease-in-out;
 }
 
-.site-subtitle {
-    font-size: 1rem;
-    margin: 5px 0;
-    opacity: 0.9;
+.site-header:hover {
+    background-color: #600000; /* Efek hover untuk kesan modern */
+    padding: 25px 45px;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
 }
 
 .site-footer {
-    background: #800000;
-    color: white;
-    padding: 15px 0;
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 0;
+    padding: 20px 0;
 }
 
-.footer-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
 }
 
-.copyright {
-    font-size: 0.9rem;
+.site-footer p {
+    margin: 5px 0;
+    margin-top: 10px;
 }
 
-.footer-info,
-.contact-info,
-.contact-item,
-.social-links,
-.social-link {
-    display: none;
-}
-
-/* Download button styles */
 .download-container {
-    display: flex;
-    justify-content: center;
+    text-align: center;
     margin: 20px 0;
 }
 
 .download-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     background-color: #800000;
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    font-family: 'Amiri', serif;
-    font-size: 1rem;
+    font-size: 16px;
     transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .download-btn:hover {
@@ -294,157 +187,10 @@ h2 {
 }
 
 .download-btn:active {
-    transform: translateY(1px);
+    transform: scale(0.98);
 }
 
-.download-icon {
-    fill: currentColor;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 5px;
-    }
-    
-    h1 {
-        font-size: 1.2rem;
-    }
-    
-    h2 {
-        font-size: 1rem;
-    }
-    
-    .header-cell, .table-cell {
-        padding: 8px 6px;
-        min-width: 120px;
-        font-size: 0.9rem;
-    }
-
-    /* Perlebar cell adzan dan sholawat untuk mobile */
-    .header-cell:nth-child(5),
-    .header-cell:nth-child(6),
-    .table-cell:nth-child(5),
-    .table-cell:nth-child(6) {
-        min-width: 200px;  /* Konsisten dengan desktop */
-    }
-
-    /* Perbaikan sticky untuk mobile */
-    .header-cell:first-child,
-    .table-cell:first-child {
-        position: sticky;
-        left: 0;
-        z-index: 1001;
-        isolation: isolate;
-        transform: translateZ(0);
-        will-change: transform;
-    }
-
-    .header-cell:first-child {
-        z-index: 1002;
-        background: #1a237e !important;
-    }
-
-    .table-cell:first-child {
-        z-index: 999;
-    }
-
-    /* Memastikan background tetap solid di layar kecil */
-    .table-row:nth-child(even) .table-cell:first-child {
-        background-color: #f5f7ff !important;
-    }
-
-    .table-row:nth-child(odd) .table-cell:first-child {
-        background-color: #fff !important;
-    }
-
-    .table-row:hover .table-cell:first-child {
-        background-color: #e8eaf6 !important;
-    }
-
-    /* Shadow effect untuk layar kecil */
-    .table-cell:first-child::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: -2px;
-        height: 100%;
-        width: 4px;
-        background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
-        z-index: 998;
-    }
-
-    .sticky-header {
-        z-index: 1000;
-    }
-
-    .table-container {
-        -webkit-overflow-scrolling: touch; /* Untuk scroll yang lebih smooth di iOS */
-    }
-
-    .site-title {
-        font-size: 2rem;
-    }
-    
-    .site-subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .logo {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .contact-info {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .download-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-    
-    .download-icon {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-/* Custom scrollbar styling */
-.table-container::-webkit-scrollbar {
-    height: 8px;
-}
-
-.table-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb {
-    background: #3f51b5;
-    border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: #1a237e;
-}
-
-@media print {
-    .table-container {
-        overflow: visible !important;
-        box-shadow: none !important;
-    }
-    
-    .sticky-header, .header-cell {
-        position: static !important;
-    }
-    
-    .table-cell:first-child {
-        position: static !important;
-    }
-}
-
-/* Tambahkan style untuk kode pembimbing */
+/* Add supervisor code colors */
 .code-H { color: #E91E63; font-weight: bold; }
 .code-HS { color: #2196F3; font-weight: bold; }
 .code-T { color: #4CAF50; font-weight: bold; }
@@ -456,90 +202,99 @@ h2 {
 .code-I { color: #009688; font-weight: bold; }
 .code-U { color: #3F51B5; font-weight: bold; }
 
-/* Style untuk hasil download */
-.download-code-H { color: #E91E63; font-weight: bold; }
-.download-code-HS { color: #2196F3; font-weight: bold; }
-.download-code-T { color: #4CAF50; font-weight: bold; }
-.download-code-S { color: #FF9800; font-weight: bold; }
-.download-code-SY { color: #9C27B0; font-weight: bold; }
-.download-code-R { color: #795548; font-weight: bold; }
-.download-code-J { color: #607D8B; font-weight: bold; }
-.download-code-A { color: #FF5722; font-weight: bold; }
-.download-code-I { color: #009688; font-weight: bold; }
-.download-code-U { color: #3F51B5; font-weight: bold; }
-
-/* Highlight untuk baris tanggal hari ini */
-.table-row.today {
-    background: rgba(255, 243, 224, 0.7) !important;
-    border: 2px solid #FF9800;
-    position: relative;
-}
-
-.table-row.today .table-cell {
-    background-color: rgba(255, 243, 224, 0.7) !important;
-}
-
-.table-row.today .table-cell:first-child,
-.table-row.today .table-cell:nth-child(2),
-.table-row.today .table-cell:nth-child(3),
-.table-row.today .table-cell:nth-child(4),
-.table-row.today .table-cell:nth-child(5),
-.table-row.today .table-cell:nth-child(6) {
-    background-color: rgba(255, 243, 224, 0.9) !important;
+/* Add highlighting for current date row */
+.current-date-row {
+    background-color: #fff0f0 !important;
     font-weight: bold;
-    color: #E65100;
 }
 
-</style>
+.current-date-row td {
+    border-top: 2px solid #800000 !important;
+    border-bottom: 2px solid #800000 !important;
+}
 
+.current-date-row td:first-child {
+    border-left: 2px solid #800000 !important;
+}
+
+.current-date-row td:last-child {
+    border-right: 2px solid #800000 !important;
+}
+
+.current-date-row:hover {
+    background-color: #ffe0e0 !important;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+        width: calc(100% - 20px);
+        border-radius: 0;
+        overflow-x: auto;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .site-header, .site-footer {
+        padding: 15px 0;
+    }
+}
+
+@media print {
+    .container {
+        width: auto !important;
+        max-width: none !important;
+        overflow: visible !important;
+    }
+    
+    table {
+        display: table !important;
+        width: auto !important;
+        transform: none !important;
+    }
+}
+</style>
 <body>
-    <!-- Site Header -->
     <header class="site-header">
-        
-                <h1 class="site-title">Rumah Tahfidz Saijaan</h1>
-            </div>
-        </div>
+        <h1 class="logo-text">Rumah Tahfidz Saijaan</h1>
     </header>
 
     <div class="container">
-        <header>
-            <h1>Jadwal Petugas Ramadan 1446 H<br>Rumah Tahfidz Saijaan</h1>
-        </header>
-
-        <div class="table-container">
-            <div class="sticky-header">
-                <div class="header-cell">Tanggal</div>
-                <div class="header-cell">Imam</div>
-                <div class="header-cell">Juz</div>
-                <div class="header-cell">Imam Witir</div>
-                <div class="header-cell">Sholawat</div>
-                <div class="header-cell">Adzan</div>
-            </div>
-            
-            <div class="table-body" id="tableBody"></div>
-        </div>
+        <h1>Jadwal Petugas Kegiatan Ramadhan 1446 H</h1>
+        <h2>Rumah Tahfidz Saijaan</h2>
         
-        <div class="download-container">
-            <button id="downloadBtn" class="download-btn">
-                <svg class="download-icon" viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                </svg>
-                Download Jadwal (JPG)
-            </button>
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Imam</th>
+                    <th>Juz</th>
+                    <th>Imam Witir</th>
+                    <th>Sholawat</th>
+                    <th>Adzan</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleBody">
+            </tbody>
+        </table>
         </div>
-    </div>
+      
 
-    <!-- Simplified Site Footer -->
     <footer class="site-footer">
-        <div class="footer-content">
-            <div class="copyright">
-                <p>&copy; 2024 Rumah Tahfidz Saijaan. Hak Cipta Dilindungi.</p>
-            </div>
-        </div>
+        <p>Rumah Tahfidz Saijaan</p>
     </footer>
 
+    <!-- Add html2canvas library -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
-    	const jadwalPetugas = [
+const scheduleData = [
     { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", 
       sholawat: ["M. Rama Fakhrullah (H)", "M. Nasyid Haikal (HS)"], 
       adzan: ["M. Akbar Safaruddin (T)", "Gusti Hanif Al Khalifi (S)"] },
@@ -596,178 +351,81 @@ h2 {
       adzan: ["M. Adam Al Fatih (R)", "Ahmad Faiq Fahmi (R)"] }
 ];
 
-const tableBody = document.getElementById('tableBody');
+function populateTable() {
+    const tableBody = document.getElementById('scheduleBody');
+    
+    // Get today's date in the same format as schedule data
+    const today = new Date();
+    const todayStr = today.getDate().toString().padStart(2, '0') + ' ' + 
+                     today.toLocaleString('id-ID', { month: 'long' }) + ' ' + 
+                     today.getFullYear();
+    
+    scheduleData.forEach(schedule => {
+        const row = document.createElement('tr');
+        
+        // Check if this row's date matches today
+        if (schedule.tanggal === todayStr) {
+            row.classList.add('current-date-row');
+        }
+        
+        // Helper function to wrap code in span with class
+        const wrapCode = (text) => {
+            const match = text.match(/\((.*?)\)/);
+            if (match) {
+                const code = match[1];
+                return text.replace(/\((.*?)\)/, `(<span class="code-${code}">${code}</span>)`);
+            }
+            return text;
+        };
 
-// Ubah fungsi untuk menambahkan warna pada kode pembimbing
-function formatPembimbingCode(text) {
-    return text.replace(/\(([A-Z]+)\)/g, (match, code) => {
-        return `<span class="code-${code}">(${code})</span>`;
+        row.innerHTML = `
+            <td title="${schedule.tanggal}">${schedule.tanggal}</td>
+            <td title="${schedule.imam}">${schedule.imam}</td>
+            <td title="${schedule.juz}">${schedule.juz}</td>
+            <td title="${schedule.imamWitir}">${schedule.imamWitir}</td>
+            <td title="${schedule.sholawat.join('\n')}">${schedule.sholawat.map(wrapCode).join('<br>')}</td>
+            <td title="${schedule.adzan.join('\n')}">${schedule.adzan.map(wrapCode).join('<br>')}</td>
+        `;
+        tableBody.appendChild(row);
     });
 }
 
-function formatPembimbingCodeDownload(text) {
-    return text.replace(/\(([A-Z]+)\)/g, (match, code) => {
-        return `<span class="download-code-${code}">(${code})</span>`;
+document.addEventListener('DOMContentLoaded', populateTable);
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    const container = document.querySelector('.container');
+
+    // Simpan properti asli elemen sticky
+    const stickyElements = document.querySelectorAll('.sticky');
+    const originalStyles = [];
+    stickyElements.forEach(el => {
+        originalStyles.push({
+            element: el,
+            position: el.style.position
+        });
+        el.style.position = 'static'; // Hilangkan sticky sementara
     });
-}
 
-function formatDate(date) {
-    const options = { day: '2-digit', month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('id-ID', options);
-}
-
-jadwalPetugas.forEach(row => {
-    const rowElement = document.createElement('div');
-    rowElement.className = 'table-row';
-    
-    // Cek apakah tanggal ini adalah hari ini
-    const today = formatDate(new Date());
-    if (row.tanggal === today) {
-        rowElement.classList.add('today');
-    }
-    
-    // Create cells for each piece of data
-    const tanggalCell = document.createElement('div');
-    tanggalCell.className = 'table-cell';
-    tanggalCell.textContent = row.tanggal;
-    
-    const imamCell = document.createElement('div');
-    imamCell.className = 'table-cell';
-    imamCell.textContent = row.imam;
-    
-    const juzCell = document.createElement('div');
-    juzCell.className = 'table-cell';
-    juzCell.textContent = row.juz;
-    
-    const imamWitirCell = document.createElement('div');
-    imamWitirCell.className = 'table-cell';
-    imamWitirCell.textContent = row.imamWitir;
-    
-    const sholawatCell = document.createElement('div');
-    sholawatCell.className = 'table-cell sholawat-cell';
-    sholawatCell.innerHTML = row.sholawat.map(s => formatPembimbingCode(s)).join('<br>');
-    
-    const adzanCell = document.createElement('div');
-    adzanCell.className = 'table-cell adzan-cell';
-    adzanCell.innerHTML = row.adzan.map(a => formatPembimbingCode(a)).join('<br>');
-    
-    // Add all cells to the row
-    rowElement.appendChild(tanggalCell);
-    rowElement.appendChild(imamCell);
-    rowElement.appendChild(juzCell);
-    rowElement.appendChild(imamWitirCell);
-    rowElement.appendChild(sholawatCell);
-    rowElement.appendChild(adzanCell);
-    
-    // Add row to table body
-    tableBody.appendChild(rowElement);
-});
-
-document.getElementById('downloadBtn').addEventListener('click', async () => {
-    try {
-        const btn = document.getElementById('downloadBtn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = 'Memproses...';
-        btn.disabled = true;
-
-        const tempContainer = document.createElement('div');
-        tempContainer.style.width = '1500px';  // Perlebar container
-        tempContainer.style.position = 'absolute';
-        tempContainer.style.left = '-9999px';
-        tempContainer.style.background = '#ffffff';
-        tempContainer.style.padding = '40px';
-        document.body.appendChild(tempContainer);
-
-        const title = document.createElement('div');
-        title.style.textAlign = 'center';
-        title.style.marginBottom = '30px';
-        title.style.fontFamily = 'Amiri, serif';
-        title.innerHTML = `
-            <h1 style="color: #1a237e; font-size: 32px; margin-bottom: 15px;">Jadwal Petugas Ramadan 1446 H</h1>
-            <h2 style="color: #1a237e; font-size: 24px;">Rumah Tahfidz Saijaan</h2>
-        `;
-        tempContainer.appendChild(title);
-
-        // Buat table element daripada div untuk struktur yang lebih baik
-        const table = document.createElement('table');
-        table.style.width = '100%';
-        table.style.borderCollapse = 'collapse';
-        table.style.fontFamily = 'Amiri, serif';
-        table.style.fontSize = '16px';
-        table.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
-        table.style.borderRadius = '8px';
-        table.style.overflow = 'hidden';
-
-        // Header row
-        const thead = document.createElement('thead');
-        thead.innerHTML = `
-            <tr style="background: #1a237e;">
-                <th style="width: 12%; padding: 15px 10px; color: white; text-align: center; background: #1a237e;">Tanggal</th>
-                <th style="width: 18%; padding: 15px 10px; color: white; text-align: center; background: #D32F2F;">Imam</th>
-                <th style="width: 12%; padding: 15px 10px; color: white; text-align: center; background: #F57C00;">Juz</th>
-                <th style="width: 18%; padding: 15px 10px; color: white; text-align: center; background: #388E3C;">Imam Witir</th>
-                <th style="width: 20%; padding: 15px 10px; color: white; text-align: center; background: #1565C0;">Sholawat</th>
-                <th style="width: 20%; padding: 15px 10px; color: white; text-align: center; background: #6A1B9A;">Adzan</th>
-            </tr>
-        `;
-        table.appendChild(thead);
-
-        // Table body
-        const tbody = document.createElement('tbody');
-        jadwalPetugas.forEach((row, index) => {
-            const colors = index % 2 === 0 ? 
-                ['#fff', '#FFCDD2', '#FFE0B2', '#C8E6C9', '#BBDEFB', '#E1BEE7'] :
-                ['#f5f7ff', '#FFEBEE', '#FFF3E0', '#E8F5E9', '#E3F2FD', '#F3E5F5'];
-
-            const tr = document.createElement('tr');
-            tr.style.borderBottom = '1px solid #e3e8f0';
-
-            const cellStyle = (color) => `
-                padding: 12px 10px;
-                text-align: center;
-                background: ${color};
-                vertical-align: middle;
-                line-height: 1.5;
-                font-size: 15px;
-            `;
-
-            tr.innerHTML = `
-                <td style="${cellStyle(colors[0])}">${row.tanggal}</td>
-                <td style="${cellStyle(colors[1])}">${row.imam}</td>
-                <td style="${cellStyle(colors[2])}">${row.juz}</td>
-                <td style="${cellStyle(colors[3])}">${row.imamWitir}</td>
-                <td style="${cellStyle(colors[4])}">${row.sholawat.map(s => formatPembimbingCodeDownload(s)).join('<br>')}</td>
-                <td style="${cellStyle(colors[5])}">${row.adzan.map(a => formatPembimbingCodeDownload(a)).join('<br>')}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-        tempContainer.appendChild(table);
-
-        const canvas = await html2canvas(tempContainer, {
-            scale: 2,
-            backgroundColor: '#ffffff',
-            logging: false,
-            useCORS: true,
-            windowWidth: 1500,
-            width: 1500
+    // Ambil screenshot seluruh container
+    html2canvas(container, {
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight,
+        scale: 2
+    }).then(canvas => {
+        // Kembalikan posisi sticky seperti semula
+        originalStyles.forEach(item => {
+            item.element.style.position = item.position;
         });
 
-        const image = canvas.toDataURL('image/jpeg', 1.0);
+        // Download gambar
         const link = document.createElement('a');
-        link.download = 'Jadwal-Petugas-Ramadan-1446H.jpg';
-        link.href = image;
+        link.download = 'Jadwal_Petugas_Ramadhan_1446H.png';
+        link.href = canvas.toDataURL('image/png');
         link.click();
-
-        document.body.removeChild(tempContainer);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    } catch (error) {
-        console.error('Error generating image:', error);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
+    });
 });
-            </script>
+</script>
 </body>
 </html>
