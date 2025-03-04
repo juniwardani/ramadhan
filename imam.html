@@ -49,7 +49,7 @@ table {
 }
 
 th, td {
-    padding: 12px 20px;
+    padding: 5px 10px;
     text-align: left;
     border: 1px solid #ddd;
     white-space: nowrap;
@@ -57,14 +57,16 @@ th, td {
     vertical-align: middle;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: auto;
+    font-size: 14px; /* Atur ukuran font sesuai kebutuhan */
 }
 
-th:nth-child(1), td:nth-child(1) { min-width: 120px; }  
-th:nth-child(2), td:nth-child(2) { min-width: 200px; }  
-th:nth-child(3), td:nth-child(3) { min-width: 100px; }  
-th:nth-child(4), td:nth-child(4) { min-width: 200px; }  
-th:nth-child(5), td:nth-child(5) { min-width: 220px; }  
-th:nth-child(6), td:nth-child(6) { min-width: 220px; }  
+th:nth-child(1), td:nth-child(1) { min-width: 110px; }  
+th:nth-child(2), td:nth-child(2) { min-width: 130px; }  
+th:nth-child(3), td:nth-child(3) { min-width: 80px; }  
+th:nth-child(4), td:nth-child(4) { min-width: 110px; }  
+th:nth-child(5), td:nth-child(5) { min-width: 200px; }  
+th:nth-child(6), td:nth-child(6) { min-width: 200px; }  
 
 th:first-child,
 td:first-child {
@@ -114,6 +116,8 @@ tr:hover td:first-child {
 
 td {
     border: 1px solid #d9b3b3;
+    word-wrap: break-word; /* Untuk memastikan teks terbungkus */
+    white-space: normal; /* Mengizinkan teks pindah ke baris baru */
 }
 
 td:first-child {
@@ -204,25 +208,41 @@ td:first-child {
 
 /* Add highlighting for current date row */
 .current-date-row {
-    background-color: #fff0f0 !important;
+    background-color: #fff0f0 !important; /* Merah muda lembut */
     font-weight: bold;
+    color: #800000; /* Warna tema utama */
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+/* Batas atas dan bawah */
 .current-date-row td {
     border-top: 2px solid #800000 !important;
     border-bottom: 2px solid #800000 !important;
+    padding: 5px;
+    background-color: #fff4e6 !important;
 }
 
+/* Batas kiri */
 .current-date-row td:first-child {
     border-left: 2px solid #800000 !important;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: #fff4e6 !important;
 }
 
+/* Batas kanan */
 .current-date-row td:last-child {
     border-right: 2px solid #800000 !important;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #fff4e6 !important;
 }
 
+/* Efek hover */
 .current-date-row:hover {
-    background-color: #ffe0e0 !important;
+    background-color: #ffe5d0 !important; /* Merah muda lebih terang */
+    box-shadow: 0 0 12px rgba(128, 0, 0, 0.5); /* Glow lembut */
+    transform: scale(1.02); /* Efek zoom ringan */
 }
 
 @media (max-width: 768px) {
