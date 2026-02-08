@@ -510,6 +510,7 @@
                     }
 
                     // Cek pembimbing (jika ada 2 pembimbing berbeda, kita gabung juga agar jelas)
+                    // Ini menyimpan format "A / B" di dalam data, nanti akan dipecah di filter
                     if (row.pembimbing1 && row.pembimbing2 && row.pembimbing1 !== row.pembimbing2) {
                         pembimbingName = `${row.pembimbing1} / ${row.pembimbing2}`;
                     } else {
@@ -517,7 +518,6 @@
                     }
 
                     // Masukkan ke array scheduleData
-                    // Kita hanya membuat 1 object per baris database (karena siblings sudah digabung)
                     scheduleData[formattedDate].push({
                         santri: santriName,
                         pembimbing: pembimbingName
@@ -542,10 +542,18 @@
                 filterTanggal.appendChild(option);
             });
 
-            // Populate pembimbing dropdown
+            // --- PERUBAHAN LOGIKA: POPULATE PEMBIMBING ---
             let pembimbingSet = new Set();
             for (const key in scheduleData) {
-                scheduleData[key].forEach(entry => pembimbingSet.add(entry.pembimbing));
+                scheduleData[key].forEach(entry => {
+                    // Pecah string pembimbing berdasarkan " / " untuk mengambil nama individual
+                    const mentors = entry.pembimbing.split(' / ');
+                    mentors.forEach(m => {
+                        if(m && m.trim() !== '-') {
+                            pembimbingSet.add(m.trim());
+                        }
+                    });
+                });
             }
 
             const sortedPembimbing = Array.from(pembimbingSet).sort();
@@ -578,8 +586,14 @@
 
                 let santriList = scheduleData[tanggal] || [];
 
+                // --- PERUBAHAN LOGIKA: FILTER PEMBIMBING ---
                 if (filterPembimbing !== "all") {
-                    santriList = santriList.filter(s => s.pembimbing === filterPembimbing);
+                    santriList = santriList.filter(s => {
+                        // Pecah pembimbing pada baris data saat ini
+                        const rowMentors = s.pembimbing.split(' / ');
+                        // Cek apakah pembimbing yang dipilih ada di dalam baris ini
+                        return rowMentors.includes(filterPembimbing);
+                    });
                 }
 
                 if (santriList.length > 0) {
