@@ -4,121 +4,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Rumah Tahfidz Saijaan</title>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        header, footer {
-            background-color: #800000;
-            color: white;
-            padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 20px auto;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-    font-size: 12px; /* Tambahkan ukuran font */
-}
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; font-size: 12px; }
+        th { background-color: #800000; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        /* Kolom Layout */
+        th:nth-child(1), td:nth-child(1) { width: 5%; }
+        th:nth-child(2), td:nth-child(2) { width: 15%; }
+        th:nth-child(3), td:nth-child(3) { width: 80%; text-align: left; padding-left: 15px; }
 
-        th {
-            background-color: #800000;
-            color: white;
+        /* WARNA NAMA USTADZ/Ustadzah */
+        .ustadz-haidir { color: #FF0000; font-weight: bold; }
+        .ustadz-hussaini { color: #FF00FF; font-weight: bold; }
+        .ustadz-jufri { color: #8B0000; font-weight: bold; }
+        .ustadz-tahmid { color: #FFA500; font-weight: bold; }
+        .ustadz-sofyan { color: #008000; font-weight: bold; }
+        .ustadzah-astrid { color: #CCA300; font-weight: bold; }
+        .ustadzah-ipah { color: #00CED1; font-weight: bold; } /* Dark Turquoise agar terbaca */
+        .ustadzah-risda { color: #800080; font-weight: bold; }
+        .ustadz-syarif { color: #8B4513; font-weight: bold; }
+        .ustadzah-sanah { color: #20B2AA; font-weight: bold; }
+        .ustadz-fahrul { color: #D2691E; font-weight: bold; }
+        .ustadz-syamsi { color: #4682B4; font-weight: bold; }
+
+        /* WARNA KHUSUS PERMINTAAN TERBARU */
+        .quran-siang { 
+            color: #FFD700; /* Emas/Kuning Terang agar terbaca di putih */
+            font-weight: bold; 
+            text-shadow: 0.5px 0.5px 0 #000; /* Sedikit bayangan hitam agar jelas */
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        /* Warna unik untuk setiap Ustadz/Ustadzah */
-.ustadz-jufri { color: #FF0000; font-weight: bold; } /* Merah Terang */
-.ustadz-haidir { color: #0000FF; font-weight: bold; } /* Biru Terang */
-.ustadz-sofyan { color: #00FF00; font-weight: bold; } /* Hijau Terang */
-.ustadz-hussaini { color: #FF00FF; font-weight: bold; } /* Ungu Magenta */
-.ustadz-tahmid { color: #FFA500; font-weight: bold; } /* Oranye */
-.ustadzah-astrid { color: #CCA300; font-weight: bold; } 
-.ustadzah-risda { color: #800080; font-weight: bold; } /* Ungu Gelap */
-.ustadzah-ipah { color: #00FFFF; font-weight: bold; } /* Cyan Terang */
-.ustadz-syarif { color: #8B0000; font-weight: bold; } /* Merah Tua */
-.ustadz-umam { color: #FF1493; font-weight: bold; } /* Pink Cerah */
-        .download-btn {
-            margin: 15px;
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #800000;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .download-btn:hover {
-            background-color: #a00000;
+        .quran-sore { 
+            color: #00BFFF; /* Biru Langit Terang (Deep Sky Blue) */
+            font-weight: bold; 
         }
     </style>
 </head>
 <body>
-    <header>Rumah Tahfidz Saijaan</header>
-    <div class="container">
-    <h2>Petugas Piket Kegiatan Iftar Bersama<br>Rumah Tahfidz Saijaan</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Kelas 1</th>
-                    <th>Kelas 2</th>
-                </tr>
-            </thead>
-            <tbody>
-<tr><td>05/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-haidir">Ustadz Haidir</span></td><td>Jilid Quran (Sore)<br><span class="ustadzah-risda">Ustadzah Risda</span></td></tr>
-        <tr><td>06/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-hussaini">Ustadz Hussaini</span></td><td>Jilid Quran (Sore)<br><span class="ustadzah-ipah">Ustadzah Ipah</span></td></tr>
-        <tr><td>07/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadzah-risda">Ustadzah Risda</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-umam">Ustadz Umam</span></td></tr>
-        <tr><td>08/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-sofyan">Ustadz Sofyan</span></td><td>Jilid Quran (Siang)<br><span class="ustadzah-ipah">Ustadzah Ipah</span></td></tr>
-        <tr><td>09/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadzah-astrid">Ustadzah Astrid</span></td><td>Jilid Quran (Siang)<br><span class="ustadzah-risda">Ustadzah Risda</span></td></tr>
-        <tr><td>10/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadzah-ipah">Ustadzah Ipah</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-syarif">Ustadz Syarif</span></td></tr>
-        <tr><td>11/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-jufri">Ustadz Jufri</span></td><td>Jilid Quran (Siang)<br><span class="ustadzah-astrid">Ustadzah Astrid</span></td></tr>
-        <tr><td>12/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadz-haidir">Ustadz Haidir</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-jufri">Ustadz Jufri</span></td></tr>
-        <tr><td>13/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadz-hussaini">Ustadz Hussaini</span></td><td>Jilid Quran (Siang)<br><span class="ustadz-jufri">Ustadz Jufri</span></td></tr>
-        <tr><td>14/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadzah-risda">Ustadzah Risda</span></td><td>Jilid Quran (Siang)<br><span class="ustadz-hussaini">Ustadz Hussaini</span></td></tr>
-        <tr><td>15/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadz-sofyan">Ustadz Sofyan</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-hussaini">Ustadz Hussaini</span></td></tr>
-        <tr><td>16/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadzah-astrid">Ustadzah Astrid</span></td><td>Jilid Quran (Siang)<br><span class="ustadz-sofyan">Ustadz Sofyan</span></td></tr>
-        <tr><td>17/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadzah-ipah">Ustadzah Ipah</span></td><td>Jilid Quran (Siang)<br><span class="ustadz-haidir">Ustadz Haidir</span></td></tr>
-        <tr><td>18/03/2025</td><td>Jilid Quran (Siang)<br><span class="ustadz-jufri">Ustadz Jufri</span></td><td>Jilid Quran (Sore)<br><span class="ustadzah-astrid">Ustadzah Astrid</span></td></tr>
-        <tr><td>19/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-tahmid">Ustadz Tahmid</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-sofyan">Ustadz Sofyan</span></td></tr>
-        <tr><td>20/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-umam">Ustadz Umam</span></td><td>Jilid Quran (Sore)<br><span class="ustadzah-risda">Ustadzah Risda</span></td></tr>
-        <tr><td>21/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-syarif">Ustadz Syarif</span></td><td>Jilid Quran (Sore)<br><span class="ustadz-tahmid">Ustadz Tahmid</span></td></tr>
-        <tr><td>22/03/2025</td><td>Jilid Quran (Sore)<br><span class="ustadz-haidir">Ustadz Haidir</span></td><td>Jilid Quran (Sore)<br><span class="ustadzah-ipah">Ustadzah Ipah</span></td></tr>
-            </tbody>
-        </table>
-    </div>
-        <button class="download-btn" onclick="downloadJPG()">Download Tabel</button>
-    <footer>Rumah Tahfidz Saijaan</footer>
-    <script>
-        function downloadJPG() {
-            const element = document.querySelector(".container"); 
-            html2canvas(element).then(canvas => {
-                let link = document.createElement("a");
-                link.href = canvas.toDataURL("image/jpeg");
-                link.download = "jadwal_piket_iftar.jpg";
-                link.click();
-            });
+
+<div class="container">
+    <h2>Data Jadwal (Siang & Sore Berwarna)</h2>
+    <table id="jadwalTable">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Tanggal</th>
+                <th>KELAS PIKET</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data di-render lewat JS -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const dataJadwal = [
+        {
+            no: 1,
+            tanggal: "23-Feb-26",
+            kelas: '<span class="ustadz-haidir">USTADZ HAIDIR</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadzah-risda">USTADZAH RISDA</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 2,
+            tanggal: "24-Feb-26",
+            kelas: '<span class="ustadz-hussaini">USTADZ HUSSAINI</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadzah-astrid">USTADZAH ASTRID</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 3,
+            tanggal: "25-Feb-26",
+            kelas: '<span class="ustadz-jufri">USTADZ JUFRI</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-tahmid">USTADZ TAHMID</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 4,
+            tanggal: "26-Feb-26",
+            kelas: '<span class="ustadz-sofyan">USTADZ SOFYAN</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-sofyan">USTADZ SOFYAN</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 5,
+            tanggal: "27-Feb-26",
+            kelas: '<span class="ustadzah-astrid">USTADZAH ASTRID</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-sofyan">USTADZ SOFYAN</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 6,
+            tanggal: "28-Feb-26",
+            kelas: '<span class="ustadzah-ipah">USTADZAH IPAH</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-syarif">USTADZ SYARIF</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 7,
+            tanggal: "01-Mar-26",
+            kelas: '<span class="ustadzah-risda">USTADZAH RISDA</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-haidir">USTADZ HAIDIR</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 8,
+            tanggal: "02-Mar-26",
+            kelas: '<span class="ustadz-syarif">USTADZ SYARIF</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadzah-ipah">USTADZAH IPAH</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 9,
+            tanggal: "03-Mar-26",
+            kelas: '<span class="ustadz-tahmid">USTADZ TAHMID</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadz-hussaini">USTADZ HUSSAINI</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 10,
+            tanggal: "04-Mar-26",
+            kelas: '<span class="ustadzah-sanah">USTADZAH SANAH</span> <span class="quran-siang">(QURAN SIANG)</span> & <span class="ustadzah-astrid">USTADZAH ASTRID</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 11,
+            tanggal: "05-Mar-26",
+            kelas: '<span class="ustadz-haidir">USTADZ HAIDIR</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadz-jufri">USTADZ JUFRI</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 12,
+            tanggal: "06-Mar-26",
+            kelas: '<span class="ustadz-hussaini">USTADZ HUSSAINI</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadzah-risda">USTADZAH RISDA</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 13,
+            tanggal: "07-Mar-26",
+            kelas: '<span class="ustadz-jufri">USTADZ JUFRI</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadzah-sanah">USTADZAH SANAH</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 14,
+            tanggal: "08-Mar-26",
+            kelas: '<span class="ustadz-sofyan">USTADZ SOFYAN</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadz-hussaini">USTADZ HUSSAINI</span> <span class="quran-sore">(QURAN SORE)</span>'
+        },
+        {
+            no: 15,
+            tanggal: "09-Mar-26",
+            kelas: '<span class="ustadzah-astrid">USTADZAH ASTRID</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadz-haidir">USTADZ HAIDIR</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 16,
+            tanggal: "10-Mar-26",
+            kelas: '<span class="ustadzah-ipah">USTADZAH IPAH</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadzah-ipah">USTADZAH IPAH</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 17,
+            tanggal: "11-Mar-26",
+            kelas: '<span class="ustadzah-risda">USTADZAH RISDA</span> <span class="quran-sore">(QURAN SORE)</span> & <span class="ustadz-jufri">USTADZ JUFRI</span> <span class="quran-siang">(QURAN SIANG)</span>'
+        },
+        {
+            no: 18,
+            tanggal: "12-Mar-26",
+            kelas: 'KELAS TAHFIDZ (<span class="ustadz-fahrul">FAHRUL</span> & <span class="ustadz-syamsi">SYAMSI</span>)'
         }
-    </script>
+    ];
+
+    // Fungsi Render
+    function renderTable() {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        dataJadwal.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.no}</td>
+                <td>${item.tanggal}</td>
+                <td>${item.kelas}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderTable);
+</script>
+
 </body>
 </html>
