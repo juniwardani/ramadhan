@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Petugas Harian Ramadhan 1446H</title>
     <style>
+        :root {
+            --primary-color: #800000; /* Merah Maroon */
+            --secondary-color: #ffffff;
+            --accent-blue: #ADD8E6;
+            --text-color: #333;
+            --border-color: #ddd;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,68 +20,142 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        body {
+            background-color: #f4f4f4;
+            color: var(--text-color);
+            padding-bottom: 2rem;
+        }
+
         header, footer {
-            background-color: #800000;
+            background-color: var(--primary-color);
             color: white;
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         main {
             padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1100px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 2rem; /* Jarak untuk tombol di bawah */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            min-width: 800px;
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px 15px;
             text-align: left;
-            border: 1px solid #ddd;
-            font-size: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            vertical-align: top;
         }
 
         th {
-            background-color: #800000;
+            background-color: var(--primary-color);
             color: white;
             text-align: center;
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: uppercase;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        /* Striped Card / Baris Selang-seling */
+        tbody tr:nth-child(even) {
+            background-color: var(--accent-blue); /* Biru Muda */
         }
 
-        tbody tr:nth-child(4n+1), tbody tr:nth-child(4n+2) {
-            background-color: #ADD8E6;
+        tbody tr:nth-child(odd) {
+            background-color: var(--secondary-color); /* Putih */
         }
 
-        tbody tr:nth-child(4n+3), tbody tr:nth-child(4n+4) {
-            background-color: #ffffff;
-        }
-
+        /* Highlight hari ini */
         .today-row {
             background-color: #ffcccc !important;
+            font-weight: bold;
+            border-left: 5px solid red;
         }
 
+        /* Kolom spesifik */
+        .col-no { width: 50px; text-align: center; }
+        .col-date { width: 130px; text-align: center; white-space: nowrap; }
+        
+        .text-list-names {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Tombol Download Area */
+        .controls {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-download {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-download:hover {
+            background-color: #5a0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
 
         @media screen and (max-width: 768px) {
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 6px;
-            }
-
             main {
                 padding: 1rem;
+                margin: 1rem;
             }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .col-date { width: 100px; }
+            .text-list-names { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -84,85 +166,260 @@
     </header>
 
     <main>
-        <table id="scheduleTable">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Ustadz</th>
-                    <th>Ustadzah</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data akan diisi oleh JavaScript -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th class="col-no">No</th>
+                        <th class="col-date">Hari, Tanggal</th>
+                        <th>IMAM MAGHRIB/ISYA</th>
+                        <th>TAHLIL</th>
+                        <th>USTADZAH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tombol Download dipindahkan ke bawah -->
+        <div class="controls">
+            <button class="btn-download" onclick="downloadTableAsJPG()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Unduh Jadwal (JPG)
+            </button>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 Rumah Tahfidz Saijaan</p>
     </footer>
 
+    <!-- Library untuk mengubah tabel menjadi gambar -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
     <script>
-        const scheduleData = [
-    { tanggal: "Rabu, 05 Maret 2025", ustadz: ["FAHRUL", "TAHMID"], ustadzah: ["DINDA", "DIAH"] },
-    { tanggal: "Kamis, 06 Maret 2025", ustadz: ["UMAM", "FAHRUL"], ustadzah: ["EVI", "RISDA"] },
-    { tanggal: "Jumat, 07 Maret 2025", ustadz: ["HAIDIR", "SYARIF"], ustadzah: ["SHALATIYAH", "NISA"] },
-    { tanggal: "Sabtu, 08 Maret 2025", ustadz: ["HUSSAINI", "SYARIF"], ustadzah: ["ASTRID", "SANAH"] },
-    { tanggal: "Minggu, 09 Maret 2025", ustadz: ["SYARIF", "THOHIR"], ustadzah: ["RISDA", "DIAH"] },
-    { tanggal: "Senin, 10 Maret 2025", ustadz: ["MUSAWIR", "HAIDIR"], ustadzah: ["NISA", "SHALATIYAH"] },
-    { tanggal: "Selasa, 11 Maret 2025", ustadz: ["JUFRI", "UMAM"], ustadzah: ["DINDA", "ASTRID"] },
-    { tanggal: "Rabu, 12 Maret 2025", ustadz: ["SYAMSI", "UMAM"], ustadzah: ["BASRIAH", "EVI"] },
-    { tanggal: "Kamis, 13 Maret 2025", ustadz: ["TAHMID", "JUFRI"], ustadzah: ["SHALATIYAH", "RISDA"] },
-    { tanggal: "Jumat, 14 Maret 2025", ustadz: ["SALIM", "MUSAWIR"], ustadzah: ["ASTRID", "SANAH"] },
-    { tanggal: "Sabtu, 15 Maret 2025", ustadz: ["HUSSAINI", "SOFYAN"], ustadzah: ["DIAH", "EVI"] },
-    { tanggal: "Minggu, 16 Maret 2025", ustadz: ["BAHAUDIN", "THOHIR"], ustadzah: ["RISDA", "SHALATIYAH"] },
-    { tanggal: "Senin, 17 Maret 2025", ustadz: ["SOFYAN", "SYAMSI"], ustadzah: ["DINDA", "SANAH"] },
-    { tanggal: "Selasa, 18 Maret 2025", ustadz: ["FAHRUL", "JUNI"], ustadzah: ["EVI", "NISA"] },
-    { tanggal: "Rabu, 19 Maret 2025", ustadz: ["JUNI", "SALIM"], ustadzah: ["SHALATIYAH", "DIAH"] },
-    { tanggal: "Kamis, 20 Maret 2025", ustadz: ["BAHAUDIN", "HAIDIR"], ustadzah: ["ASTRID", "RISDA"] },
-    { tanggal: "Jumat, 21 Maret 2025", ustadz: ["MUSAWIR", "SOFYAN"], ustadzah: ["NISA", "SANAH"] },
-    { tanggal: "Sabtu, 22 Maret 2025", ustadz: ["THOHIR", "BAHAUDIN"], ustadzah: ["DIAH", "EVI"] }
-];
+        const jadwalKajian = [
+            {
+                "No": 1,
+                "Hari": "Senin",
+                "Tanggal": "23-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Haidir & Thohir",
+                "TAHLIL": "Tahmid, Syamsi, Sofyan",
+                "USTADZAH": "Evi, Risda, Diah, Shalatiyah, Astrid"
+            },
+            {
+                "No": 2,
+                "Hari": "Selasa",
+                "Tanggal": "24-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Fahrul & Syarif",
+                "TAHLIL": "Kasmaran, Hussaini, Jufri",
+                "USTADZAH": "Nisa, Pranita, Dinda, Sanah, Ipaḥ"
+            },
+            {
+                "No": 3,
+                "Hari": "Rabu",
+                "Tanggal": "25-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Bahaudin & Salim",
+                "TAHLIL": "Juni, Mussawir, Haidir",
+                "USTADZAH": "Diah, Evi, Nisa, Astrid, Risda"
+            },
+            {
+                "No": 4,
+                "Hari": "Kamis",
+                "Tanggal": "26-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Thohir & Syamsi",
+                "TAHLIL": "Tahmid, Sofyan, Fahrul",
+                "USTADZAH": "Pranita, Shalatiyah, Dinda, Sanah, Evi"
+            },
+            {
+                "No": 5,
+                "Hari": "Jumat",
+                "Tanggal": "27-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Kasmaran & Hussaini",
+                "TAHLIL": "Syarif, Jufri, Bahaudin",
+                "USTADZAH": "Astrid, Nisa, Ipaḥ, Risda, Dinda"
+            },
+            {
+                "No": 6,
+                "Hari": "Sabtu",
+                "Tanggal": "28-Feb-26",
+                "IMAM MAGHRIB/ISYA": "Salim & Mussawir",
+                "TAHLIL": "Juni, Haidir, Thohir",
+                "USTADZAH": "Sanah, Evi, Pranita, Shalatiyah, Diah"
+            },
+            {
+                "No": 7,
+                "Hari": "Minggu",
+                "Tanggal": "01-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Tahmid & Sofyan",
+                "TAHLIL": "Syamsi, Fahrul, Kasmaran",
+                "USTADZAH": "Risda, Astrid, Dinda, Ipaḥ, Nisa"
+            },
+            {
+                "No": 8,
+                "Hari": "Senin",
+                "Tanggal": "02-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Syarif & Jufri",
+                "TAHLIL": "Hussaini, Bahaudin, Juni",
+                "USTADZAH": "Evi, Sanah, Shalatiyah, Dinda, Pranita"
+            },
+            {
+                "No": 9,
+                "Hari": "Selasa",
+                "Tanggal": "03-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Salim & Haidir",
+                "TAHLIL": "Mussawir, Thohir, Tahmid",
+                "USTADZAH": "Diah, Risda, Astrid, Ipaḥ, Sanah"
+            },
+            {
+                "No": 10,
+                "Hari": "Rabu",
+                "Tanggal": "04-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Syamsi & Fahrul",
+                "TAHLIL": "Sofyan, Kasmaran, Syarif",
+                "USTADZAH": "Nisa, Evi, Pranita, Shalatiyah, Dinda"
+            },
+            {
+                "No": 11,
+                "Hari": "Kamis",
+                "Tanggal": "05-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Jufri & Bahaudin",
+                "TAHLIL": "Hussaini, Juni, Salim",
+                "USTADZAH": "Astrid, Risda, Dinda, Sanah, Nisa"
+            },
+            {
+                "No": 12,
+                "Hari": "Jumat",
+                "Tanggal": "06-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Mussawir & Thohir",
+                "TAHLIL": "Haidir, Tahmid, Syamsi",
+                "USTADZAH": "Evi, Pranita, Shalatiyah, Ipaḥ, Diah"
+            },
+            {
+                "No": 13,
+                "Hari": "Sabtu",
+                "Tanggal": "07-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Sofyan & Kasmaran",
+                "TAHLIL": "Fahrul, Syarif, Hussaini",
+                "USTADZAH": "Risda, Astrid, Sanah, Dinda, Evi"
+            },
+            {
+                "No": 14,
+                "Hari": "Minggu",
+                "Tanggal": "08-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Jufri & Juni",
+                "TAHLIL": "Bahaudin, Salim, Mussawir",
+                "USTADZAH": "Nisa, Diah, Pranita, Shalatiyah, Astrid"
+            },
+            {
+                "No": 15,
+                "Hari": "Senin",
+                "Tanggal": "09-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Haidir & Syamsi",
+                "TAHLIL": "Thohir, Tahmid, Sofyan",
+                "USTADZAH": "Evi, Risda, Ipaḥ, Sanah, Dinda"
+            },
+            {
+                "No": 16,
+                "Hari": "Selasa",
+                "Tanggal": "10-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Kasmaran & Hussaini",
+                "TAHLIL": "Fahrul, Syarif, Jufri",
+                "USTADZAH": "Pranita, Astrid, Shalatiyah, Nisa, Evi"
+            },
+            {
+                "No": 17,
+                "Hari": "Rabu",
+                "Tanggal": "11-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Juni & Mussawir",
+                "TAHLIL": "Bahaudin, Salim, Haidir",
+                "USTADZAH": "Diah, Risda, Dinda, Sanah, Ipaḥ"
+            },
+            {
+                "No": 18,
+                "Hari": "Kamis",
+                "Tanggal": "12-Mar-26",
+                "IMAM MAGHRIB/ISYA": "Tahmid & Fahrul",
+                "TAHLIL": "Thohir, Syamsi, Sofyan",
+                "USTADZAH": "Evi, Pranita, Astrid, Shalatiyah, Nisa"
+            }
+        ];
 
         function populateTable() {
             const tbody = document.querySelector('#scheduleTable tbody');
-            let counter = 1;
+            tbody.innerHTML = '';
 
-            scheduleData.forEach((day) => {
-                let row1 = tbody.insertRow();
-                let cellNo = row1.insertCell();
-                let cellTanggal = row1.insertCell();
-                let cellUstadz1 = row1.insertCell();
-                let cellUstadzah1 = row1.insertCell();
+            const months = {
+                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mei': 4, 'Jun': 5,
+                'Jul': 6, 'Agu': 7, 'Sep': 8, 'Okt': 9, 'Nov': 10, 'Des': 11,
+                'May': 4, 'Aug': 7, 'Oct': 9, 'Dec': 11
+            };
 
-                cellNo.innerHTML = counter;
-                cellNo.rowSpan = 2;
-                cellTanggal.innerHTML = day.tanggal;
-                cellTanggal.rowSpan = 2;
-                cellUstadz1.innerHTML = `USTADZ ${day.ustadz[0]}`;
-                cellUstadzah1.innerHTML = `USTADZAH ${day.ustadzah[0]}`;
+            const dayShortMap = {
+                "Senin": "Sen", "Selasa": "Sel", "Rabu": "Rab",
+                "Kamis": "Kam", "Jumat": "Jum", "Sabtu": "Sab", "Minggu": "Min"
+            };
 
-                let row2 = tbody.insertRow();
-                let cellUstadz2 = row2.insertCell();
-                let cellUstadzah2 = row2.insertCell();
+            const today = new Date();
+            const todayString = today.toDateString();
 
-                cellUstadz2.innerHTML = `USTADZ ${day.ustadz[1]}`;
-                cellUstadzah2.innerHTML = `USTADZAH ${day.ustadzah[1]}`;
+            jadwalKajian.forEach((item) => {
+                const row = tbody.insertRow();
 
-                counter++;
+                // Format Tanggal: "Sen, 23 Feb 26"
+                const dayShort = dayShortMap[item.Hari] || item.Hari.substring(0, 3);
+                const dateClean = item.Tanggal.replace(/-/g, ' '); // Ganti "-" dengan spasi
+                const formattedDate = `${dayShort}, ${dateClean}`;
+
+                // Cek hari ini
+                const dateParts = item.Tanggal.split('-');
+                if (dateParts.length === 3) {
+                    const day = parseInt(dateParts[0]);
+                    const monthStr = dateParts[1];
+                    const year = 2000 + parseInt(dateParts[2]);
+
+                    if (months[monthStr] !== undefined) {
+                        const itemDate = new Date(year, months[monthStr], day);
+                        if (itemDate.toDateString() === todayString) {
+                            row.classList.add('today-row');
+                        }
+                    }
+                }
+
+                // Isi Cells
+                row.insertCell().textContent = item.No;
+                
+                const cellDate = row.insertCell();
+                cellDate.textContent = formattedDate;
+                
+                const cellImam = row.insertCell();
+                cellImam.innerHTML = `<span class="text-list-names">${item["IMAM MAGHRIB/ISYA"]}</span>`;
+
+                const cellTahlil = row.insertCell();
+                cellTahlil.innerHTML = `<span class="text-list-names">${item.TAHLIL}</span>`;
+
+                const cellUstadzah = row.insertCell();
+                cellUstadzah.innerHTML = `<span class="text-list-names">${item.USTADZAH}</span>`;
             });
         }
 
         function downloadTableAsJPG() {
-            const table = document.getElementById('scheduleTable');
-            html2canvas(table).then((canvas) => {
+            const tableElement = document.getElementById('scheduleTable');
+            
+            // Menangkap elemen tabel
+            html2canvas(tableElement, {
+                scale: 2, 
+                backgroundColor: '#ffffff'
+            }).then((canvas) => {
                 const link = document.createElement('a');
                 link.download = 'Jadwal_Petugas_Harian_Ramadhan_1446H.jpg';
-                link.href = canvas.toDataURL('image/jpeg');
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
                 link.click();
+            }).catch(err => {
+                console.error("Gagal mengunduh gambar:", err);
+                alert("Maaf, terjadi kesalahan saat membuat gambar jadwal.");
             });
         }
 
