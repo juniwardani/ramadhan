@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rumah Tahfidz Saijaan - Jadwal Iftar 1446 H</title>
+    <!-- Memuat Library Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -124,7 +126,7 @@
         #schedule tbody tr.date-group-even {
             background-color: #ADD8E6 !important; /* Light Blue */
         }
-        
+
         #schedule tbody tr.date-group-odd {
             background-color: #ffffff !important;
         }
@@ -222,17 +224,17 @@
             #schedule th:nth-child(1) {
                 width: 40px;
             }
-            
+
             #schedule td:nth-child(2),
             #schedule th:nth-child(2) {
                 width: 80px;
             }
-            
+
             #schedule td:nth-child(3),
             #schedule th:nth-child(3) {
                 width: 40px;
             }
-            
+
             #schedule td:nth-child(5),
             #schedule th:nth-child(5) {
                 width: 100px;
@@ -344,21 +346,21 @@
             min-width: 120px;
             max-width: 200px;
         }
-        
-.filter-group input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%; /* Input akan menyesuaikan lebar parent-nya */
-    max-width: 300px; /* Lebar maksimum input */
-}
 
-.filter-group input:focus {
-    outline: none;
-    border-color: maroon;
-    box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
-}
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%; /* Input akan menyesuaikan lebar parent-nya */
+            max-width: 300px; /* Lebar maksimum input */
+        }
+
+        .filter-group input:focus {
+            outline: none;
+            border-color: maroon;
+            box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -383,15 +385,13 @@
                 </select>
             </div>
 
-                    <div class="filter-group">
-    <label for="searchSantri">Cari Santri</label>
-    <input type="text" id="searchSantri" placeholder="Minimal 3 huruf">
-</div>
+            <div class="filter-group">
+                <label for="searchSantri">Cari Santri</label>
+                <input type="text" id="searchSantri" placeholder="Minimal 3 huruf">
+            </div>
 
             <button onclick="resetFilters()" class="reset-btn">Reset Filter</button>
         </div>
-        
-
 
         <!-- Wrap table in container -->
         <div class="table-container">
@@ -407,6 +407,7 @@
                 </thead>
                 <tbody>
                     <!-- Data akan diisi oleh JavaScript -->
+                    <tr><td colspan="5" style="text-align:center;">Memuat data...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -440,1140 +441,89 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        // --- KONFIGURASI SUPABASE ---
+        const supabaseUrl = 'https://lrkechznknwqnxckyfcg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxya2VjaHpua253cW54Y2t5ZmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMjgzODEsImV4cCI6MjA0NDcwNDM4MX0.Tj8p1u3_DGQnqhPkS6AJGs5BwOSeebdvsknX2qHzwdQ';
+        
+        // Inisialisasi Supabase Client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
         const tbody = document.querySelector('#schedule tbody');
         const printTbody = document.querySelector('#printSchedule tbody');
         const filterPembimbing = document.getElementById("filterPembimbing");
         const filterTanggal = document.getElementById("filterTanggal");
 
-        // Simulasi data jadwal santri & pembimbing
-                const scheduleData = {
-"05-03-2025": [
-{
-            "santri": "JALALLUDIN AS-SYAYUTI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-    {
-        "santri": "MUHAMMAD KHAIRIL AKMAL<br>(SITI ALYA HUMAIRO)",
-        "pembimbing": "USTADZAH IPAH"
-    },
-        {
-            "santri": "RAFLI DAFFA SANTOSO",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "RAQA MAFAZI AGFA <br>(AZKA RAYYAN AGFA)",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "SAID FAUZAN ROSIDI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ARIANSYAH",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MUHAMMAD NABHAN AHNAF",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "ABIMANYU",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "FARHAN RASYAD FARANDY",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "MUHAMMAD FARIZ AL FATIH",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "ELVIRA AISYAH AZZAHRA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "FAIRA MEHRUNISA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "LULU AZKIA ZIDNIE",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "M. FAUZI",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "NIHAYATUS SHOLIHAH",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "06-03-2025": [
-        {
-            "santri": "AHMAD DIRJAT ABDALA",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "M. RIZQI YAZID<br>(AMALIA NUR RIZQA)",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "FATIMAH AL KHAIRAH",
-            "pembimbing": "USTADZAH SHALATIYAH"
-        },
-        {
-            "santri": "MUHAMMAD AYLABY FATHORY",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "DEALIVINA ADESTI ROHMAN",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "MUHAMMAD NABIL RIADI",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "AHMAD ZIO ZAVIER AZZAM",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ANDI AISYAH AYUDIA INARA",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "ALYA IMANI",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "AKMAL BISMA AJI",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "SITI ALIYAH",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "MUHAMMAD GHANI HANAFI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD GHIFARI AR RAFIF",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD ABID JAUHAIR",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD YAZID",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "FAHMA AHNAN",
-            "pembimbing": "USTADZAH ASTRID"
-        }
-    ],
-    "07-03-2025": [
-        {
-            "santri": "AKHMAD VIQRI SAPUTRA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ALIFA FATHIYYA HAMZAH",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "DHAFITHA ZAYDA ALWI",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "NAFEEZA IQLIMA ANDENI",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "MUHAMMAD NAHRU ROHMAN",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "KHADIJAH IZZATI",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "NASWA SALSABILA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MARITZA SABRINA HAMIZA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M.HUSEIN ALFANI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD GILANG PRATAMA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M. MULTAZAM",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "HARLY PRASETYO",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "AZWA SAFRINA DINIY NAZURAH",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "NAFIATUL NAFISAH",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD FAIREL ATHARIZZ",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "08-03-2025": [
-        {
-            "santri": "MAULIA RAHMAWATI",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "ATHA ZHADA APRILIA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "MUHAMMAD EMIR AL FURQON",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "NADIFA ZAFIRA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD BILAL AL-FATTAAH",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "SELVIA KHAIRUN ASPIA",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "SITI AISYAH",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "ALMATARA KHUMAIRA",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "HAUZAN IRHAF NABIL",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "ATIKA MAHIRA ZALFA <br>(M. AZKA ALFARO)",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "PUTRI FATMA ZAHIRA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MUHAMMAD ALKHALIFI ZIKRI HADY",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "NIA NUR RAMADHANI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD AL FATIH",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "AYESHA HAYFA MAHIRA",
-            "pembimbing": "USTADZ SOFYAN"
-        }
-    ],
-    "09-03-2025": [
-        {
-            "santri": "MAMA FADLY",
-            "pembimbing": "SUKA RELA"
-        },
-        {
-            "santri": "ELFAHMI AMMAR MILHAQ",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "ALLISHA ZHAFIRADIVA FAISAL",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "SELLYN RIZKI MARSHANTI",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MIRANDA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "RIZQY NABILA ALMERA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "KHANSA HUMAIRA",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "MARLINA AMELIA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "SILVIA PUTRI RAMADHANI<br>(M. RIFA'I)",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "ALIKA NAILA PUTRI",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "NUR ZAHIDAH ZULFA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "KEYRA ANDITA BALQIS<br>(YUMNA GITA KINANTI)",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD RASYID FAUZI",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "AFDALIA",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "M.HARIRI",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "10-03-2025": [
-        {
-            "santri": "HAIDIR MUARAS",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M. ALI REVAN",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "AILUL ZAKI ALFIN",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "M. YUSUF HAMDANI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "HERMI MULIA SARI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD RAFIF AL FARAZ",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD SALMAN ALFHARIZHI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M. RABBANI FAQIH",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "MUHAMMAD ARYO MIDIKA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "RISKY ANNISA RASYIDAH",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "MUHAMMAD ZAKY MIRZA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "M. MALIK WAFI ROBBANI",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "FATIH YASIR MUBAROK",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "BINTANG NADHIF NAFASAT",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "AINA ASYIFA",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "11-03-2025": [
-        {
-            "santri": "MUHAMMAD FAJAR",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "USTADZ SYARIF & USTADZAH SANAH",
-            "pembimbing": "SUKA RELA"
-        },
-        {
-            "santri": "MUHAMMAD ZIDAN",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "BARKATUL AULYA",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "SOFIATUS ZAHRA",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "NAZWA FAIRUZ",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M. YUSUF MADANI",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "AHMAD SYAMIL KHAIRAN",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "RAISA NADHIFA CISHANDY PUTRI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD ULIL ALBAB",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M. RESTU FIRDAUS",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "NAJWA KHAIRI SILALAHI",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "M. HAFIDZ AR RAYYAN FAHLEVI <br> (HAFIDZA KHAIRA YUMNA FAHLEVI)",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "AISYAH AFIFA A.",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "LAILY WARITSA",
-            "pembimbing": "USTADZ FAHRUL"
-        }
-    ],
-    "12-03-2025": [
-        {
-            "santri": "M. RAPPA RAMADHAN",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "FAIZ HAZMI ANWARI",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MUHAMMAD FAEYZA NAUFAL",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "NADIYA MAULIDA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "ANNIDA ZAHRATUNNISA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ZHARFAN EL RAFIF INDAH",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "ISMAH NUR RAMADHANI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "AZZAHRA MAISOUPA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD RAJENDRA RAFAEL",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "NAURA ZAIFA KHAIRA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "M. ADAM AL FATIH",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "ZAITUN NISA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "AYSHA RAMADANI",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "LAKEISHA 'ARIFAH",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "NURIATU KHOLILLAH",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "13-03-2025": [
-        {
-            "santri": "SITI MAYSYAROH",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MUHAMMAD RAFKA ANWAR",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "ATIFA AYUDYHA HASAN",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "FATIMAH ZAHRA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "SHAFIRA SALSABILA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "ADITYA DARMA PUTRA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD RASYID RIDHO",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "NOOR AZIZAH",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "NOOR WAFA AQILA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "KHALIZA MOZZAHRA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "JAHRA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "ALFARIZKY MELAN PRATAMA",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "MUHAMMAD ZIYYAN FAIRUZ AL AQTAB",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "QOONITAH & QOTHRUNNADAA RUSFASA",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "MAMA WILLY",
-            "pembimbing": "SUKA RELA"
-        }
-    ],
-    "14-03-2025": [
-        {
-            "santri": "NAYLA ZHAFIRA FITRIANI",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "AMIRAH FIRJATUL ZAHRA",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "SYAQILA SALSABILA SETIAWAN",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MUHAMMAD RAFKA FAIZAR",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "FAYRA NUR RABIYA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "MUHAMMAD ADLI MAULANA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "RAKHA NURHAFIDZAN",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "AHMAD ADIB MUHARRAM",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ANGGITA AZZAHRA",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "SITI AINUN AZZAHRA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "AHMAD FAIQ FAHMI",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "QYTARA KHANSA ALHUDA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "NAYSYILA AZIZAH",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "ZAINAL ILMI",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "M. RAFI SYAHDILLA",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "15-03-2025": [
-        {
-            "santri": "KAYLA ATIIQAH SARI",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "META RAIHANA",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "RAHMAT HIDAYAT",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "RADEN FADIL PRATAMA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "GUSTI SATRIO HAFIDZ RAFIE RABBANI",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "MUHAMMAD MUHAJIR ANSHORY",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "M. AFIF NAWABIGHNA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "AHMAD GALIH PRIHANDOWO",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MUHAMMAD SHOLIHIN",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "ASYIFA KURNIA DIRAMIX",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "AHMAD RAMADANI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "AIRA SA'DANA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "AISYAH HUMAIRA<br>(FADHILA ZAHRA)",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "SYAILLA NAMIRA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD HAIKAL BAGUS",
-            "pembimbing": "USTADZ TAHMID"
-        }
-    ],
-    "19-03-2025": [
-       {
-            "santri": "MUHAMMAD KHAFID ALKHALIFI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "ADIBA MUKHTAZA",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "M.HANAN AL FAIZ",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "RAIHAN NURFAIZ",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD SHIDQII FADHILLAH",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "TIARA LUTHFIYAH",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "LISA AMELIA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MAULIDA FEBRIANI PUTRI",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "NAYLA FAUJIAH",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "GUSTI HANIF AL KHALIFI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M. ZAINUL SULTHON",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "FATIMAH AZKIA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "RUMAH TAHFIDZ SAIJAAN",
-            "pembimbing": "RTS"
-        },
-        {
-            "santri": "MUHAMMAD AZKA NAZHAN",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "ALFIANDRA",
-            "pembimbing": "USTADZAH ASTRID"
-        }
-    ],
-    "18-03-2025": [
-        {
-            "santri": "ARA SALSABILA",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "FATIMAH SHAQILA KHAIRINA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD SAMMAN AL MADANI",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "AINAYYA FATIATUR RAHMA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "ASSYIFA MAWADDAH",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "SITI NURHAYATUL HASANAH",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "MIFTAHUR YUMNA MUFAKHAM",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "AHMAD AZRIL RAZZAN RAHMATULLAH",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "ALYA NUR ASYILA",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "MUHAMMAD DZAKY MAULANA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "DAFA RADITIYA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "NADILA PUTRI HALIMAH",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "TALITA ANINDYA SYAKIRA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "FARAH KAMILIA YASMIN",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "M. RIZKY",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "16-03-2025": [
-        {
-            "santri": "REGINA RAHADHATUL AISY",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "MUHAMMAD FATIH NAJIB",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "RIZKA RAMADHANI<br>(RIANA AZMI)",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "M. HAFIDZ RAMADANISH",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M. RESTU FIRDAUS (NUR VIRDA AYUNDA)",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "ALISIA AURELIA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "MUHAMMAD RIZKY ZAIDAN",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "AMIRAH HASNA HAKIMAH",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD SAMMAN",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "M. HABIBI DARUSSALAM",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "AZZAHRA NUR KAMILA",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "RAYSA ALYA SHAKILA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "ARIQA SYAHMINA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "AZZILA KHAIRUNNISA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "ELSA RAIDA RAHMAWATI",
-            "pembimbing": "USTADZ TAHMID"
-        }
-    ],
-    "17-03-2025": [
-        {
-            "santri": "NAURA HUBBI FATIMAH AZZAHRA",
-            "pembimbing": "USTADZ SALIM"
-        },
-        {
-            "santri": "SITI AMZAR JAMIL",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "AISHA NUR ZAHIRA<br>(MUHAMMAD AKBAR SAFARUDIN)",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M. DAFFA NURRAMDHANI",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "MAHARANI AULIA SUBHAN",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "MUHAMMAD ADITYA SAPUTRA <br>(NUR ADELIA SAFITRI)",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "ALIYA ANISAH",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "GUSTI FATHIYA RILLIE HASYAWAZA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD NAJIBILKHAIRY",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "NUR HUMAIRA AZ ZAHRA",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "SAFWAN DANISH",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "AZQIYA TALITA PUTRI",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "LATISHA PRAMESTI BUDIONO",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "LUTFIA MUTMAINNAH",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "KHALISA SALSABILA",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "20-03-2025": [
-        {
-            "santri": "RIZKI AUFAR OKTAVIAN",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "M. FAIZ IRAWAN",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "SHIREEN ZEA ASSYIFA",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "ZHAFIRA ZIYADATUL KHAIR",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "AHMAD FAKHRI AKBAR",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "FINA MAULINA",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "SITI ZAGIA GATI RAMADHANA",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "AZKIA FILZIA PUTRI",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "GHINA RAFHANDA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "KURNIAWATI",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "M. ALIF YAHSAN",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M.RIZKY RADITYA TOKAN",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "HERLINA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "M. NASYID HAIKAL",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "MUHAMMAD AUFA RAHMAN<br>(RIF'AT AZIZI RAHMAN)",
-            "pembimbing": "USTADZ SYAMSI"
-        }
-    ],
-    "21-03-2025": [
-        {
-            "santri": "HAIQAL FAIZ",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ANDI RIKA SANDRA RAHAYU",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "M. ARKAN RAMADHAN",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "NOOR AQILA FATIMAH",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD FIKRI",
-            "pembimbing": "USTADZ TAHMID"
-        },
-        {
-            "santri": "NUR AFIFAH ZAIN",
-            "pembimbing": "USTADZ FAHRUL"
-        },
-        {
-            "santri": "NUR ATHIFAH",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "TAMINA NUR ASSYIFA <br>(MUHAMMAD ARYA PRATAMA)",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "NUR AFIQA HUMAIRA",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "AISYAH AQILAH",
-            "pembimbing": "USTADZAH SHALATIYAH"
-        },
-        {
-            "santri": "ZAHARA ALHENA DINAR",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MUHAMMAD ZAKY AL FATIH",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "MUHAMMAD FAIQ JAYYIDAN",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "RUMAH TAHFIDZ SAIJAAN",
-            "pembimbing": "RTS"
-        },
-        {
-            "santri": "KHANSA RAHMINI AZZAHRA",
-            "pembimbing": "USTADZAH RISDA"
-        }
-    ],
-    "22-03-2025": [
-        {
-            "santri": "AZKA MAULIDA NURRACHMAH <br>(MUHAMMAD TIRTA FARSYA UTAMA)",
-            "pembimbing": "USTADZAH IPAH"
-        },
-        {
-            "santri": "FAEZA HASAN AZHARI",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "MUHAMMAD RAMA FAKHRULAH",
-            "pembimbing": "USTADZ HAIDIR"
-        },
-        {
-            "santri": "HUMAIRA ASSYIFA NUR JANNAH",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "MUHAMMAD FATHIR ABIYYU",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "MUHAMMAD HAFID FADILAH",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "GHAAZIYA LUBNAYYA",
-            "pembimbing": "USTADZ SYARIF"
-        },
-        {
-            "santri": "AQILA NIRMALA DEWI",
-            "pembimbing": "USTADZ UMAM"
-        },
-        {
-            "santri": "SITI AMIRA NAJMUTSAQIBAH",
-            "pembimbing": "USTADZ JUFRI"
-        },
-        {
-            "santri": "MUHAMMAD INSYIRA RAMADHAN",
-            "pembimbing": "USTADZ SOFYAN"
-        },
-        {
-            "santri": "ALISHA RANIA AZZAHRA",
-            "pembimbing": "USTADZAH ASTRID"
-        },
-        {
-            "santri": "M. RADITYA RAHMAN",
-            "pembimbing": "USTADZAH RISDA"
-        },
-        {
-            "santri": "RAISA AQILA PUTRI",
-            "pembimbing": "USTADZ HUSSAINI"
-        },
-        {
-            "santri": "NAYLA RIZKY AMALIA",
-            "pembimbing": "USTADZ SYAMSI"
-        },
-        {
-            "santri": "NUR HALIFAH LESTARI",
-            "pembimbing": "USTADZAH ASTRID"
-        }
-    ]
-};
+        // Variabel Global Data (dikosongkan, akan diisi via Supabase)
+        let scheduleData = {};
 
-        function formatDate(date) {
-            let dd = String(date.getDate()).padStart(2, '0');
-            let mm = String(date.getMonth() + 1).padStart(2, '0');
-            let yyyy = date.getFullYear();
-            return `${dd}-${mm}-${yyyy}`;
+        // --- FUNGSI UTAMA: MENGAMBIL DATA DARI SUPABASE ---
+        async function fetchScheduleData() {
+            try {
+                // Query ke tabel 'jadwal_buka_puasa'
+                const { data, error } = await supabaseClient
+                    .from('jadwal_buka_puasa')
+                    .select('*')
+                    .not('tanggal', 'is', null) // Hanya ambil yang ada tanggalnya
+                    .order('tanggal', { ascending: true });
+
+                if (error) throw error;
+
+                // Proses data dari format SQL ke format JS Object
+                processRawData(data);
+
+                // Setelah data siap, inisialisasi tampilan
+                populateDropdowns();
+                generateTable();
+
+            } catch (err) {
+                console.error("Gagal memuat data:", err);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuat data. Periksa koneksi internet.</td></tr>`;
+            }
+        }
+
+        // --- FUNGSI TRANSFORMASI DATA (LOGIKA BERSAUDARA) ---
+        function processRawData(data) {
+            scheduleData = {};
+
+            data.forEach(row => {
+                if (row.tanggal) {
+                    // Konversi format tanggal YYYY-MM-DD (SQL) -> DD-MM-YYYY (Tampilan)
+                    const dateParts = row.tanggal.split('-');
+                    const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+                    if (!scheduleData[formattedDate]) {
+                        scheduleData[formattedDate] = [];
+                    }
+
+                    // Logika Siblings: Jika nama1 dan nama2 ada, gabungkan menjadi satu entry
+                    let santriName = "";
+                    let pembimbingName = "";
+
+                    // Cek nama
+                    if (row.nama1 && row.nama2) {
+                        santriName = `${row.nama1} / ${row.nama2}`;
+                    } else if (row.nama1) {
+                        santriName = row.nama1;
+                    } else if (row.nama2) {
+                        santriName = row.nama2;
+                    }
+
+                    // Cek pembimbing (jika ada 2 pembimbing berbeda, kita gabung juga agar jelas)
+                    if (row.pembimbing1 && row.pembimbing2 && row.pembimbing1 !== row.pembimbing2) {
+                        pembimbingName = `${row.pembimbing1} / ${row.pembimbing2}`;
+                    } else {
+                        pembimbingName = row.pembimbing1 || row.pembimbing2 || "-";
+                    }
+
+                    // Masukkan ke array scheduleData
+                    // Kita hanya membuat 1 object per baris database (karena siblings sudah digabung)
+                    scheduleData[formattedDate].push({
+                        santri: santriName,
+                        pembimbing: pembimbingName
+                    });
+                }
+            });
         }
 
         function populateDropdowns() {
@@ -1636,7 +586,7 @@
                     let firstRow = true;
                     let rowspan = santriList.length;
                     dailyNo = filterPembimbing === "all" ? 1 : filteredNo;
-                    
+
                     dateGroupCounter++;
                     const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
 
@@ -1692,17 +642,17 @@
             const tableContainer = document.querySelector('.printable-content');
             const subtitleElement = document.getElementById('printSubtitle');
             const selectedPembimbing = document.getElementById('filterPembimbing').value;
-            
+
             // Set subtitle berdasarkan filter pembimbing
             if (selectedPembimbing !== 'all') {
                 subtitleElement.textContent = `Pembimbing: ${selectedPembimbing}`;
             } else {
                 subtitleElement.textContent = ''; // Kosongkan jika "Semua"
             }
-            
+
             // Tampilkan elemen yang akan di-capture
             tableContainer.style.display = 'block';
-            
+
             const options = {
                 scale: 2,
                 backgroundColor: '#ffffff',
@@ -1716,31 +666,31 @@
                 link.download = 'jadwal_iftar.jpg';
                 link.href = canvas.toDataURL('image/jpeg', 0.8);
                 link.click();
-                
+
                 // Sembunyikan kembali setelah selesai
                 tableContainer.style.display = 'none';
             });
         }
 
         function resetFilters() {
-    const filterTanggal = document.getElementById("filterTanggal");
-    const filterPembimbing = document.getElementById("filterPembimbing");
-    const searchSantri = document.getElementById("searchSantri");
+            const filterTanggal = document.getElementById("filterTanggal");
+            const filterPembimbing = document.getElementById("filterPembimbing");
+            const searchSantri = document.getElementById("searchSantri");
 
-    filterTanggal.value = "all";
-    filterPembimbing.value = "all";
-    searchSantri.value = "";
+            filterTanggal.value = "all";
+            filterPembimbing.value = "all";
+            searchSantri.value = "";
 
-    filterTanggal.disabled = false;
-    filterPembimbing.disabled = false;
+            filterTanggal.disabled = false;
+            filterPembimbing.disabled = false;
 
-    generateTable();
-}
+            generateTable();
+        }
 
         // Event listeners untuk filter
         document.getElementById("filterTanggal").addEventListener("change", function() {
             const filterPembimbing = document.getElementById("filterPembimbing");
-            
+
             if (this.value !== "all") {
                 // Jika filter tanggal dipilih, nonaktifkan filter pembimbing
                 filterPembimbing.value = "all";
@@ -1749,13 +699,13 @@
                 // Jika filter tanggal "Semua", aktifkan kembali filter pembimbing
                 filterPembimbing.disabled = false;
             }
-            
+
             generateTable(filterPembimbing.value, this.value);
         });
 
         document.getElementById("filterPembimbing").addEventListener("change", function() {
             const filterTanggal = document.getElementById("filterTanggal");
-            
+
             if (this.value !== "all") {
                 // Jika filter pembimbing dipilih, nonaktifkan filter tanggal
                 filterTanggal.value = "all";
@@ -1764,7 +714,7 @@
                 // Jika filter pembimbing "Semua", aktifkan kembali filter tanggal
                 filterTanggal.disabled = false;
             }
-            
+
             generateTable(this.value, filterTanggal.value);
         });
 
@@ -1779,116 +729,110 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize
-        populateDropdowns();
-        generateTable();
-        
+        // Initialize: Panggil fungsi fetch data
+        fetchScheduleData();
+
         function searchSantri(query) {
-    const filteredData = {};
-    const lowerCaseQuery = query.toLowerCase();
+            const filteredData = {};
+            const lowerCaseQuery = query.toLowerCase();
 
-    for (const tanggal in scheduleData) {
-        const filteredEntries = scheduleData[tanggal].filter(entry => 
-            entry.santri.toLowerCase().includes(lowerCaseQuery)
-        );
-        if (filteredEntries.length > 0) {
-            filteredData[tanggal] = filteredEntries;
+            for (const tanggal in scheduleData) {
+                const filteredEntries = scheduleData[tanggal].filter(entry => 
+                    entry.santri.toLowerCase().includes(lowerCaseQuery)
+                );
+                if (filteredEntries.length > 0) {
+                    filteredData[tanggal] = filteredEntries;
+                }
+            }
+
+            return filteredData;
         }
-    }
 
-    return filteredData;
-}
+        function handleSearch() {
+            const searchInput = document.getElementById('searchSantri');
+            const query = searchInput.value.trim();
 
-function handleSearch() {
-    const searchInput = document.getElementById('searchSantri');
-    const query = searchInput.value.trim();
+            if (query.length >= 3) {
+                const filteredData = searchSantri(query);
+                generateTableWithData(filteredData);
+            } else {
+                generateTable();
+            }
+        }
 
-    if (query.length >= 3) {
-        const filteredData = searchSantri(query);
-        generateTableWithData(filteredData);
-    } else {
-        generateTable();
-    }
-}
+        function generateTableWithData(data) {
+            tbody.innerHTML = "";
+            printTbody.innerHTML = "";
+            let no = 1;
+            let dailyNo = 1;
+            let dateGroupCounter = 0;
 
-function generateTableWithData(data) {
-    tbody.innerHTML = "";
-    printTbody.innerHTML = "";
-    let no = 1;
-    let dailyNo = 1;
-    let dateGroupCounter = 0;
-
-    const sortedDates = Object.keys(data).sort((a, b) => {
-        const dateA = new Date(a.split('-').reverse().join('-'));
-        const dateB = new Date(b.split('-').reverse().join('-'));
-        return dateA - dateB;
-    });
-
-    for (let tanggal of sortedDates) {
-        let santriList = data[tanggal] || [];
-
-        if (santriList.length > 0) {
-            let firstRow = true;
-            let rowspan = santriList.length;
-            dailyNo = 1;
-
-            dateGroupCounter++;
-            const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
-
-            santriList.forEach((entry) => {
-                const row = document.createElement('tr');
-                row.classList.add(groupClass);
-
-                if (firstRow) {
-                    row.innerHTML = `
-                        <td rowspan="${rowspan}">${no}</td>
-                        <td rowspan="${rowspan}">${tanggal}</td>
-                        <td>${dailyNo}</td>
-                        <td>${entry.santri}</td>
-                        <td>${entry.pembimbing}</td>
-                    `;
-                } else {
-                    row.innerHTML = `
-                        <td>${dailyNo}</td>
-                        <td>${entry.santri}</td>
-                        <td>${entry.pembimbing}</td>
-                    `;
-                }
-                tbody.appendChild(row);
-
-                const printRow = document.createElement('tr');
-                printRow.classList.add(groupClass);
-                if (firstRow) {
-                    printRow.innerHTML = `
-                        <td rowspan="${rowspan}">${dailyNo}</td>
-                        <td rowspan="${rowspan}">${tanggal}</td>
-                        <td>${entry.santri}</td>
-                    `;
-                } else {
-                    printRow.innerHTML = `
-                        <td>${entry.santri}</td>
-                    `;
-                }
-                printTbody.appendChild(printRow);
-
-                if (firstRow) {
-                    firstRow = false;
-                    no++;
-                }
-                dailyNo++;
+            const sortedDates = Object.keys(data).sort((a, b) => {
+                const dateA = new Date(a.split('-').reverse().join('-'));
+                const dateB = new Date(b.split('-').reverse().join('-'));
+                return dateA - dateB;
             });
-        }
-    }
-}
 
-document.getElementById('searchSantri').addEventListener('input', function() {
-    handleSearch();
-});
-        
-        
-        
-        
-        
+            for (let tanggal of sortedDates) {
+                let santriList = data[tanggal] || [];
+
+                if (santriList.length > 0) {
+                    let firstRow = true;
+                    let rowspan = santriList.length;
+                    dailyNo = 1;
+
+                    dateGroupCounter++;
+                    const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
+
+                    santriList.forEach((entry) => {
+                        const row = document.createElement('tr');
+                        row.classList.add(groupClass);
+
+                        if (firstRow) {
+                            row.innerHTML = `
+                                <td rowspan="${rowspan}">${no}</td>
+                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td>${dailyNo}</td>
+                                <td>${entry.santri}</td>
+                                <td>${entry.pembimbing}</td>
+                            `;
+                        } else {
+                            row.innerHTML = `
+                                <td>${dailyNo}</td>
+                                <td>${entry.santri}</td>
+                                <td>${entry.pembimbing}</td>
+                            `;
+                        }
+                        tbody.appendChild(row);
+
+                        const printRow = document.createElement('tr');
+                        printRow.classList.add(groupClass);
+                        if (firstRow) {
+                            printRow.innerHTML = `
+                                <td rowspan="${rowspan}">${dailyNo}</td>
+                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td>${entry.santri}</td>
+                            `;
+                        } else {
+                            printRow.innerHTML = `
+                                <td>${entry.santri}</td>
+                            `;
+                        }
+                        printTbody.appendChild(printRow);
+
+                        if (firstRow) {
+                            firstRow = false;
+                            no++;
+                        }
+                        dailyNo++;
+                    });
+                }
+            }
+        }
+
+        document.getElementById('searchSantri').addEventListener('input', function() {
+            handleSearch();
+        });
     </script>
 </body>
 </html>
