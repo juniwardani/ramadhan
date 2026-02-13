@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Tahfidz Saijaan - Jadwal Iftar 1446 H</title>
+    <title>Rumah Tahfidz Saijaan - Jadwal Iftar 1447 H</title>
     <!-- Memuat Library Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
@@ -227,7 +227,7 @@
 
             #schedule td:nth-child(2),
             #schedule th:nth-child(2) {
-                width: 80px;
+                width: 120px; /* Sedikit dilebar karena format tanggal baru */
             }
 
             #schedule td:nth-child(3),
@@ -369,7 +369,7 @@
     </header>
 
     <div class="content">
-        <h2>Jadwal Penyediaan Iftar Ramadhan 1446 H</h2>
+        <h2>Jadwal Penyediaan Iftar Ramadhan 1447 H</h2>
 
         <div class="controls">
             <div class="filter-group">
@@ -414,7 +414,7 @@
 
         <!-- Container terpisah untuk hasil download -->
         <div class="printable-content">
-            <h2 style="margin-bottom: 0;">Jadwal Penyedia Iftar Ramadhan 1446 H</h2>
+            <h2 style="margin-bottom: 0;">Jadwal Penyedia Iftar Ramadhan 1447 H</h2>
             <h3 id="printSubtitle" style="margin: 0.2rem 0 1rem; text-align: center; font-size: 0.9rem; font-weight: normal;"></h3>
             <table id="printSchedule">
                 <thead>
@@ -444,7 +444,7 @@
         // --- KONFIGURASI SUPABASE ---
         const supabaseUrl = 'https://lrkechznknwqnxckyfcg.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxya2VjaHpua253cW54Y2t5ZmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMjgzODEsImV4cCI6MjA0NDcwNDM4MX0.Tj8p1u3_DGQnqhPkS6AJGs5BwOSeebdvsknX2qHzwdQ';
-        
+
         // Inisialisasi Supabase Client
         const { createClient } = supabase;
         const supabaseClient = createClient(supabaseUrl, supabaseKey);
@@ -455,7 +455,22 @@
         const filterTanggal = document.getElementById("filterTanggal");
 
         // Variabel Global Data (dikosongkan, akan diisi via Supabase)
+        // Struktur: { "2026-02-23": [ { santri: "Nama", pembimbing: "Pembimbing" } ] }
         let scheduleData = {};
+
+        // --- KONFIGURASI FORMAT TANGGAL ---
+        const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+        // Fungsi untuk format tampilan: "Sen, 23 Feb 2026"
+        function formatDisplayDate(isoDate) {
+            const date = new Date(isoDate);
+            const dayName = dayNames[date.getDay()];
+            const day = date.getDate();
+            const monthName = monthNames[date.getMonth()];
+            const year = date.getFullYear();
+            return `${dayName}, ${day} ${monthName} ${year}`;
+        }
 
         // --- FUNGSI UTAMA: MENGAMBIL DATA DARI SUPABASE ---
         async function fetchScheduleData() {
@@ -488,12 +503,11 @@
 
             data.forEach(row => {
                 if (row.tanggal) {
-                    // Konversi format tanggal YYYY-MM-DD (SQL) -> DD-MM-YYYY (Tampilan)
-                    const dateParts = row.tanggal.split('-');
-                    const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                    // Gunakan format ISO (YYYY-MM-DD) sebagai key untuk sorting yang mudah
+                    const isoDate = row.tanggal; 
 
-                    if (!scheduleData[formattedDate]) {
-                        scheduleData[formattedDate] = [];
+                    if (!scheduleData[isoDate]) {
+                        scheduleData[isoDate] = [];
                     }
 
                     // Logika Siblings: Jika nama1 dan nama2 ada, gabungkan menjadi satu entry
@@ -509,8 +523,7 @@
                         santriName = row.nama2;
                     }
 
-                    // Cek pembimbing (jika ada 2 pembimbing berbeda, kita gabung juga agar jelas)
-                    // Ini menyimpan format "A / B" di dalam data, nanti akan dipecah di filter
+                    // Cek pembimbing
                     if (row.pembimbing1 && row.pembimbing2 && row.pembimbing1 !== row.pembimbing2) {
                         pembimbingName = `${row.pembimbing1} / ${row.pembimbing2}`;
                     } else {
@@ -518,7 +531,7 @@
                     }
 
                     // Masukkan ke array scheduleData
-                    scheduleData[formattedDate].push({
+                    scheduleData[isoDate].push({
                         santri: santriName,
                         pembimbing: pembimbingName
                     });
@@ -528,21 +541,17 @@
 
         function populateDropdowns() {
             // Populate tanggal dropdown
-            const tanggalSet = new Set(Object.keys(scheduleData));
-            const sortedTanggal = Array.from(tanggalSet).sort((a, b) => {
-                const dateA = new Date(a.split('-').reverse().join('-'));
-                const dateB = new Date(b.split('-').reverse().join('-'));
-                return dateA - dateB;
-            });
+            // Karena key sudah format ISO (YYYY-MM-DD), sort string bisa langsung digunakan
+            const sortedDates = Object.keys(scheduleData).sort((a, b) => a.localeCompare(b));
 
-            sortedTanggal.forEach(tanggal => {
+            sortedDates.forEach(isoDate => {
                 let option = document.createElement("option");
-                option.value = tanggal;
-                option.textContent = tanggal;
+                option.value = isoDate; // Value tetap ISO untuk filtering
+                option.textContent = formatDisplayDate(isoDate); // Teks format baru
                 filterTanggal.appendChild(option);
             });
 
-            // --- PERUBAHAN LOGIKA: POPULATE PEMBIMBING ---
+            // --- LOGIKA PEMBIMBING ---
             let pembimbingSet = new Set();
             for (const key in scheduleData) {
                 scheduleData[key].forEach(entry => {
@@ -565,7 +574,7 @@
             });
         }
 
-        function generateTable(filterPembimbing = "all", filterTanggal = "all") {
+        function generateTable(filterPembimbingVal = "all", filterTanggalVal = "all") {
             tbody.innerHTML = "";
             printTbody.innerHTML = "";
             let no = 1;
@@ -573,33 +582,27 @@
             let filteredNo = 1;
             let dateGroupCounter = 0;
 
-            // Mengurutkan tanggal
-            const sortedDates = Object.keys(scheduleData).sort((a, b) => {
-                const dateA = new Date(a.split('-').reverse().join('-'));
-                const dateB = new Date(b.split('-').reverse().join('-'));
-                return dateA - dateB;
-            });
+            // Sort dates (ISO format sorts correctly alphabetically)
+            const sortedDates = Object.keys(scheduleData).sort((a, b) => a.localeCompare(b));
 
-            // Menggunakan tanggal yang sudah diurutkan
-            for (let tanggal of sortedDates) {
-                if (filterTanggal !== "all" && tanggal !== filterTanggal) continue;
+            for (let isoDate of sortedDates) {
+                // Filter tanggal
+                if (filterTanggalVal !== "all" && isoDate !== filterTanggalVal) continue;
 
-                let santriList = scheduleData[tanggal] || [];
+                let santriList = scheduleData[isoDate] || [];
 
-                // --- PERUBAHAN LOGIKA: FILTER PEMBIMBING ---
-                if (filterPembimbing !== "all") {
+                // Filter Pembimbing
+                if (filterPembimbingVal !== "all") {
                     santriList = santriList.filter(s => {
-                        // Pecah pembimbing pada baris data saat ini
                         const rowMentors = s.pembimbing.split(' / ');
-                        // Cek apakah pembimbing yang dipilih ada di dalam baris ini
-                        return rowMentors.includes(filterPembimbing);
+                        return rowMentors.includes(filterPembimbingVal);
                     });
                 }
 
                 if (santriList.length > 0) {
                     let firstRow = true;
                     let rowspan = santriList.length;
-                    dailyNo = filterPembimbing === "all" ? 1 : filteredNo;
+                    dailyNo = filterPembimbingVal === "all" ? 1 : filteredNo;
 
                     dateGroupCounter++;
                     const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
@@ -607,11 +610,14 @@
                     santriList.forEach((entry) => {
                         const row = document.createElement('tr');
                         row.classList.add(groupClass);
+                        
+                        // Format tanggal untuk tampilan
+                        const displayDate = formatDisplayDate(isoDate);
 
                         if (firstRow) {
                             row.innerHTML = `
                                 <td rowspan="${rowspan}">${no}</td>
-                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td rowspan="${rowspan}">${displayDate}</td>
                                 <td>${dailyNo}</td>
                                 <td>${entry.santri}</td>
                                 <td>${entry.pembimbing}</td>
@@ -631,7 +637,7 @@
                         if (firstRow) {
                             printRow.innerHTML = `
                                 <td rowspan="${rowspan}">${dailyNo}</td>
-                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td rowspan="${rowspan}">${displayDate}</td>
                                 <td>${entry.santri}</td>
                             `;
                         } else {
@@ -646,7 +652,7 @@
                             no++;
                         }
                         dailyNo++;
-                        if (filterPembimbing !== "all") filteredNo++;
+                        if (filterPembimbingVal !== "all") filteredNo++;
                     });
                 }
             }
@@ -687,49 +693,45 @@
         }
 
         function resetFilters() {
-            const filterTanggal = document.getElementById("filterTanggal");
-            const filterPembimbing = document.getElementById("filterPembimbing");
+            const filterTanggalEl = document.getElementById("filterTanggal");
+            const filterPembimbingEl = document.getElementById("filterPembimbing");
             const searchSantri = document.getElementById("searchSantri");
 
-            filterTanggal.value = "all";
-            filterPembimbing.value = "all";
+            filterTanggalEl.value = "all";
+            filterPembimbingEl.value = "all";
             searchSantri.value = "";
 
-            filterTanggal.disabled = false;
-            filterPembimbing.disabled = false;
+            filterTanggalEl.disabled = false;
+            filterPembimbingEl.disabled = false;
 
             generateTable();
         }
 
         // Event listeners untuk filter
         document.getElementById("filterTanggal").addEventListener("change", function() {
-            const filterPembimbing = document.getElementById("filterPembimbing");
+            const filterPembimbingEl = document.getElementById("filterPembimbing");
 
             if (this.value !== "all") {
-                // Jika filter tanggal dipilih, nonaktifkan filter pembimbing
-                filterPembimbing.value = "all";
-                filterPembimbing.disabled = true;
+                filterPembimbingEl.value = "all";
+                filterPembimbingEl.disabled = true;
             } else {
-                // Jika filter tanggal "Semua", aktifkan kembali filter pembimbing
-                filterPembimbing.disabled = false;
+                filterPembimbingEl.disabled = false;
             }
 
-            generateTable(filterPembimbing.value, this.value);
+            generateTable(filterPembimbingEl.value, this.value);
         });
 
         document.getElementById("filterPembimbing").addEventListener("change", function() {
-            const filterTanggal = document.getElementById("filterTanggal");
+            const filterTanggalEl = document.getElementById("filterTanggal");
 
             if (this.value !== "all") {
-                // Jika filter pembimbing dipilih, nonaktifkan filter tanggal
-                filterTanggal.value = "all";
-                filterTanggal.disabled = true;
+                filterTanggalEl.value = "all";
+                filterTanggalEl.disabled = true;
             } else {
-                // Jika filter pembimbing "Semua", aktifkan kembali filter tanggal
-                filterTanggal.disabled = false;
+                filterTanggalEl.disabled = false;
             }
 
-            generateTable(this.value, filterTanggal.value);
+            generateTable(this.value, filterTanggalEl.value);
         });
 
         // Tambahkan style untuk select yang dinonaktifkan
@@ -750,12 +752,12 @@
             const filteredData = {};
             const lowerCaseQuery = query.toLowerCase();
 
-            for (const tanggal in scheduleData) {
-                const filteredEntries = scheduleData[tanggal].filter(entry => 
+            for (const isoDate in scheduleData) {
+                const filteredEntries = scheduleData[isoDate].filter(entry => 
                     entry.santri.toLowerCase().includes(lowerCaseQuery)
                 );
                 if (filteredEntries.length > 0) {
-                    filteredData[tanggal] = filteredEntries;
+                    filteredData[isoDate] = filteredEntries;
                 }
             }
 
@@ -781,14 +783,11 @@
             let dailyNo = 1;
             let dateGroupCounter = 0;
 
-            const sortedDates = Object.keys(data).sort((a, b) => {
-                const dateA = new Date(a.split('-').reverse().join('-'));
-                const dateB = new Date(b.split('-').reverse().join('-'));
-                return dateA - dateB;
-            });
+            // Sort dates (ISO format)
+            const sortedDates = Object.keys(data).sort((a, b) => a.localeCompare(b));
 
-            for (let tanggal of sortedDates) {
-                let santriList = data[tanggal] || [];
+            for (let isoDate of sortedDates) {
+                let santriList = data[isoDate] || [];
 
                 if (santriList.length > 0) {
                     let firstRow = true;
@@ -797,6 +796,9 @@
 
                     dateGroupCounter++;
                     const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
+                    
+                    // Format tanggal untuk tampilan
+                    const displayDate = formatDisplayDate(isoDate);
 
                     santriList.forEach((entry) => {
                         const row = document.createElement('tr');
@@ -805,7 +807,7 @@
                         if (firstRow) {
                             row.innerHTML = `
                                 <td rowspan="${rowspan}">${no}</td>
-                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td rowspan="${rowspan}">${displayDate}</td>
                                 <td>${dailyNo}</td>
                                 <td>${entry.santri}</td>
                                 <td>${entry.pembimbing}</td>
@@ -824,7 +826,7 @@
                         if (firstRow) {
                             printRow.innerHTML = `
                                 <td rowspan="${rowspan}">${dailyNo}</td>
-                                <td rowspan="${rowspan}">${tanggal}</td>
+                                <td rowspan="${rowspan}">${displayDate}</td>
                                 <td>${entry.santri}</td>
                             `;
                         } else {
