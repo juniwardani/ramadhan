@@ -1,451 +1,272 @@
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Imam Ramadhan 1446 H</title>
-</head>
-<style>
-	body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
-.container {
-    max-width: 1000px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(43, 120, 228, 0.1);
-    overflow: visible;
-    box-sizing: border-box;
-    width: calc(100% - 40px); /* Account for margins */
-}
-
-h1, h2 {
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 10px;
-}
-
-h2 {
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 1.2em;
-    color: #7f8c8d;
-}
-
-table {
-    width: auto;
-    margin: 0px auto;
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    overflow: visible;
-}
-
-th, td {
-    padding: 5px 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    white-space: nowrap;
-    background-color: inherit;
-    vertical-align: middle;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: auto;
-    font-size: 14px; /* Atur ukuran font sesuai kebutuhan */
-}
-
-th:nth-child(1), td:nth-child(1) { min-width: 110px; }  
-th:nth-child(2), td:nth-child(2) { min-width: 130px; }  
-th:nth-child(3), td:nth-child(3) { min-width: 80px; }  
-th:nth-child(4), td:nth-child(4) { min-width: 110px; }  
-th:nth-child(5), td:nth-child(5) { min-width: 200px; }  
-th:nth-child(6), td:nth-child(6) { min-width: 200px; }  
-
-th:first-child,
-td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    background-color: white;
-    border-right: 2px solid #d9b3b3;
-}
-
-th:first-child {
-    z-index: 2;
-    background: linear-gradient(45deg, #800000 30%, #600000 100%);
-}
-
-th {
-    background: linear-gradient(45deg, #800000 30%, #600000 100%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid #600000;
-}
-
-tr:nth-child(even) {
-    background-color: #fff5f5;
-}
-
-tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-tr:hover {
-    background-color: #ffe6e6;
-}
-
-tr:nth-child(even) td:first-child {
-    background-color: #fff5f5;
-}
-
-tr:nth-child(odd) td:first-child {
-    background-color: #ffffff;
-}
-
-tr:hover td:first-child {
-    background-color: #ffe6e6;
-}
-
-td {
-    border: 1px solid #d9b3b3;
-    word-wrap: break-word; /* Untuk memastikan teks terbungkus */
-    white-space: normal; /* Mengizinkan teks pindah ke baris baru */
-}
-
-td:first-child {
-    border-right: 2px solid #d9b3b3;
-}
-
-/* Add new header/footer styles */
-.site-header, .site-footer {
-    background-color: #800000;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-    width: 100%;
-}
-
-.site-header {
-    background-color: #800000; /* Warna tema Rumah Tahfidz Saijaan */
-    color: white; /* Teks warna putih */
-    padding: 20px 40px; /* Padding nyaman */
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    letter-spacing: 1px;
-    border-bottom: 3px solid #600000;
-    transition: all 0.3s ease-in-out;
-}
-
-.site-header:hover {
-    background-color: #600000; /* Efek hover untuk kesan modern */
-    padding: 25px 45px;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    transform: translateY(-5px);
-}
-
-.site-footer {
-    margin-top: 0;
-    padding: 20px 0;
-}
-
-.logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.site-footer p {
-    margin: 5px 0;
-    margin-top: 10px;
-}
-
-.download-container {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.download-btn {
-    background-color: #800000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.download-btn:hover {
-    background-color: #600000;
-}
-
-.download-btn:active {
-    transform: scale(0.98);
-}
-
-/* Add supervisor code colors */
-.code-H { color: #E91E63; font-weight: bold; }
-.code-HS { color: #2196F3; font-weight: bold; }
-.code-T { color: #4CAF50; font-weight: bold; }
-.code-S { color: #FF9800; font-weight: bold; }
-.code-SY { color: #9C27B0; font-weight: bold; }
-.code-R { color: #795548; font-weight: bold; }
-.code-J { color: #607D8B; font-weight: bold; }
-.code-A { color: #FF5722; font-weight: bold; }
-.code-I { color: #009688; font-weight: bold; }
-.code-U { color: #3F51B5; font-weight: bold; }
-
-/* Add highlighting for current date row */
-.current-date-row {
-    background-color: #fff0f0 !important; /* Merah muda lembut */
-    font-weight: bold;
-    color: #800000; /* Warna tema utama */
-    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-/* Batas atas dan bawah */
-.current-date-row td {
-    border-top: 2px solid #800000 !important;
-    border-bottom: 2px solid #800000 !important;
-    padding: 5px;
-    background-color: #fff4e6 !important;
-}
-
-/* Batas kiri */
-.current-date-row td:first-child {
-    border-left: 2px solid #800000 !important;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    background-color: #fff4e6 !important;
-}
-
-/* Batas kanan */
-.current-date-row td:last-child {
-    border-right: 2px solid #800000 !important;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    background-color: #fff4e6 !important;
-}
-
-/* Efek hover */
-.current-date-row:hover {
-    background-color: #ffe5d0 !important; /* Merah muda lebih terang */
-    box-shadow: 0 0 12px rgba(128, 0, 0, 0.5); /* Glow lembut */
-    transform: scale(1.02); /* Efek zoom ringan */
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-        margin: 10px;
-        width: calc(100% - 20px);
-        border-radius: 0;
-        overflow-x: auto;
-    }
-    
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-        width: 100%;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .site-header, .site-footer {
-        padding: 15px 0;
-    }
-}
-
-@media print {
-    .container {
-        width: auto !important;
-        max-width: none !important;
-        overflow: visible !important;
-    }
-    
-    table {
-        display: table !important;
-        width: auto !important;
-        transform: none !important;
-    }
-}
-</style>
-<body>
-    <header class="site-header">
-        <h1 class="logo-text">Rumah Tahfidz Saijaan</h1>
-    </header>
-
-    <div class="container">
-        <h1>Jadwal Petugas Kegiatan Ramadhan 1446 H</h1>
-        <h2>Rumah Tahfidz Saijaan</h2>
-        
-        <table id="scheduleTable">
-            <thead>
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Imam</th>
-                    <th>Juz</th>
-                    <th>Imam Witir</th>
-                    <th>Sholawat</th>
-                    <th>Adzan</th>
-                </tr>
-            </thead>
-            <tbody id="scheduleBody">
-            </tbody>
-        </table>
-        </div>
-      
-
-    <footer class="site-footer">
-        <p>Rumah Tahfidz Saijaan</p>
-    </footer>
-
-    <!-- Add html2canvas library -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script>
-const scheduleData = [
-    { tanggal: "05 Maret 2025", imam: "Muhammad Rifat Azizi Rahman", juz: "Juz 1 Awal", imamWitir: "Muhammad Fauzi", 
-      sholawat: ["M. Rama Fakhrullah (H)", "M. Nasyid Haikal (HS)"], 
-      adzan: ["M. Akbar Safaruddin (T)", "Gusti Hanif Al Khalifi (S)"] },
-    { tanggal: "06 Maret 2025", imam: "Muhammad Aditya", juz: "Juz 1 Akhir", imamWitir: "Muhammad Shidqii Fadhillah", 
-      sholawat: ["Ahmad Faiq Fahmi (R)", "M. Rizky Zaidan (J)"], 
-      adzan: ["M. Rafka Anwar (U)", "M. Adli Maulana (R)"] },
-    { tanggal: "07 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 2 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
-      sholawat: ["M. Hafidz Ramadhanis (S)", "M. Adam Al Fatih (R)"], 
-      adzan: ["Ahmad Faiq Fahmi (R)", "Ariansyah (SY)"] },
-    { tanggal: "08 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 2 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
-      sholawat: ["M. Fatih Mubarok (T)", "M. Arkan Ramadhan (A)"], 
-      adzan: ["Faiz Hazmi Anwari (SY)", "M. Nasyid Haikal (HS)"] },
-    { tanggal: "09 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 3 Awal", imamWitir: "Muhammad Rizqi Yazid", 
-      sholawat: ["Alfarizky Meilan Pratama (T)", "M. Hanan Al Faiz (HS)"], 
-      adzan: ["M. Zainul Sulthan (H)", "M. Aylaby Fathory (A)"] },
-    { tanggal: "10 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 3 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
-      sholawat: ["M. Khairil Akmal (I)", "M. Yusuf Madani (J)"], 
-      adzan: ["M. Rama Fakhrullah (H)", "M. Haikal Bagus (T)"] },
-    { tanggal: "11 Maret 2025", imam: "Rafi Syahdilla", juz: "Juz 4 Awal", imamWitir: "Muhammad Nabil Riyadi", 
-      sholawat: ["Faeza Hasan Azhari (H)", "M. Haikal Bagus (T)"], 
-      adzan: ["Farhan Rasyad Farandy (H)", "M. Alif Yahsan (A)"] },
-    { tanggal: "12 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 4 Akhir", imamWitir: "Ahmad Dirjat Abdala", 
-      sholawat: ["M. Habibi Darussalam (H)", "M. Aylaby Fathory (A)"], 
-      adzan: ["M. Yusuf Madani (J)", "Alfarizky Meilan Pratama (T)"] },
-    { tanggal: "13 Maret 2025", imam: "Rafli Daffa Santoso", juz: "Juz 5 Awal", imamWitir: "Ahmad Dirjat Abdala", 
-      sholawat: ["M. Restu Firdaus (I)", "M. Rizky Zaidan (J)"], 
-      adzan: ["Muhammad Ulil Albab (A)", "M. Hanan Al Faiz (HS)"] },
-    { tanggal: "14 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 5 Akhir", imamWitir: "Muhammad Fauzi", 
-      sholawat: ["Muhammad Ulil Albab (A)", "Faiz Hazmi Anwari (SY)"], 
-      adzan: ["Ahmad Galih Prihandowo (SY)", "Faeza Hasan Azhari (H)"] },
-    { tanggal: "15 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 6 Awal", imamWitir: "Muhammad Fauzi", 
-      sholawat: ["M. Akbar Safaruddin (T)", "M. Adli Maulana (R)"], 
-      adzan: ["M. Naufal Faeza (U)", "M. Rafka Anwar (U)"] },
-    { tanggal: "16 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 6 Akhir", imamWitir: "Muhammad Rafi Syahdilla", 
-      sholawat: ["M. Zainul Sulthan (H)", "M. Naufal Faeza (U)"], 
-      adzan: ["M. Nahru Rohman (I)", "M. Khairil Akmal (I)"] },
-    { tanggal: "17 Maret 2025", imam: "Muhammad Aufa Rahman", juz: "Juz 7 Awal", imamWitir: "Muhammad Rafi Syahdilla", 
-      sholawat: ["M. Alif Yahsan (A)", "M. Faiq Jayyidan (H)"], 
-      adzan: ["M. Hafidz Ramadhanis (S)", "M. Rama Fakhrullah (H)"] },
-    { tanggal: "18 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 7 Akhir", imamWitir: "Muhammad Rizqi Yazid", 
-      sholawat: ["M. Multazam (A)", "Gusti Hanif Al Khalifi (S)"], 
-      adzan: ["M. Arkan Ramadhan (A)", "Ariansyah (SY)"] },
-    { tanggal: "19 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Awal", imamWitir: "Muhammad Rizqi Yazid", 
-      sholawat: ["Farhan Rasyad Farandy (H)", "Ahmad Galih Prihandowo (SY)"], 
-      adzan: ["Rakha Nurhafidzan (J)", "M. Habibi Darussalam (H)"] },
-    { tanggal: "20 Maret 2025", imam: "Muhammad Hariri", juz: "Juz 29 Akhir", imamWitir: "Muhammad Nabil Riyadi", 
-      sholawat: ["M. Nahru Rohman (I)", "M. Restu Firdaus (I)"], 
-      adzan: ["M. Multazam (A)", "M. Rizky Zaidan (J)"] },
-    { tanggal: "21 Maret 2025", imam: "Muhammad Fauzi", juz: "Juz 30 Awal", imamWitir: "Muhammad Shidqii Fadhillah", 
-      sholawat: ["Rakha Nurhafidzan (J)", "M. Fatih Mubarok (T)"], 
-      adzan: ["M. Faiq Jayyidan (H)", "M. Alif Yahsan (A)"] },
-    { tanggal: "22 Maret 2025", imam: "Muhammad Shidqii Fadhillah", juz: "Juz 30 Akhir", imamWitir: "Muhammad Fauzi", 
-      sholawat: ["Ariansyah (SY)", "M. Habibi Darussalam (H)"], 
-      adzan: ["M. Adam Al Fatih (R)", "Ahmad Faiq Fahmi (R)"] }
-];
-
-function populateTable() {
-    const tableBody = document.getElementById('scheduleBody');
-    
-    // Get today's date in the same format as schedule data
-    const today = new Date();
-    const todayStr = today.getDate().toString().padStart(2, '0') + ' ' + 
-                     today.toLocaleString('id-ID', { month: 'long' }) + ' ' + 
-                     today.getFullYear();
-    
-    scheduleData.forEach(schedule => {
-        const row = document.createElement('tr');
-        
-        // Check if this row's date matches today
-        if (schedule.tanggal === todayStr) {
-            row.classList.add('current-date-row');
+    <title>Jadwal Petugas Tarawih - Rumah Tahfidz Saijaan</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
         }
         
-        // Helper function to wrap code in span with class
-        const wrapCode = (text) => {
-            const match = text.match(/\((.*?)\)/);
-            if (match) {
-                const code = match[1];
-                return text.replace(/\((.*?)\)/, `(<span class="code-${code}">${code}</span>)`);
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animasi khusus untuk kartu hari ini */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                transform: scale(1);
+                border-color: rgba(220, 38, 38, 0.5);
             }
-            return text;
-        };
+            50% {
+                box-shadow: 0 0 0 6px rgba(220, 38, 38, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                transform: scale(1.01);
+                border-color: rgba(220, 38, 38, 0.8);
+            }
+        }
 
-        row.innerHTML = `
-            <td title="${schedule.tanggal}">${schedule.tanggal}</td>
-            <td title="${schedule.imam}">${schedule.imam}</td>
-            <td title="${schedule.juz}">${schedule.juz}</td>
-            <td title="${schedule.imamWitir}">${schedule.imamWitir}</td>
-            <td title="${schedule.sholawat.join('\n')}">${schedule.sholawat.map(wrapCode).join('<br>')}</td>
-            <td title="${schedule.adzan.join('\n')}">${schedule.adzan.map(wrapCode).join('<br>')}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+        .card-today {
+            animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            border: 2px solid red; /* Border lebih tebal untuk hari ini */
+        }
+    </style>
+    <style>body { box-sizing: border-box; }</style>
+    <!-- SDK script dibiarkan sesuai aslinya -->
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+    <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="app" class="w-full h-full overflow-auto scroll-container islamic-pattern" style="background: linear-gradient(135deg, #4a0e0e 0%, #7a1a1a 50%, #4a0e0e 100%);">
+        <!-- Header -->
+        <header class="sticky top-0 z-10 backdrop-blur-md shadow-lg" style="background-color: rgba(74, 14, 14, 0.9); border-bottom: 1px solid rgba(122, 26, 26, 0.3);">
+            <div class="max-w-6xl mx-auto px-4 py-4">
+                <div class="flex items-center justify-center gap-3">
+                    <svg class="w-10 h-10 text-red-300" viewbox="0 0 64 64" fill="currentColor">
+                        <path d="M32 4c-1.5 0-3 .5-4 1.5L8 24c-2 2-2 5 0 7l20 18.5c2 2 5 2 7 0L55 31c2-2 2-5 0-7L35 5.5C34 4.5 33 4 32 4zm0 8l16 14-16 14-16-14 16-14z" />
+                        <path d="M32 52v8M24 56h16" stroke="currentColor" stroke-width="2" fill="none" />
+                    </svg>
+                    <div class="text-center">
+                        <h1 class="text-xl md:text-2xl font-bold text-white" style="font-family: 'Amiri', serif;">📿 Jadwal Petugas Tarawih</h1>
+                        <p class="text-red-200 text-sm md:text-base" style="font-family: 'Poppins', sans-serif;">Rumah Tahfidz Saijaan - Ramadhan 1447 H</p>
+                    </div>
+                    <svg class="w-10 h-10 text-red-300" viewbox="0 0 64 64" fill="currentColor">
+                        <path d="M32 4c-1.5 0-3 .5-4 1.5L8 24c-2 2-2 5 0 7l20 18.5c2 2 5 2 7 0L55 31c2-2 2-5 0-7L35 5.5C34 4.5 33 4 32 4zm0 8l16 14-16 14-16-14 16-14z" />
+                        <path d="M32 52v8M24 56h16" stroke="currentColor" stroke-width="2" fill="none" />
+                    </svg>
+                </div>
+            </div>
+        </header>
 
-document.addEventListener('DOMContentLoaded', populateTable);
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-3 py-6">
+            <!-- Legend -->
+            <div class="mb-6 flex flex-wrap justify-center gap-3 text-sm font-medium">
+                <span class="bg-white/10 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/20"> 
+                    <span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span> Imam Tarawih 
+                </span> 
+                <span class="bg-white/10 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/20"> 
+                    <span class="w-2.5 h-2.5 bg-blue-500 rounded-full"></span> Imam Witir 
+                </span> 
+                <span class="bg-white/10 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/20"> 
+                    <span class="w-2.5 h-2.5 bg-rose-400 rounded-full"></span> Sholawat 
+                </span> 
+                <span class="bg-white/10 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/20"> 
+                    <span class="w-2.5 h-2.5 bg-purple-500 rounded-full"></span> Adzan 
+                </span>
+            </div>
 
-document.getElementById('downloadBtn').addEventListener('click', () => {
-    const container = document.querySelector('.container');
+            <!-- Schedule Grid -->
+            <div id="schedule-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Cards will be inserted here -->
+            </div>
 
-    // Simpan properti asli elemen sticky
-    const stickyElements = document.querySelectorAll('.sticky');
-    const originalStyles = [];
-    stickyElements.forEach(el => {
-        originalStyles.push({
-            element: el,
-            position: el.style.position
-        });
-        el.style.position = 'static'; // Hilangkan sticky sementara
-    });
+            <!-- Footer -->
+            <footer class="mt-8 text-center text-red-200/60 text-xs pb-6 font-serif">
+                <p class="text-lg mb-1">بَارَكَ اللهُ فِيْكُمْ</p>
+                <p>Semoga Allah memberkahi para petugas dan jamaah</p>
+            </footer>
+        </main>
+    </div>
 
-    // Ambil screenshot seluruh container
-    html2canvas(container, {
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: document.documentElement.scrollWidth,
-        windowHeight: document.documentElement.scrollHeight,
-        scale: 2
-    }).then(canvas => {
-        // Kembalikan posisi sticky seperti semula
-        originalStyles.forEach(item => {
-            item.element.style.position = item.position;
-        });
+    <script>
+        const jadwalImam = [
+            { tanggal: "23-Feb-26", imam: "MUHAMMAD SHIDQII FADHILLAH", juz: "Juz 1 Awwal", imamWitir: "MUHAMMAD BILAL AL FATTAH", sholawat: "MUHAMMAD RIZKY ZAIDAN", adzan: "MUHAMMAD AL FATIH RAMADHAN (ust juf)" },
+            { tanggal: "24-Feb-26", imam: "MUHAMMAD FAIREL ATHARIZZ", juz: "Juz 1 Akhir", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "MUHAMMAD DIRJAT", adzan: "GT. DAFA RISKY ADITIA (ust juf)" },
+            { tanggal: "25-Feb-26", imam: "MUHAMMAD ADLI MAULANA", juz: "Juz 2 Awwal", imamWitir: "M. RIZKY YAZID", sholawat: "M. YUSUF MADANI", adzan: "MUHAMMAD SHOLIHIN (ustz snh)" },
+            { tanggal: "26-Feb-26", imam: "MUHAMMAD ADITYA SAPUTRA", juz: "Juz 2 Akhir", imamWitir: "MUHAMMAD SHIDQII FADHILLAH", sholawat: "MUHAMMAD ZIDAN", adzan: "MUHAMMAD FAEYZA NAUFAL (ustzh snh)" },
+            { tanggal: "27-Feb-26", imam: "RAFLI DAFFA SANTOSO", juz: "Juz 3 Awwal", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "MUHAMMAD RIZKY ZAIDAN", adzan: "MUHAMMAD AL FATIH RAMADHAN (ust juf)" },
+            { tanggal: "28-Feb-26", imam: "MUHAMMAD FAIREL ATHARIZZ", juz: "Juz 3 Akhir", imamWitir: "M. RIZKY YAZID", sholawat: "MUHAMMAD DIRJAT", adzan: "GT. DAFA RISKY ADITIA (ust juf)" },
+            { tanggal: "01-Mar-26", imam: "RAFLI DAFFA SANTOSO", juz: "Juz 4 Awwal", imamWitir: "MUHAMMAD SHIDQII FADHILLAH", sholawat: "M. YUSUF MADANI", adzan: "MUHAMMAD SHOLIHIN (ustz snh)" },
+            { tanggal: "02-Mar-26", imam: "MUHAMMAD ADITYA SAPUTRA", juz: "Juz 4 Akhir", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "MUHAMMAD ZIDAN", adzan: "MUHAMMAD FAEYZA NAUFAL (ustzh snh)" },
+            { tanggal: "03-Mar-26", imam: "M. RAFI SYAHDILLA", juz: "Juz 5 Awwal", imamWitir: "M. RIZKY YAZID", sholawat: "MUHAMMAD RIZKY ZAIDAN", adzan: "MUHAMMAD AL FATIH RAMADHAN (ust juf)" },
+            { tanggal: "04-Mar-26", imam: "MUHAMMAD SHIDQII FADHILLAH", juz: "Juz 5 Akhir", imamWitir: "MUHAMMAD BILAL AL FATTAH", sholawat: "MUHAMMAD DIRJAT", adzan: "GT. DAFA RISKY ADITIA (ust juf)" },
+            { tanggal: "05-Mar-26", imam: "MUHAMMAD ADITYA SAPUTRA", juz: "Juz 6 Awwal", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "M. YUSUF MADANI", adzan: "MUHAMMAD SHOLIHIN (ustz snh)" },
+            { tanggal: "06-Mar-26", imam: "MUHAMMAD SHIDQII FADHILLAH", juz: "Juz 6 Akhir", imamWitir: "M. RIZKY YAZID", sholawat: "MUHAMMAD ZIDAN", adzan: "MUHAMMAD FAEYZA NAUFAL (ustzh snh)" },
+            { tanggal: "07-Mar-26", imam: "MUHAMMAD SHIDQII FADHILLAH", juz: "Juz 28 Awwal", imamWitir: "MUHAMMAD BILAL AL FATTAH", sholawat: "MUHAMMAD RIZKY ZAIDAN", adzan: "MUHAMMAD AL FATIH RAMADHAN (ust juf)" },
+            { tanggal: "08-Mar-26", imam: "M. RAFI SYAHDILLA", juz: "Juz 28 Akhir", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "MUHAMMAD DIRJAT", adzan: "GT. DAFA RISKY ADITIA (ust juf)" },
+            { tanggal: "09-Mar-26", imam: "M. RIZKY YAZID", juz: "Juz 29 Awwal", imamWitir: "M. RIZKY YAZID", sholawat: "M. YUSUF MADANI", adzan: "MUHAMMAD SHOLIHIN (ustz snh)" },
+            { tanggal: "10-Mar-26", imam: "MUHAMMAD FAIREL ATHARIZZ", juz: "Juz 29 Akhir", imamWitir: "MUHAMMAD BILAL AL FATTAH", sholawat: "MUHAMMAD ZIDAN", adzan: "MUHAMMAD FAEYZA NAUFAL (ustzh snh)" },
+            { tanggal: "11-Mar-26", imam: "MUHAMMAD NUR ATHO", juz: "Juz 30 Awwal", imamWitir: "MUHAMMAD NABIL RIADI", sholawat: "MUHAMMAD RIZKY ZAIDAN", adzan: "MUHAMMAD AL FATIH RAMADHAN (ust juf)" },
+            { tanggal: "12-Mar-26", imam: "MUHAMMAD SHIDQII FADHILLAH", juz: "Juz 30 Akhir", imamWitir: "M. RIZKY YAZID", sholawat: "MUHAMMAD DIRJAT", adzan: "GT. DAFA RISKY ADITIA (ust juf)" }
+        ];
 
-        // Download gambar
-        const link = document.createElement('a');
-        link.download = 'Jadwal_Petugas_Ramadhan_1446H.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    });
-});
-</script>
+        function formatDate(dateStr) {
+            const [day, month, year] = dateStr.split('-');
+            const months = { 'Feb': 'Februari', 'Mar': 'Maret' };
+            return `${parseInt(day)} ${months[month]} 20${year}`;
+        }
+
+        function formatName(name) {
+            return name.split(' ').map(word => {
+                if (word.startsWith('(')) return word; // Biarkan inisial dalam kurung tetap kapital
+                return word.charAt(0) + word.slice(1).toLowerCase();
+            }).join(' ');
+        }
+
+        function getRamadhanDay(index) {
+            return index + 1;
+        }
+
+        function isToday(dateStr) {
+            // Fungsi ini akan mencocokkan tanggal dengan hari ini
+            // Format input: DD-MM-YY
+            const today = new Date();
+            const d = String(today.getDate()).padStart(2, '0');
+            const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][today.getMonth()];
+            const y = String(today.getFullYear()).slice(-2);
+            return dateStr === `${d}-${m}-${y}`;
+        }
+
+        function createCard(item, index) {
+            const ramadhanDay = getRamadhanDay(index);
+            const isTodayCard = isToday(item.tanggal);
+            
+            // Kelas animasi jika ini hari ini
+            const activeClass = isTodayCard ? 'card-today' : '';
+            
+            // Badge tambahan jika hari ini
+            const todayBadge = isTodayCard ? '<span class="bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded ml-2 animate-pulse">Hari Ini</span>' : '';
+
+            return `
+                <div class="card-hover ${activeClass} bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md flex flex-col h-full">
+                    <!-- Header Card -->
+                    <div class="bg-gradient-to-r from-red-600 to-red-700 px-4 py-3 flex items-center justify-between shadow-sm z-10">
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded backdrop-blur-sm">
+                                    Ramadhan ke-${ramadhanDay}
+                                </span>
+                                ${todayBadge}
+                            </div>
+                            <span class="text-red-50 text-sm font-medium mt-1">${formatDate(item.tanggal)}</span>
+                        </div>
+                        <div class="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-md">
+                            <span class="text-white text-sm font-bold block text-center tracking-wide">${item.juz}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Card -->
+                    <div class="p-4 space-y-3 flex-grow">
+                        <!-- Imam Tarawih -->
+                        <div class="flex items-start gap-3 group">
+                            <span class="flex-shrink-0 w-8 h-8 bg-red-50 border border-red-100 text-red-600 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-red-600 group-hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-red-500 text-xs font-semibold uppercase tracking-wider mb-0.5">Imam Tarawih</p>
+                                <p class="text-gray-800 text-sm font-medium leading-snug truncate" title="${formatName(item.imam)}">${formatName(item.imam)}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Imam Witir -->
+                        <div class="flex items-start gap-3 group">
+                            <span class="flex-shrink-0 w-8 h-8 bg-blue-50 border border-blue-100 text-blue-600 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-blue-500 text-xs font-semibold uppercase tracking-wider mb-0.5">Imam Witir</p>
+                                <p class="text-gray-800 text-sm font-medium leading-snug truncate" title="${formatName(item.imamWitir)}">${formatName(item.imamWitir)}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Grid Bawah: Sholawat & Adzan -->
+                        <div class="grid grid-cols-2 gap-3 pt-2 mt-1 border-t border-gray-100">
+                            <!-- Sholawat -->
+                            <div class="flex items-start gap-2">
+                                <span class="flex-shrink-0 w-6 h-6 bg-rose-50 border border-rose-100 text-rose-500 rounded-md flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                </span>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-rose-400 text-[10px] font-bold uppercase">Sholawat</p>
+                                    <p class="text-gray-700 text-xs truncate leading-tight mt-0.5" title="${formatName(item.sholawat)}">${formatName(item.sholawat)}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Adzan -->
+                            <div class="flex items-start gap-2">
+                                <span class="flex-shrink-0 w-6 h-6 bg-purple-50 border border-purple-100 text-purple-500 rounded-md flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                                </span>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-purple-400 text-[10px] font-bold uppercase">Adzan</p>
+                                    <p class="text-gray-700 text-xs truncate leading-tight mt-0.5" title="${formatName(item.adzan)}">${formatName(item.adzan)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSchedule() {
+            const grid = document.getElementById('schedule-grid');
+            if (grid) {
+                grid.innerHTML = jadwalImam.map((item, index) => createCard(item, index)).join('');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', renderSchedule);
+    </script>
 </body>
 </html>
