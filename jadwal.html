@@ -155,6 +155,40 @@
         select:disabled { background-color: #eee; cursor: not-allowed; opacity: 0.6; }
         .reset-btn { background-color: #dc3545; margin-top: 18px; } 
         .reset-btn:hover { background-color: #c82333; }
+
+        /* Summary Cards Style */
+        .summary-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .summary-card {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 150px;
+            flex: 1;
+            max-width: 250px;
+        }
+        .summary-card .label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .summary-card .value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: maroon;
+        }
     </style>
 </head>
 <body>
@@ -203,6 +237,21 @@
                     <tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="summary-container">
+            <div class="summary-card">
+                <span class="label">Total Santri</span>
+                <span id="total-santri" class="value">0</span>
+            </div>
+            <div class="summary-card">
+                <span class="label">Total Terjadwal</span>
+                <span id="total-terjadwal" class="value">0</span>
+            </div>
+            <div class="summary-card">
+                <span class="label">Santri Bersaudara</span>
+                <span id="total-bersaudara" class="value">0</span>
+            </div>
         </div>
 
         <div class="controls" style="box-shadow: none; background: none; padding-top: 10px;">
@@ -328,7 +377,8 @@
                     pembimbing: pembimbingName || "-",
                     kelas: kelasName,
                     rawMentors: pembimbingArr,
-                    rawClasses: kelasArr
+                    rawClasses: kelasArr,
+                    santriCount: santriArr.length
                 });
             });
         }
@@ -378,6 +428,9 @@
             let dateGroupCounter = 0;
             const sortedDates = Object.keys(scheduleData).sort();
             const searchLower = fSearch.trim().toLowerCase();
+            let totalSantriCount = 0;
+            let totalTerjadwalCount = 0;
+            let totalBersaudaraCount = 0;
 
             for (let isoDate of sortedDates) {
                 if (fTanggal !== "all" && isoDate !== fTanggal) continue;
@@ -400,6 +453,12 @@
                 dateGroupCounter++;
 
                 list.forEach(item => {
+                    totalSantriCount += item.santriCount;
+                    totalTerjadwalCount++;
+                    if (item.santriCount > 1) {
+                        totalBersaudaraCount += item.santriCount;
+                    }
+
                     let row = document.createElement('tr');
                     if (dateGroupCounter % 2 === 0) row.style.backgroundColor = "#f0f8ff"; 
                     
@@ -426,6 +485,9 @@
                 });
                 no++;
             }
+            document.getElementById('total-santri').innerText = totalSantriCount;
+            document.getElementById('total-terjadwal').innerText = totalTerjadwalCount;
+            document.getElementById('total-bersaudara').innerText = totalBersaudaraCount;
         }
 
         // --- MANUAL CANVAS RENDERING (PROFESSIONAL STYLE, AUTO SIZE, PNG) ---
