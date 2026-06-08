@@ -372,11 +372,12 @@
         }
 
         // --- RENDER TABLE HTML ---
-        function generateTable(fPembimbing="all", fTanggal="all", fKelas="all") {
+        function generateTable(fPembimbing="all", fTanggal="all", fKelas="all", fSearch="") {
             tbody.innerHTML = "";
             let no = 1;
             let dateGroupCounter = 0;
             const sortedDates = Object.keys(scheduleData).sort();
+            const searchLower = fSearch.trim().toLowerCase();
 
             for (let isoDate of sortedDates) {
                 if (fTanggal !== "all" && isoDate !== fTanggal) continue;
@@ -385,7 +386,8 @@
                 list = list.filter(item => {
                     let matchMentor = (fPembimbing === "all") || item.rawMentors.includes(fPembimbing);
                     let matchKelas = (fKelas === "all") || item.rawClasses.includes(fKelas);
-                    return matchMentor && matchKelas;
+                    let matchSearch = (searchLower === "") || item.santri.toLowerCase().includes(searchLower);
+                    return matchMentor && matchKelas && matchSearch;
                 });
 
                 if (list.length === 0) continue;
@@ -433,6 +435,7 @@
             let fPembimbing = filterPembimbing.value;
             let fKelas = filterKelas.value;
             let fTanggal = filterTanggal.value;
+            let fSearch = document.getElementById("searchSantri").value.trim().toLowerCase();
             let globalNo = 1;
             let sequentialNo = 1;
 
@@ -442,7 +445,8 @@
                 let list = scheduleData[isoDate].filter(item => {
                     let mM = (fPembimbing === "all") || item.rawMentors.includes(fPembimbing);
                     let mK = (fKelas === "all") || item.rawClasses.includes(fKelas);
-                    return mM && mK;
+                    let mS = (fSearch === "") || item.santri.toLowerCase().includes(fSearch);
+                    return mM && mK && mS;
                 });
                 
                 if (list.length > 0) {
@@ -555,6 +559,7 @@
             if (fPembimbing !== "all") badges.push({ label: "PEMBIMBING", value: fPembimbing });
             if (fKelas !== "all") badges.push({ label: "KELAS", value: fKelas });
             if (fTanggal !== "all") badges.push({ label: "TANGGAL", value: formatDisplayDate(fTanggal, true) });
+            if (fSearch !== "") badges.push({ label: "CARI", value: fSearch.toUpperCase() });
 
             if (badges.length > 0) {
                 const badgeWidth = 300 * SC; // Diperlebar agar muat format tanggal lengkap
@@ -771,6 +776,7 @@
             filterPembimbing.value = "all"; filterPembimbing.disabled = false;
             filterKelas.value = "all"; filterKelas.disabled = false;
             document.getElementById("searchSantri").value = "";
+            updateClassDropdown("all");
             generateTable();
         }
 
@@ -796,7 +802,8 @@
                 }
             }
 
-            generateTable(filterPembimbing.value, filterTanggal.value, filterKelas.value);
+            const searchQuery = document.getElementById("searchSantri").value;
+            generateTable(filterPembimbing.value, filterTanggal.value, filterKelas.value, searchQuery);
         }
 
         filterTanggal.addEventListener("change", function() { handleFilterChange(this); });
@@ -804,11 +811,8 @@
         filterKelas.addEventListener("change", function() { handleFilterChange(this); });
 
         document.getElementById('searchSantri').addEventListener('input', function() {
-            const q = this.value.trim().toLowerCase();
-            const rows = document.querySelectorAll('#schedule tbody tr');
-            rows.forEach(r => {
-                r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
-            });
+            const searchQuery = this.value;
+            generateTable(filterPembimbing.value, filterTanggal.value, filterKelas.value, searchQuery);
         });
 
         fetchScheduleData();
