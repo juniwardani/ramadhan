@@ -2,365 +2,159 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Tahfidz Saijaan - Jadwal Iftar 1447 H</title>
-    <!-- Memuat Library Supabase -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rumah Tahfidz Saijaan - Jadwal Iftar</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            background-color: #f4f4f4; 
         }
 
-        header {
-            background-color: maroon;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            font-size: 2rem;
+        header { 
+            background-color: maroon; 
+            color: white; 
+            text-align: center; 
+            padding: 1rem; 
+            font-size: 1.5rem; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        footer {
-            background-color: maroon;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-            margin-top: auto;
+        footer { 
+            background-color: maroon; 
+            color: white; 
+            text-align: center; 
+            padding: 0.8rem; 
+            font-size: 0.8rem; 
+            margin-top: auto; 
         }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        .content { 
+            padding: 15px; 
+            flex: 1; 
+            text-align: center; 
+            width: 100%; 
+            max-width: 1000px; 
+            margin: 0 auto; 
         }
 
-        .content {
-            padding: 2rem;
-            flex: 1;
-            text-align: center;
+        h1 { margin-bottom: 5px; font-size: 1.2rem; color: white; } 
+        h2 { color: #333; margin-bottom: 15px; font-size: 1.1rem; }
+        
+        /* --- RESPONSIVE CONTROLS --- */
+        .controls { 
+            margin: 0 0 15px 0; 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+            align-items: flex-start; 
+            flex-wrap: wrap; 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+        }
+        
+        .filter-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+            min-width: 140px; 
+            flex: 1 1 140px; 
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 1rem;
-            color: rgb(248, 248, 248);
+        .filter-group label { 
+            text-align: left; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            color: #555; 
         }
 
-        .controls {
-            margin: 1rem 0;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
+        .filter-group select, .filter-group input { 
+            width: 100%; 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            background: #fff;
+        }
+        
+        button { 
+            padding: 10px 16px; 
+            background-color: maroon; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            width: 100%; 
+            margin-top: auto; 
+        }
+        
+        /* --- COMPACT TABLE STYLES --- */
+        .table-container { 
+            width: 100%; 
+            overflow-x: auto; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .table-container::-webkit-scrollbar { display: none; }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 700px; 
         }
 
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 300px;
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px 6px; 
+            text-align: left; 
+            font-size: 13px; 
+            line-height: 1.4; 
+            vertical-align: middle;
         }
 
-        .filter-group label {
-            min-width: 100px;
-            text-align: right;
-            white-space: nowrap;
+        th { 
+            background-color: maroon; 
+            color: white; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            padding: 10px 6px;
+        }
+        
+        #schedule tbody tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        .col-center { text-align: center !important; }
+        .col-bold { font-weight: 600; }
+        
+        .multi-line-text {
+            white-space: pre-line; 
         }
 
-        .filter-group select {
-            width: 180px;
-            flex: none;
-        }
-
-        select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            background-color: white;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: maroon;
-            box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
-        }
-
-        button {
-            padding: 8px 16px;
-            background-color: maroon;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #990000;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: maroon;
-            color: white;
-        }
-
-        /* Style untuk striped dengan warna biru muda */
-        #schedule tbody tr.date-group-even {
-            background-color: #ADD8E6 !important; /* Light Blue */
-        }
-
-        #schedule tbody tr.date-group-odd {
-            background-color: #ffffff !important;
-        }
-
-        .printable-content {
-            display: none; /* Sembunyikan tabel print dari tampilan web */
-            background: white;
-            padding: 1rem;
-        }
-
-        .printable-content h2 {
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        select:disabled {
-            background-color: #f5f5f5;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        /* Responsive styles */
+        /* Mobile Specific Overrides */
         @media screen and (max-width: 768px) {
-            .content {
-                padding: 1.5rem;
+            header { padding: 0.8rem; font-size: 1.2rem; }
+            h2 { font-size: 1rem; margin-bottom: 10px; }
+            .content { padding: 10px; }
+            th, td { 
+                padding: 5px 4px !important; 
+                font-size: 11px !important; 
+                line-height: 1.3 !important;
             }
-
-            .controls {
-                flex-direction: column;
-                padding: 0 10px;
-                width: 100%;
-                max-width: 400px;
-                margin: 1rem auto;
-                gap: 10px;
-            }
-
-            .filter-group {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .filter-group label {
-                min-width: 100px;
-                text-align: left;
-            }
-
-            .filter-group select {
-                width: calc(100% - 110px);
-            }
-
-            button, .reset-btn {
-                width: 100%;
-                padding: 10px;
-                margin: 5px 0;
-            }
-
-            table {
-                display: table;
-                overflow-x: auto;
-                white-space: normal;
-                width: 100%;
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 6px 8px;
-                font-size: 12px;
-                vertical-align: top;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            h2 {
-                font-size: 1.2rem;
-            }
-
-            button {
-                width: 100%;
-                max-width: 200px;
-            }
-
-            /* Memperkecil padding pada header dan footer */
-            header, footer {
-                padding: 1.2rem;
-            }
-
-            footer p {
-                font-size: 0.9rem;
-            }
-
-            /* Mengatur lebar kolom pada mobile */
-            #schedule td:nth-child(1),
-            #schedule th:nth-child(1) {
-                width: 40px;
-            }
-
-            #schedule td:nth-child(2),
-            #schedule th:nth-child(2) {
-                width: 120px; /* Sedikit dilebar karena format tanggal baru */
-            }
-
-            #schedule td:nth-child(3),
-            #schedule th:nth-child(3) {
-                width: 40px;
-            }
-
-            #schedule td:nth-child(5),
-            #schedule th:nth-child(5) {
-                width: 100px;
-            }
+            th { padding: 7px 4px !important; }
         }
 
-        /* Untuk layar sangat kecil */
-        @media screen and (max-width: 480px) {
-            .content {
-                padding: 0.5rem;
-            }
-
-            h1 {
-                font-size: 1.2rem;
-            }
-
-            h2 {
-                font-size: 1rem;
-            }
-
-            th, td {
-                padding: 4px 6px;
-                font-size: 11px;
-            }
-
-            select, button {
-                font-size: 0.9rem;
-                padding: 6px 10px;
-            }
-
-            .controls {
-                gap: 8px;
-            }
-
-            #schedule td:nth-child(4) {
-                min-width: 100px;
-                max-width: 150px;
-            }
-        }
-
-        /* Memastikan tabel bisa di-scroll horizontal dengan smooth */
-        .table-container {
-            width: 100%;
-            padding:10px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 1rem;
-            background:
-                linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-                linear-gradient(to right, rgba(255,255,255,0), white 70%) 100% 0,
-                radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
-                radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
-            background-repeat: no-repeat;
-            background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
-            background-attachment: local, local, scroll, scroll;
-        }
-
-        /* Memastikan tabel tetap rapi di mobile */
-        table {
-            min-width: 100%;
-            border-collapse: collapse;
-        }
-
-        /* Memperbaiki tampilan scrollbar */
-        .table-container::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .table-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .table-container::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 3px;
-        }
-
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .reset-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .reset-btn:hover {
-            background-color: #c82333;
-        }
-
-        /* Menyesuaikan tampilan mobile untuk tombol reset */
-        @media screen and (max-width: 768px) {
-            .reset-btn {
-                width: 100%;
-                max-width: 200px;
-                margin-top: 8px;
-            }
-        }
-
-        /* Menambahkan style untuk kolom nama santri */
-        #schedule td:nth-child(4) {
-            white-space: normal;
-            word-wrap: break-word;
-            min-width: 120px;
-            max-width: 200px;
-        }
-
-        .filter-group input {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            width: 100%; /* Input akan menyesuaikan lebar parent-nya */
-            max-width: 300px; /* Lebar maksimum input */
-        }
-
-        .filter-group input:focus {
-            outline: none;
-            border-color: maroon;
-            box-shadow: 0 0 0 2px rgba(128,0,0,0.1);
-        }
+        select:disabled { background-color: #eee; cursor: not-allowed; opacity: 0.6; }
+        .reset-btn { background-color: #dc3545; margin-top: 18px; } 
+        .reset-btn:hover { background-color: #c82333; }
     </style>
 </head>
 <body>
@@ -369,69 +163,50 @@
     </header>
 
     <div class="content">
-        <h2>Jadwal Penyediaan Iftar Ramadhan 1447 H</h2>
+        <h2 id="main-title">Jadwal Penyediaan Iftar Ramadhan</h2>
 
         <div class="controls">
             <div class="filter-group">
                 <label for="filterTanggal">Tanggal</label>
-                <select id="filterTanggal">
-                    <option value="all">Semua</option>
-                </select>
+                <select id="filterTanggal"><option value="all">Semua</option></select>
             </div>
             <div class="filter-group">
                 <label for="filterPembimbing">Pembimbing</label>
-                <select id="filterPembimbing">
-                    <option value="all">Semua</option>
-                </select>
+                <select id="filterPembimbing"><option value="all">Semua</option></select>
+            </div>
+            <div class="filter-group">
+                <label for="filterKelas">Kelas</label>
+                <select id="filterKelas"><option value="all">Semua</option></select>
             </div>
 
             <div class="filter-group">
                 <label for="searchSantri">Cari Santri</label>
-                <input type="text" id="searchSantri" placeholder="Minimal 3 huruf">
+                <input type="text" id="searchSantri" placeholder="Ketik nama...">
             </div>
 
-            <button onclick="resetFilters()" class="reset-btn">Reset Filter</button>
+            <button onclick="resetFilters()" class="reset-btn">Reset</button>
         </div>
 
-        <!-- Wrap table in container -->
         <div class="table-container">
             <table id="schedule">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>No</th>
-                        <th>Nama Santri</th>
-                        <th>Pembimbing</th>
+                        <th style="width: 45px;" class="col-center">No</th>
+                        <th style="width: 130px;">Tanggal</th>
+                        <th style="width: 35px;" class="col-center">No</th>
+                        <th style="width: 200px;">Nama Santri</th>
+                        <th style="width: 90px;" class="col-center">Kelas</th>
+                        <th style="width: auto;">Pembimbing</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Data akan diisi oleh JavaScript -->
-                    <tr><td colspan="5" style="text-align:center;">Memuat data...</td></tr>
+                    <tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Container terpisah untuk hasil download -->
-        <div class="printable-content">
-            <h2 style="margin-bottom: 0;">Jadwal Penyedia Iftar Ramadhan 1447 H</h2>
-            <h3 id="printSubtitle" style="margin: 0.2rem 0 1rem; text-align: center; font-size: 0.9rem; font-weight: normal;"></h3>
-            <table id="printSchedule">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Nama Santri</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data akan diisi oleh JavaScript -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="controls">
-            <button onclick="downloadTableAsImage()">Download Jadwal</button>
+        <div class="controls" style="box-shadow: none; background: none; padding-top: 10px;">
+            <button onclick="downloadTableAsImage()" style="font-weight: bold;">Download Laporan (PNG)</button>
         </div>
     </div>
 
@@ -439,416 +214,579 @@
         <p>© 2024 Rumah Tahfidz Saijaan</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         // --- KONFIGURASI SUPABASE ---
         const supabaseUrl = 'https://lrkechznknwqnxckyfcg.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxya2VjaHpua253cW54Y2t5ZmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMjgzODEsImV4cCI6MjA0NDcwNDM4MX0.Tj8p1u3_DGQnqhPkS6AJGs5BwOSeebdvsknX2qHzwdQ';
-
-        // Inisialisasi Supabase Client
         const { createClient } = supabase;
         const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-        const tbody = document.querySelector('#schedule tbody');
-        const printTbody = document.querySelector('#printSchedule tbody');
-        const filterPembimbing = document.getElementById("filterPembimbing");
-        const filterTanggal = document.getElementById("filterTanggal");
-
-        // Variabel Global Data (dikosongkan, akan diisi via Supabase)
-        // Struktur: { "2026-02-23": [ { santri: "Nama", pembimbing: "Pembimbing" } ] }
+        // --- STATE VARIABLES ---
         let scheduleData = {};
+        let mentorClassMap = {}; 
+        let allClasses = new Set();
+        let currentHijriYear = "1447"; // Default fallback
 
-        // --- KONFIGURASI FORMAT TANGGAL ---
-        const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+        function updateHijriYear() {
+            try {
+                const today = new Date();
+                const hijriDate = new Intl.DateTimeFormat('id-ID-u-ca-islamic', {year: 'numeric'}).format(today);
+                currentHijriYear = hijriDate.split(' ')[0];
+                
+                // Update UI
+                document.title = `Rumah Tahfidz Saijaan - Jadwal Iftar ${currentHijriYear} H`;
+                document.getElementById('main-title').innerText = `Jadwal Penyediaan Iftar Ramadhan ${currentHijriYear} H`;
+            } catch (e) {
+                console.error("Gagal menghitung tahun Hijriah:", e);
+            }
+        }
+        updateHijriYear();
 
-        // Fungsi untuk format tampilan: "Sen, 23 Feb 2026"
+        const tbody = document.querySelector('#schedule tbody');
+        const filterTanggal = document.getElementById("filterTanggal");
+        const filterPembimbing = document.getElementById("filterPembimbing");
+        const filterKelas = document.getElementById("filterKelas");
+
+        // --- HELPERS ---
+        const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
         function formatDisplayDate(isoDate) {
             const date = new Date(isoDate);
-            const dayName = dayNames[date.getDay()];
-            const day = date.getDate();
-            const monthName = monthNames[date.getMonth()];
-            const year = date.getFullYear();
-            return `${dayName}, ${day} ${monthName} ${year}`;
+            return `${dayNames[date.getDay()]}, ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
         }
 
-        // --- FUNGSI UTAMA: MENGAMBIL DATA DARI SUPABASE ---
+        // --- DATA FETCHING & PROCESSING ---
         async function fetchScheduleData() {
             try {
-                // Query ke tabel 'jadwal_buka_puasa'
                 const { data, error } = await supabaseClient
                     .from('jadwal_buka_puasa')
                     .select('*')
-                    .not('tanggal', 'is', null) // Hanya ambil yang ada tanggalnya
+                    .not('tanggal', 'is', null)
                     .order('tanggal', { ascending: true });
 
                 if (error) throw error;
-
-                // Proses data dari format SQL ke format JS Object
+                
                 processRawData(data);
-
-                // Setelah data siap, inisialisasi tampilan
                 populateDropdowns();
                 generateTable();
 
             } catch (err) {
-                console.error("Gagal memuat data:", err);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuat data. Periksa koneksi internet.</td></tr>`;
+                console.error("Error:", err);
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red; padding:10px;">Gagal memuat data.</td></tr>`;
             }
         }
 
-        // --- FUNGSI TRANSFORMASI DATA (LOGIKA BERSAUDARA) ---
         function processRawData(data) {
             scheduleData = {};
+            mentorClassMap = {};
+            allClasses.clear();
 
             data.forEach(row => {
-                if (row.tanggal) {
-                    // Gunakan format ISO (YYYY-MM-DD) sebagai key untuk sorting yang mudah
-                    const isoDate = row.tanggal; 
+                if (!row.tanggal) return;
+                const isoDate = row.tanggal;
+                if (!scheduleData[isoDate]) scheduleData[isoDate] = [];
 
-                    if (!scheduleData[isoDate]) {
-                        scheduleData[isoDate] = [];
-                    }
+                let santriArr = [];
+                if (row.nama1) santriArr.push(row.nama1.trim());
+                if (row.nama2) santriArr.push(row.nama2.trim());
+                
+                let pembimbingArr = [];
+                if (row.pembimbing1) pembimbingArr.push(row.pembimbing1.trim());
+                if (row.pembimbing2) pembimbingArr.push(row.pembimbing2.trim());
 
-                    // Logika Siblings: Jika nama1 dan nama2 ada, gabungkan menjadi satu entry
-                    let santriName = "";
-                    let pembimbingName = "";
+                let kelasArr = [];
+                if (row.kelas1) kelasArr.push(row.kelas1.trim());
+                if (row.kelas2) kelasArr.push(row.kelas2.trim());
 
-                    // Cek nama
-                    if (row.nama1 && row.nama2) {
-                        santriName = `${row.nama1} / ${row.nama2}`;
-                    } else if (row.nama1) {
-                        santriName = row.nama1;
-                    } else if (row.nama2) {
-                        santriName = row.nama2;
-                    }
+                if (santriArr.length > 1 && pembimbingArr.length === 1) pembimbingArr.push(pembimbingArr[0]);
+                if (santriArr.length > 1 && kelasArr.length === 1) kelasArr.push(kelasArr[0]);
 
-                    // Cek pembimbing
-                    if (row.pembimbing1 && row.pembimbing2 && row.pembimbing1 !== row.pembimbing2) {
-                        pembimbingName = `${row.pembimbing1} / ${row.pembimbing2}`;
-                    } else {
-                        pembimbingName = row.pembimbing1 || row.pembimbing2 || "-";
-                    }
+                const santriName = santriArr.join("\n");
+                const pembimbingName = pembimbingArr.join("\n");
+                const kelasName = kelasArr.join("\n") || "-";
 
-                    // Masukkan ke array scheduleData
-                    scheduleData[isoDate].push({
-                        santri: santriName,
-                        pembimbing: pembimbingName
-                    });
-                }
-            });
-        }
-
-        function populateDropdowns() {
-            // Populate tanggal dropdown
-            // Karena key sudah format ISO (YYYY-MM-DD), sort string bisa langsung digunakan
-            const sortedDates = Object.keys(scheduleData).sort((a, b) => a.localeCompare(b));
-
-            sortedDates.forEach(isoDate => {
-                let option = document.createElement("option");
-                option.value = isoDate; // Value tetap ISO untuk filtering
-                option.textContent = formatDisplayDate(isoDate); // Teks format baru
-                filterTanggal.appendChild(option);
-            });
-
-            // --- LOGIKA PEMBIMBING ---
-            let pembimbingSet = new Set();
-            for (const key in scheduleData) {
-                scheduleData[key].forEach(entry => {
-                    // Pecah string pembimbing berdasarkan " / " untuk mengambil nama individual
-                    const mentors = entry.pembimbing.split(' / ');
-                    mentors.forEach(m => {
-                        if(m && m.trim() !== '-') {
-                            pembimbingSet.add(m.trim());
+                pembimbingArr.forEach(p => {
+                    if(!p || p === '-') return;
+                    if (!mentorClassMap[p]) mentorClassMap[p] = new Set();
+                    kelasArr.forEach(k => {
+                        if(k && k !== '-') {
+                            mentorClassMap[p].add(k);
+                            allClasses.add(k);
                         }
                     });
                 });
-            }
 
-            const sortedPembimbing = Array.from(pembimbingSet).sort();
-            sortedPembimbing.forEach(pembimbing => {
-                let option = document.createElement("option");
-                option.value = pembimbing;
-                option.textContent = pembimbing;
-                filterPembimbing.appendChild(option);
+                if (pembimbingArr.length === 0) {
+                    kelasArr.forEach(k => { if(k) allClasses.add(k); });
+                }
+
+                scheduleData[isoDate].push({
+                    santri: santriName,
+                    pembimbing: pembimbingName || "-",
+                    kelas: kelasName,
+                    rawMentors: pembimbingArr,
+                    rawClasses: kelasArr
+                });
             });
         }
 
-        function generateTable(filterPembimbingVal = "all", filterTanggalVal = "all") {
-            tbody.innerHTML = "";
-            printTbody.innerHTML = "";
-            let no = 1;
-            let dailyNo = 1;
-            let filteredNo = 1;
-            let dateGroupCounter = 0;
+        // --- DROPDOWNS ---
+        function populateDropdowns() {
+            const sortedDates = Object.keys(scheduleData).sort();
+            sortedDates.forEach(d => {
+                let opt = document.createElement("option");
+                opt.value = d;
+                opt.text = formatDisplayDate(d);
+                filterTanggal.add(opt);
+            });
 
-            // Sort dates (ISO format sorts correctly alphabetically)
-            const sortedDates = Object.keys(scheduleData).sort((a, b) => a.localeCompare(b));
+            const sortedMentors = Object.keys(mentorClassMap).sort();
+            sortedMentors.forEach(m => {
+                let opt = document.createElement("option");
+                opt.value = m;
+                opt.text = m;
+                filterPembimbing.add(opt);
+            });
+
+            updateClassDropdown("all");
+        }
+
+        function updateClassDropdown(selectedMentor) {
+            filterKelas.innerHTML = '<option value="all">Semua</option>';
+            let classesToShow = new Set();
+            if (selectedMentor === "all") {
+                classesToShow = allClasses;
+            } else {
+                classesToShow = mentorClassMap[selectedMentor] || new Set();
+            }
+            const sortedClasses = Array.from(classesToShow).sort();
+            sortedClasses.forEach(c => {
+                let opt = document.createElement("option");
+                opt.value = c;
+                opt.text = c;
+                filterKelas.add(opt);
+            });
+        }
+
+        // --- RENDER TABLE HTML ---
+        function generateTable(fPembimbing="all", fTanggal="all", fKelas="all") {
+            tbody.innerHTML = "";
+            let no = 1;
+            let dateGroupCounter = 0;
+            const sortedDates = Object.keys(scheduleData).sort();
 
             for (let isoDate of sortedDates) {
-                // Filter tanggal
-                if (filterTanggalVal !== "all" && isoDate !== filterTanggalVal) continue;
+                if (fTanggal !== "all" && isoDate !== fTanggal) continue;
+                
+                let list = scheduleData[isoDate];
+                list = list.filter(item => {
+                    let matchMentor = (fPembimbing === "all") || item.rawMentors.includes(fPembimbing);
+                    let matchKelas = (fKelas === "all") || item.rawClasses.includes(fKelas);
+                    return matchMentor && matchKelas;
+                });
 
-                let santriList = scheduleData[isoDate] || [];
+                if (list.length === 0) continue;
 
-                // Filter Pembimbing
-                if (filterPembimbingVal !== "all") {
-                    santriList = santriList.filter(s => {
-                        const rowMentors = s.pembimbing.split(' / ');
-                        return rowMentors.includes(filterPembimbingVal);
-                    });
-                }
+                let displayDate = formatDisplayDate(isoDate);
+                let rowspan = list.length;
+                let firstRow = true;
+                let dailyNo = 1;
+                
+                dateGroupCounter++;
 
-                if (santriList.length > 0) {
-                    let firstRow = true;
-                    let rowspan = santriList.length;
-                    dailyNo = filterPembimbingVal === "all" ? 1 : filteredNo;
-
-                    dateGroupCounter++;
-                    const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
-
-                    santriList.forEach((entry) => {
-                        const row = document.createElement('tr');
-                        row.classList.add(groupClass);
-                        
-                        // Format tanggal untuk tampilan
-                        const displayDate = formatDisplayDate(isoDate);
-
-                        if (firstRow) {
-                            row.innerHTML = `
-                                <td rowspan="${rowspan}">${no}</td>
-                                <td rowspan="${rowspan}">${displayDate}</td>
-                                <td>${dailyNo}</td>
-                                <td>${entry.santri}</td>
-                                <td>${entry.pembimbing}</td>
-                            `;
-                        } else {
-                            row.innerHTML = `
-                                <td>${dailyNo}</td>
-                                <td>${entry.santri}</td>
-                                <td>${entry.pembimbing}</td>
-                            `;
-                        }
-                        tbody.appendChild(row);
-
-                        // Generate untuk tampilan print
-                        const printRow = document.createElement('tr');
-                        printRow.classList.add(groupClass);
-                        if (firstRow) {
-                            printRow.innerHTML = `
-                                <td rowspan="${rowspan}">${dailyNo}</td>
-                                <td rowspan="${rowspan}">${displayDate}</td>
-                                <td>${entry.santri}</td>
-                            `;
-                        } else {
-                            printRow.innerHTML = `
-                                <td>${entry.santri}</td>
-                            `;
-                        }
-                        printTbody.appendChild(printRow);
-
-                        if (firstRow) {
-                            firstRow = false;
-                            no++;
-                        }
-                        dailyNo++;
-                        if (filterPembimbingVal !== "all") filteredNo++;
-                    });
-                }
+                list.forEach(item => {
+                    let row = document.createElement('tr');
+                    if (dateGroupCounter % 2 === 0) row.style.backgroundColor = "#f0f8ff"; 
+                    
+                    if (firstRow) {
+                        row.innerHTML = `
+                            <td rowspan="${rowspan}" class="col-center col-bold">${no}</td>
+                            <td rowspan="${rowspan}">${displayDate}</td>
+                            <td class="col-center">${dailyNo}</td>
+                            <td class="multi-line-text">${item.santri}</td>
+                            <td class="col-center col-bold multi-line-text">${item.kelas}</td>
+                            <td class="multi-line-text">${item.pembimbing}</td>
+                        `;
+                    } else {
+                        row.innerHTML = `
+                            <td class="col-center">${dailyNo}</td>
+                            <td class="multi-line-text">${item.santri}</td>
+                            <td class="col-center col-bold multi-line-text">${item.kelas}</td>
+                            <td class="multi-line-text">${item.pembimbing}</td>
+                        `;
+                    }
+                    tbody.appendChild(row);
+                    firstRow = false;
+                    dailyNo++;
+                });
+                no++;
             }
         }
 
+        // --- MANUAL CANVAS RENDERING (PROFESSIONAL STYLE, AUTO SIZE, PNG) ---
         function downloadTableAsImage() {
-            const tableContainer = document.querySelector('.printable-content');
-            const subtitleElement = document.getElementById('printSubtitle');
-            const selectedPembimbing = document.getElementById('filterPembimbing').value;
+            // 1. Persiapan Data
+            let drawData = [];
+            let fPembimbing = filterPembimbing.value;
+            let fKelas = filterKelas.value;
+            let fTanggal = filterTanggal.value;
+            let globalNo = 1;
+            let sequentialNo = 1;
 
-            // Set subtitle berdasarkan filter pembimbing
-            if (selectedPembimbing !== 'all') {
-                subtitleElement.textContent = `Pembimbing: ${selectedPembimbing}`;
-            } else {
-                subtitleElement.textContent = ''; // Kosongkan jika "Semua"
+            const sortedDates = Object.keys(scheduleData).sort();
+            for (let isoDate of sortedDates) {
+                if (fTanggal !== "all" && isoDate !== fTanggal) continue;
+                let list = scheduleData[isoDate].filter(item => {
+                    let mM = (fPembimbing === "all") || item.rawMentors.includes(fPembimbing);
+                    let mK = (fKelas === "all") || item.rawClasses.includes(fKelas);
+                    return mM && mK;
+                });
+                
+                if (list.length > 0) {
+                    let dStr = formatDisplayDate(isoDate);
+                    list.forEach((item, idx) => {
+                        drawData.push({
+                            isGroupStart: (idx === 0),
+                            globalNo: globalNo,
+                            dateStr: dStr,
+                            dailyNo: sequentialNo++,
+                            santri: item.santri, 
+                            kelas: item.kelas, 
+                            pembimbing: item.pembimbing,
+                            rowSpanCount: list.length
+                        });
+                    });
+                    globalNo++;
+                }
             }
 
-            // Tampilkan elemen yang akan di-capture
-            tableContainer.style.display = 'block';
+            if (drawData.length === 0) {
+                alert("Tidak ada data untuk didownload.");
+                return;
+            }
 
-            const options = {
-                scale: 2,
-                backgroundColor: '#ffffff',
-                logging: false,
-                useCORS: true,
-                quality: 0.8
+            // 2. Konfigurasi Layout & Resolusi Tinggi (Scaling)
+            const SC = 2; // Scale factor for high resolution
+            const MARGIN = 60 * SC;
+            const FOOTER_HEIGHT = 60 * SC;
+            const HEADER_TOP_HEIGHT = 180 * SC; // Ditingkatkan untuk header yang lebih keren
+            const TABLE_HEADER_HEIGHT = 50 * SC;
+            
+            const colWidths = {
+                no: 60 * SC,
+                date: 320 * SC, // Diperlebar signifikan untuk nama hari & bulan lengkap
+                no2: 50 * SC,
+                name: 480 * SC  // Disesuaikan agar total lebar tetap proporsional
             };
+            
+            const totalTableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const fontSize = 18 * SC;
+            const fontFamily = '"Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+            ctx.font = `${fontSize}px ${fontFamily}`;
+            const lineHeight = 24 * SC; // Dikurangi dari 28
+            const minRowHeight = 36 * SC; // Dikurangi dari 45
 
-            html2canvas(tableContainer, options).then(canvas => {
-                let link = document.createElement('a');
-                link.download = 'jadwal_iftar.jpg';
-                link.href = canvas.toDataURL('image/jpeg', 0.8);
-                link.click();
+            // 3. Pre-Calculate Row & Group Heights
+            let rowsLayout = [];
+            let groups = [];
+            let currentGroup = null;
 
-                // Sembunyikan kembali setelah selesai
-                tableContainer.style.display = 'none';
+            drawData.forEach((d, idx) => {
+                let h = minRowHeight;
+                // Hitung baris text Nama Santri
+                let linesName = getLines(ctx, d.santri, colWidths.name - (30 * SC));
+                
+                let maxLines = linesName.length;
+                if (maxLines > 1) h = minRowHeight + ((maxLines - 1) * lineHeight);
+                
+                const rowObj = { 
+                    data: d, 
+                    height: h, 
+                    linesName
+                };
+                rowsLayout.push(rowObj);
+
+                if (d.isGroupStart) {
+                    if (currentGroup) groups.push(currentGroup);
+                    currentGroup = {
+                        startIndex: idx,
+                        rowCount: d.rowSpanCount,
+                        totalHeight: 0,
+                        globalNo: d.globalNo,
+                        dateStr: d.dateStr
+                    };
+                }
+                currentGroup.totalHeight += h;
             });
+            if (currentGroup) groups.push(currentGroup);
+
+            const totalRowsHeight = rowsLayout.reduce((acc, curr) => acc + curr.height, 0);
+            const finalCanvasWidth = totalTableWidth + (MARGIN * 2);
+            const finalCanvasHeight = HEADER_TOP_HEIGHT + TABLE_HEADER_HEIGHT + totalRowsHeight + FOOTER_HEIGHT + (MARGIN * 2);
+
+            canvas.width = finalCanvasWidth;
+            canvas.height = finalCanvasHeight;
+
+            // Background & Setup
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.textBaseline = 'middle';
+
+            // A. Header yang Lebih Keren
+            // Judul Utama
+            ctx.fillStyle = '#800000';
+            ctx.font = `bold ${40 * SC}px ${fontFamily}`;
+            ctx.textAlign = 'center';
+            ctx.fillText("Rumah Tahfidz Saijaan", canvas.width / 2, MARGIN + (40 * SC));
+
+            ctx.fillStyle = '#1e293b';
+            ctx.font = `bold ${24 * SC}px ${fontFamily}`;
+            ctx.fillText(`Jadwal Penyediaan Iftar Ramadhan ${currentHijriYear} H`, canvas.width / 2, MARGIN + (85 * SC));
+
+            // Badge untuk Pembimbing dan Kelas
+            let badgeY = MARGIN + (140 * SC);
+            let badges = [];
+            if (fPembimbing !== "all") badges.push({ label: "PEMBIMBING", value: fPembimbing });
+            if (fKelas !== "all") badges.push({ label: "KELAS", value: fKelas });
+            if (fTanggal !== "all") badges.push({ label: "TANGGAL", value: formatDisplayDate(fTanggal) });
+
+            if (badges.length > 0) {
+                const badgeWidth = 300 * SC; // Diperlebar agar muat format tanggal lengkap
+                const badgeGap = 20 * SC;
+                const totalBadgesWidth = (badges.length * badgeWidth) + ((badges.length - 1) * badgeGap);
+                let currentX = (canvas.width - totalBadgesWidth) / 2;
+                
+                badges.forEach(b => {
+                    const badgeHeight = 50 * SC;
+                    
+                    // Draw Badge Background
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.strokeStyle = '#800000';
+                    ctx.lineWidth = 1 * SC;
+                    roundRect(ctx, currentX, badgeY - badgeHeight/2, badgeWidth, badgeHeight, 8 * SC, true, true);
+                    
+                    // Label (Small)
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = `bold ${10 * SC}px ${fontFamily}`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(b.label, currentX + badgeWidth/2, badgeY - (12 * SC));
+                    
+                    // Value (Bold)
+                    ctx.fillStyle = '#800000';
+                    ctx.font = `bold ${16 * SC}px ${fontFamily}`;
+                    ctx.fillText(b.value, currentX + badgeWidth/2, badgeY + (8 * SC));
+                    
+                    currentX += badgeWidth + badgeGap;
+                });
+            } else {
+                ctx.fillStyle = '#64748b';
+                ctx.font = `italic ${18 * SC}px ${fontFamily}`;
+                ctx.fillText("Laporan Lengkap Seluruh Santri", canvas.width / 2, badgeY);
+            }
+
+            // B. Table Header
+            let currY = MARGIN + HEADER_TOP_HEIGHT;
+            ctx.fillStyle = '#800000';
+            ctx.fillRect(MARGIN, currY, totalTableWidth, TABLE_HEADER_HEIGHT);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${18 * SC}px ${fontFamily}`; // Header dipertebal
+            
+            let currX = MARGIN;
+            const headers = [
+                { label: "No", key: "no", align: "center" },
+                { label: "Tanggal", key: "date", align: "left" },
+                { label: "No", key: "no2", align: "center" },
+                { label: "Nama Santri", key: "name", align: "left" }
+            ];
+
+            headers.forEach(h => {
+                let w = colWidths[h.key];
+                ctx.textAlign = h.align;
+                let px = (h.align === 'center') ? currX + w/2 : currX + (20 * SC);
+                ctx.fillText(h.label, px, currY + TABLE_HEADER_HEIGHT/2);
+                currX += w;
+            });
+
+            // C. Table Body
+            currY += TABLE_HEADER_HEIGHT;
+            let groupY = currY;
+
+            // Draw Merged Columns (No & Tanggal)
+            groups.forEach((g, gIdx) => {
+                let x = MARGIN;
+                
+                // Striped Background berdasarkan Tanggal (Grup)
+                if (gIdx % 2 !== 0) {
+                    ctx.fillStyle = '#fff5f5'; // Maroon cerah lembut (Sangat muda)
+                    ctx.fillRect(MARGIN, groupY, totalTableWidth, g.totalHeight);
+                }
+
+                // Border & Background
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 1 * SC;
+                ctx.strokeRect(x, groupY, colWidths.no, g.totalHeight);
+                ctx.strokeRect(x + colWidths.no, groupY, colWidths.date, g.totalHeight);
+
+                // Text (BOLD untuk No dan Tanggal)
+                ctx.fillStyle = '#0f172a';
+                ctx.font = `bold ${20 * SC}px ${fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(g.globalNo, x + colWidths.no/2, groupY + g.totalHeight/2);
+                
+                ctx.textAlign = 'left';
+                ctx.fillText(g.dateStr, x + colWidths.no + (20 * SC), groupY + g.totalHeight/2);
+                
+                groupY += g.totalHeight;
+            });
+
+            // Draw Other Columns (Individual Rows)
+            let rowY = currY;
+            rowsLayout.forEach((row, idx) => {
+                let x = MARGIN + colWidths.no + colWidths.date;
+                
+                // Border
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 1 * SC;
+                ctx.strokeRect(x, rowY, colWidths.no2, row.height);
+                ctx.strokeRect(x + colWidths.no2, rowY, colWidths.name, row.height);
+
+                // Text (BOLD untuk No2 dan Nama)
+                ctx.fillStyle = '#334155';
+                ctx.font = `bold ${18 * SC}px ${fontFamily}`;
+                
+                // No2
+                ctx.textAlign = 'center';
+                ctx.fillText(row.data.dailyNo, x + colWidths.no2/2, rowY + row.height/2);
+                x += colWidths.no2;
+
+                // Nama Santri (Wrap & Bold)
+                ctx.textAlign = 'left';
+                let textY = rowY + (row.height / 2) - ((row.linesName.length - 1) * lineHeight / 2);
+                row.linesName.forEach((line, i) => {
+                    ctx.fillText(line, x + (20 * SC), textY + (i * lineHeight));
+                });
+
+                rowY += row.height;
+            });
+
+            // D. Footer
+            const footerY = canvas.height - MARGIN - (20 * SC);
+            ctx.beginPath();
+            ctx.moveTo(MARGIN, canvas.height - FOOTER_HEIGHT - MARGIN);
+            ctx.lineTo(canvas.width - MARGIN, canvas.height - FOOTER_HEIGHT - MARGIN);
+            ctx.strokeStyle = '#800000';
+            ctx.lineWidth = 2 * SC;
+            ctx.stroke();
+
+            const dateStr = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            ctx.fillStyle = '#64748b';
+            ctx.font = `italic ${14 * SC}px ${fontFamily}`;
+            ctx.textAlign = 'left';
+            ctx.fillText(`Laporan ini diunduh pada: ${dateStr}`, MARGIN, footerY);
+            
+            ctx.textAlign = 'right';
+            ctx.fillText("© 2024 Rumah Tahfidz Saijaan", canvas.width - MARGIN, footerY);
+
+            // E. Download
+            const link = document.createElement('a');
+            link.download = `Jadwal_Iftar_${currentHijriYear}H_${new Date().getTime()}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
         }
 
+        // Helper untuk Round Rect
+        function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+            if (typeof radius === 'number') {
+                radius = {tl: radius, tr: radius, br: radius, bl: radius};
+            }
+            ctx.beginPath();
+            ctx.moveTo(x + radius.tl, y);
+            ctx.lineTo(x + width - radius.tr, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+            ctx.lineTo(x + width, y + height - radius.br);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+            ctx.lineTo(x + radius.bl, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+            ctx.lineTo(x, y + radius.tl);
+            ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+            ctx.closePath();
+            if (fill) ctx.fill();
+            if (stroke) ctx.stroke();
+        }
+
+        function getLines(ctx, text, maxWidth) {
+            if (!text || text === "-") return ["-"];
+            let paragraphs = text.toString().split('\n');
+            let allLines = [];
+            paragraphs.forEach(p => {
+                let words = p.split(' ');
+                let currentLine = words[0];
+                for (let i = 1; i < words.length; i++) {
+                    let word = words[i];
+                    if (ctx.measureText(currentLine + " " + word).width < maxWidth) {
+                        currentLine += " " + word;
+                    } else {
+                        allLines.push(currentLine);
+                        currentLine = word;
+                    }
+                }
+                allLines.push(currentLine);
+            });
+            return allLines;
+        }
+
+        // --- EVENT LISTENERS ---
         function resetFilters() {
-            const filterTanggalEl = document.getElementById("filterTanggal");
-            const filterPembimbingEl = document.getElementById("filterPembimbing");
-            const searchSantri = document.getElementById("searchSantri");
-
-            filterTanggalEl.value = "all";
-            filterPembimbingEl.value = "all";
-            searchSantri.value = "";
-
-            filterTanggalEl.disabled = false;
-            filterPembimbingEl.disabled = false;
-
+            filterTanggal.value = "all"; filterTanggal.disabled = false;
+            filterPembimbing.value = "all"; filterPembimbing.disabled = false;
+            filterKelas.value = "all"; filterKelas.disabled = false;
+            document.getElementById("searchSantri").value = "";
             generateTable();
         }
 
-        // Event listeners untuk filter
-        document.getElementById("filterTanggal").addEventListener("change", function() {
-            const filterPembimbingEl = document.getElementById("filterPembimbing");
+        function handleFilterChange(source) {
+            if (source === filterPembimbing) {
+                updateClassDropdown(filterPembimbing.value);
+                filterKelas.value = "all"; 
+            }
 
-            if (this.value !== "all") {
-                filterPembimbingEl.value = "all";
-                filterPembimbingEl.disabled = true;
+            if (source === filterTanggal) {
+                if (source.value !== "all") {
+                    filterPembimbing.value = "all"; filterPembimbing.disabled = true;
+                    filterKelas.value = "all"; filterKelas.disabled = true;
+                } else {
+                    filterPembimbing.disabled = false;
+                    filterKelas.disabled = false;
+                }
             } else {
-                filterPembimbingEl.disabled = false;
-            }
-
-            generateTable(filterPembimbingEl.value, this.value);
-        });
-
-        document.getElementById("filterPembimbing").addEventListener("change", function() {
-            const filterTanggalEl = document.getElementById("filterTanggal");
-
-            if (this.value !== "all") {
-                filterTanggalEl.value = "all";
-                filterTanggalEl.disabled = true;
-            } else {
-                filterTanggalEl.disabled = false;
-            }
-
-            generateTable(this.value, filterTanggalEl.value);
-        });
-
-        // Tambahkan style untuk select yang dinonaktifkan
-        const style = document.createElement('style');
-        style.textContent = `
-            select:disabled {
-                background-color: #f5f5f5;
-                cursor: not-allowed;
-                opacity: 0.7;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Initialize: Panggil fungsi fetch data
-        fetchScheduleData();
-
-        function searchSantri(query) {
-            const filteredData = {};
-            const lowerCaseQuery = query.toLowerCase();
-
-            for (const isoDate in scheduleData) {
-                const filteredEntries = scheduleData[isoDate].filter(entry => 
-                    entry.santri.toLowerCase().includes(lowerCaseQuery)
-                );
-                if (filteredEntries.length > 0) {
-                    filteredData[isoDate] = filteredEntries;
+                if ((filterPembimbing.value !== "all" || filterKelas.value !== "all") && filterTanggal.value === "all") {
+                    filterTanggal.disabled = true;
+                } else if (filterPembimbing.value === "all" && filterKelas.value === "all") {
+                    filterTanggal.disabled = false;
                 }
             }
 
-            return filteredData;
+            generateTable(filterPembimbing.value, filterTanggal.value, filterKelas.value);
         }
 
-        function handleSearch() {
-            const searchInput = document.getElementById('searchSantri');
-            const query = searchInput.value.trim();
-
-            if (query.length >= 3) {
-                const filteredData = searchSantri(query);
-                generateTableWithData(filteredData);
-            } else {
-                generateTable();
-            }
-        }
-
-        function generateTableWithData(data) {
-            tbody.innerHTML = "";
-            printTbody.innerHTML = "";
-            let no = 1;
-            let dailyNo = 1;
-            let dateGroupCounter = 0;
-
-            // Sort dates (ISO format)
-            const sortedDates = Object.keys(data).sort((a, b) => a.localeCompare(b));
-
-            for (let isoDate of sortedDates) {
-                let santriList = data[isoDate] || [];
-
-                if (santriList.length > 0) {
-                    let firstRow = true;
-                    let rowspan = santriList.length;
-                    dailyNo = 1;
-
-                    dateGroupCounter++;
-                    const groupClass = dateGroupCounter % 2 === 0 ? 'date-group-even' : 'date-group-odd';
-                    
-                    // Format tanggal untuk tampilan
-                    const displayDate = formatDisplayDate(isoDate);
-
-                    santriList.forEach((entry) => {
-                        const row = document.createElement('tr');
-                        row.classList.add(groupClass);
-
-                        if (firstRow) {
-                            row.innerHTML = `
-                                <td rowspan="${rowspan}">${no}</td>
-                                <td rowspan="${rowspan}">${displayDate}</td>
-                                <td>${dailyNo}</td>
-                                <td>${entry.santri}</td>
-                                <td>${entry.pembimbing}</td>
-                            `;
-                        } else {
-                            row.innerHTML = `
-                                <td>${dailyNo}</td>
-                                <td>${entry.santri}</td>
-                                <td>${entry.pembimbing}</td>
-                            `;
-                        }
-                        tbody.appendChild(row);
-
-                        const printRow = document.createElement('tr');
-                        printRow.classList.add(groupClass);
-                        if (firstRow) {
-                            printRow.innerHTML = `
-                                <td rowspan="${rowspan}">${dailyNo}</td>
-                                <td rowspan="${rowspan}">${displayDate}</td>
-                                <td>${entry.santri}</td>
-                            `;
-                        } else {
-                            printRow.innerHTML = `
-                                <td>${entry.santri}</td>
-                            `;
-                        }
-                        printTbody.appendChild(printRow);
-
-                        if (firstRow) {
-                            firstRow = false;
-                            no++;
-                        }
-                        dailyNo++;
-                    });
-                }
-            }
-        }
+        filterTanggal.addEventListener("change", function() { handleFilterChange(this); });
+        filterPembimbing.addEventListener("change", function() { handleFilterChange(this); });
+        filterKelas.addEventListener("change", function() { handleFilterChange(this); });
 
         document.getElementById('searchSantri').addEventListener('input', function() {
-            handleSearch();
+            const q = this.value.trim().toLowerCase();
+            const rows = document.querySelectorAll('#schedule tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+            });
         });
+
+        fetchScheduleData();
     </script>
 </body>
 </html>
