@@ -250,10 +250,12 @@
         // --- HELPERS ---
         const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const monthShortNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
-        function formatDisplayDate(isoDate) {
+        function formatDisplayDate(isoDate, shortMonth = false) {
             const date = new Date(isoDate);
-            return `${dayNames[date.getDay()]}, ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            const month = shortMonth ? monthShortNames[date.getMonth()] : monthNames[date.getMonth()];
+            return `${dayNames[date.getDay()]}, ${date.getDate()} ${month} ${date.getFullYear()}`;
         }
 
         // --- DATA FETCHING & PROCESSING ---
@@ -302,7 +304,7 @@
                 if (santriArr.length > 1 && pembimbingArr.length === 1) pembimbingArr.push(pembimbingArr[0]);
                 if (santriArr.length > 1 && kelasArr.length === 1) kelasArr.push(kelasArr[0]);
 
-                const santriName = santriArr.join("\n");
+                const santriName = santriArr.join(" &\n");
                 const pembimbingName = pembimbingArr.join("\n");
                 const kelasName = kelasArr.join("\n") || "-";
 
@@ -444,7 +446,7 @@
                 });
                 
                 if (list.length > 0) {
-                    let dStr = formatDisplayDate(isoDate);
+                    let dStr = formatDisplayDate(isoDate, true); // Gunakan bulan singkat untuk gambar
                     list.forEach((item, idx) => {
                         drawData.push({
                             isGroupStart: (idx === 0),
@@ -475,9 +477,9 @@
             
             const colWidths = {
                 no: 60 * SC,
-                date: 320 * SC, // Diperlebar signifikan untuk nama hari & bulan lengkap
+                date: 280 * SC, // Diperlebar signifikan untuk nama hari & bulan lengkap
                 no2: 50 * SC,
-                name: 480 * SC  // Disesuaikan agar total lebar tetap proporsional
+                name: 460 * SC  // Disesuaikan agar total lebar tetap proporsional
             };
             
             const totalTableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0);
@@ -552,7 +554,7 @@
             let badges = [];
             if (fPembimbing !== "all") badges.push({ label: "PEMBIMBING", value: fPembimbing });
             if (fKelas !== "all") badges.push({ label: "KELAS", value: fKelas });
-            if (fTanggal !== "all") badges.push({ label: "TANGGAL", value: formatDisplayDate(fTanggal) });
+            if (fTanggal !== "all") badges.push({ label: "TANGGAL", value: formatDisplayDate(fTanggal, true) });
 
             if (badges.length > 0) {
                 const badgeWidth = 300 * SC; // Diperlebar agar muat format tanggal lengkap
@@ -668,7 +670,30 @@
                 ctx.textAlign = 'left';
                 let textY = rowY + (row.height / 2) - ((row.linesName.length - 1) * lineHeight / 2);
                 row.linesName.forEach((line, i) => {
-                    ctx.fillText(line, x + (20 * SC), textY + (i * lineHeight));
+                    let startX = x + (20 * SC);
+                    let currentY = textY + (i * lineHeight);
+                    
+                    if (line.includes('&')) {
+                        let parts = line.split('&');
+                        // Tulis nama sebelum &
+                        ctx.fillStyle = '#334155';
+                        ctx.fillText(parts[0], startX, currentY);
+                        
+                        // Tulis & dengan warna maroon
+                        let nameWidth = ctx.measureText(parts[0]).width;
+                        ctx.fillStyle = '#800000';
+                        ctx.fillText('&', startX + nameWidth, currentY);
+                        
+                        // Tulis sisa teks jika ada (biasanya kosong karena & di akhir baris)
+                        if (parts[1]) {
+                            let ampWidth = ctx.measureText('&').width;
+                            ctx.fillStyle = '#334155';
+                            ctx.fillText(parts[1], startX + nameWidth + ampWidth, currentY);
+                        }
+                    } else {
+                        ctx.fillStyle = '#334155';
+                        ctx.fillText(line, startX, currentY);
+                    }
                 });
 
                 rowY += row.height;
